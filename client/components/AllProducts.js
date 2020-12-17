@@ -1,11 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {addToCart} from '../store/cart.js'
-import GuestCart, {
-  addItemGuest,
-  getGuestCart,
-  clearGuestCart
-} from '../store/guestCart.js'
+import {addItemGuest} from '../store/guestCart.js'
 import {fetchProducts, filterProducts} from '../store/products.js'
 import Cart from './Cart.js'
 import SideNavbar from './Filters'
@@ -50,16 +46,23 @@ class AllProducts extends React.Component {
                 <p>{product.price}</p>
               </div>
               <div id="allProductsButton">
-                <button
-                  type="button"
-                  value={product.id}
-                  onClick={this.props.addCart}
-                >
-                  Add To Cart
-                </button>{' '}
-                <button type="button" value={product.id} onClick={addItemGuest}>
-                  Add To Cart Not logged in
-                </button>
+                {this.props.isLoggedIn ? (
+                  <button
+                    type="button"
+                    value={product.id}
+                    onClick={this.props.addCart}
+                  >
+                    Add To Cart
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    value={product.id}
+                    onClick={addItemGuest}
+                  >
+                    Add To Cart
+                  </button>
+                )}
               </div>
             </div>
           )
@@ -73,7 +76,8 @@ class AllProducts extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  products: state.products
+  products: state.products,
+  isLoggedIn: !!state.user.id
 })
 
 const mapDispatchToProps = dispatch => ({
