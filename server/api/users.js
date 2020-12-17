@@ -6,13 +6,17 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      attributes: ['id', 'email']
-    })
-    res.json(users)
+    if (req.user && req.user.dataValues.isAdmin) {
+      const users = await User.findAll({
+        // explicitly select only the id and email fields - even though
+        // users' passwords are encrypted, it won't help if we just
+        // send everything to anyone who asks!
+        attributes: ['id', 'email'],
+      })
+      res.json(users)
+    } else {
+      console.error('Admin privileges required!')
+    }
   } catch (err) {
     next(err)
   }
@@ -22,9 +26,9 @@ router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {
-        id: req.params.userId
+        id: req.params.userId,
       },
-      include: Order
+      include: Order,
     })
 
     let orderIds = []
@@ -37,8 +41,8 @@ router.get('/:userId', async (req, res, next) => {
 
     let ordersProducts = await OrdersProducts.findAll({
       where: {
-        orderId: orderIds
-      }
+        orderId: orderIds,
+      },
     })
 
     let orders = []
@@ -49,7 +53,7 @@ router.get('/:userId', async (req, res, next) => {
 
     // && orders[i].id !== item.orderId
 
-    ordersProducts.forEach(item => {
+    ordersProducts.forEach((item) => {
       for (let i = 0; i < orders.length; i++) {
         if (orders[i].id === undefined) {
           orders[i].date = item.createdAt
@@ -74,8 +78,8 @@ router.put('/:userId', async (req, res, next) => {
   try {
     const updatedUser = await User.update(req.body, {
       where: {
-        id: req.params.userId
-      }
+        id: req.params.userId,
+      },
     })
     res.send(updatedUser)
   } catch (error) {
