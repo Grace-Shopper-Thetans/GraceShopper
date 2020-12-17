@@ -6,13 +6,13 @@ router.get('/', async (req, res, next) => {
   try {
     const order = await Order.findAll({
       where: {
-        userId: user
+        userId: user,
       },
       include: [
         {
-          model: Product
-        }
-      ]
+          model: Product,
+        },
+      ],
     })
 
     res.json(order)
@@ -23,18 +23,30 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log(req.body)
+    console.log('req body', req.body)
     const newAddition = await Order.findOrCreate({
       where: {
-        userId: req.body.userId
-      }
+        userId: req.body.userId,
+      },
     })
     console.log(newAddition[0].dataValues.id)
-    await OrdersProducts.create({
-      productId: req.body.itemId,
-      orderId: newAddition[0].dataValues.id
+
+    const isItemIn = await OrdersProducts.findOne({
+      where: {
+        productId: Number(req.body.itemId),
+      },
     })
-    res.send()
+    console.log('is item in', isItemIn)
+    if (isItemIn) {
+      isItemIn.update({qty: isItemIn.dataValues.qty + 1})
+      res.send()
+    } else {
+      await OrdersProducts.create({
+        productId: req.body.itemId,
+        orderId: newAddition[0].dataValues.id,
+      })
+      res.send()
+    }
   } catch (error) {
     next(error)
   }
