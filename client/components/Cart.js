@@ -8,6 +8,7 @@ export class Cart extends React.Component {
     super()
     this.state = {}
     this.addToCart = this.addToCart.bind(this)
+    this.updateCartGuest = this.updateCartGuest.bind(this)
   }
 
   componentDidMount() {
@@ -17,6 +18,10 @@ export class Cart extends React.Component {
 
   addToCart(item) {
     this.props.addCart(item)
+  }
+
+  updateCartGuest() {
+    this.props.getGCart()
   }
 
   render() {

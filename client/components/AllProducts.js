@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {addToCart} from '../store/cart.js'
-import {addItemGuest, getGuestCart} from '../store/guestCart.js'
+import {addItemGuest} from '../store/guestCart.js'
 import {fetchProducts, filterProducts} from '../store/products.js'
 import Cart from './Cart.js'
 import SideNavbar from './Filters'
@@ -62,7 +62,7 @@ class AllProducts extends React.Component {
                       type="button"
                       id="addToCart"
                       value={product.id}
-                      onClick={addItemGuest}
+                      onClick={this.props.addGCart}
                     >
                       Add To Cart
                     </button>
@@ -90,7 +90,7 @@ const mapDispatchToProps = dispatch => ({
   filterProducts: (products, filterBy) =>
     dispatch(filterProducts(products, filterBy)),
   addCart: item => dispatch(addToCart(item)),
-  addGuestCart: item => dispatch(getGuestCart(item))
+  addGCart: item => dispatch(addItemGuest(item))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)
