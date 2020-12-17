@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {addToCart} from '../store/cart.js'
 import {addItemGuest} from '../store/guestCart.js'
 import {fetchProducts, filterProducts} from '../store/products.js'
+import AddItemAdmin from './AddItemAdmin'
 import user from '../store/user.js'
 
 import SideNavbar from './Filters'
@@ -90,7 +91,9 @@ class AllProducts extends React.Component {
           resetFilter={this.resetFilter}
           state={this.state.filters}
         />
+
         <div id="productsList">
+          <AddItemAdmin />
           {products.map((product) => {
             return (
               <div
