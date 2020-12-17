@@ -30,10 +30,12 @@ router.post('/', async (req, res, next) => {
       },
     })
 
+    const orderId = newAddition[0].dataValues.id
 
     const isItemIn = await OrdersProducts.findOne({
       where: {
         productId: Number(req.body.itemId),
+        orderId: orderId,
       },
     })
     if (isItemIn) {
@@ -86,8 +88,8 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
     await OrdersProducts.destroy({
       where: {
         productId: req.params.productId,
-        orderId: req.params.orderId
-      }
+        orderId: req.params.orderId,
+      },
     })
     res.json('Item has been deleted')
   } catch (error) {
@@ -98,7 +100,7 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
 router.delete('/:orderId', async (req, res, next) => {
   try {
     await OrdersProducts.destroy({
-      where: {orderId: req.params.orderId}
+      where: {orderId: req.params.orderId},
     })
 
     res.json('User cart deleted')
