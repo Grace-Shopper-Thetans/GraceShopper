@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {addToCart} from '../store/cart.js'
-import {addItemGuest} from '../store/guestCart.js'
+import {addItemGuest, getGuestCart} from '../store/guestCart.js'
 import {fetchProducts, filterProducts} from '../store/products.js'
 import Cart from './Cart.js'
 import SideNavbar from './Filters'
@@ -71,7 +71,7 @@ class AllProducts extends React.Component {
               </div>
             )
           })}
-          {/* <Cart /> */}
+          <Cart />
         </div>
       </div>
     ) : (
@@ -89,7 +89,8 @@ const mapDispatchToProps = dispatch => ({
   getAllProducts: () => dispatch(fetchProducts()),
   filterProducts: (products, filterBy) =>
     dispatch(filterProducts(products, filterBy)),
-  addCart: item => dispatch(addToCart(item))
+  addCart: item => dispatch(addToCart(item)),
+  addGuestCart: item => dispatch(getGuestCart(item))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)
