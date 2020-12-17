@@ -5,22 +5,18 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>Grace Chopper</h1>
-    <nav>
-      <h2>Bike type</h2>
-      <ul>
-        <li>Chopper</li>
-        <li>Sport Bike</li>
-        <li>Dirt Bike</li>
-      </ul>
-      <h2>Color</h2>
-      <ul>
-        <li>Red</li>
-        <li>Silver</li>
-      </ul>
-    </nav>
-    <hr />
+  <div id="navbar">
+    {isLoggedIn ? (
+      <h3>Welcome back!</h3>
+    ) : (
+      <div>
+        <Link to="/login">Login</Link>
+        <Link to="/signup">Sign Up</Link>
+      </div>
+    )}
+
+    <img src="" />
+    <Link to="/">Grace Chopper</Link>
   </div>
 )
 
