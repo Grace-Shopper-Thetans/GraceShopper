@@ -1,6 +1,9 @@
+import axios from 'axios'
 import React from 'react'
+import {connect} from 'react-redux'
+import {fetchProducts} from '../store/products'
 
-export default class NewItemForm extends React.Component {
+class NewItemForm extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -21,9 +24,9 @@ export default class NewItemForm extends React.Component {
     })
   }
 
-  handleSubmit = (event) => {
+  async handleSubmit(event) {
     event.preventDefault()
-    console.log(this.state)
+    await axios.put('api/products', this.state)
     this.setState({
       name: '',
       price: 0,
@@ -32,6 +35,7 @@ export default class NewItemForm extends React.Component {
       designType: '',
       color: '',
     })
+    this.props.getAllProducts()
   }
 
   render() {
@@ -68,10 +72,20 @@ export default class NewItemForm extends React.Component {
             onChange={this.handleChange}
           />
           <p>Type:</p>
-          <select value={this.state.designType} onChange={this.handleChange}>
-            <option value="Chopper">Chopper</option>
-            <option value="Sport Bike">Sport Bike</option>
-            <option value="Dirt Bike">Dirt Bike</option>
+          <select
+            name="designType"
+            value={this.state.designType}
+            onChange={this.handleChange}
+          >
+            <option name="designType" value="Chopper">
+              Chopper
+            </option>
+            <option name="designType" value="Sport Bike">
+              Sport Bike
+            </option>
+            <option name="designType" value="Dirt Bike">
+              Dirt Bike
+            </option>
           </select>
           <p>Color:</p>
           <input
@@ -86,3 +100,9 @@ export default class NewItemForm extends React.Component {
     )
   }
 }
+
+const mapDispatch = (dispatch) => ({
+  getAllProducts: () => dispatch(fetchProducts()),
+})
+
+export default connect(null, mapDispatch)(NewItemForm)

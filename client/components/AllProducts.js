@@ -93,7 +93,7 @@ class AllProducts extends React.Component {
         />
 
         <div id="productsList">
-          <AddItemAdmin />
+          {this.props.isAdmin ? <AddItemAdmin /> : ''}
           {products.map((product) => {
             return (
               <div
@@ -160,6 +160,7 @@ const mapStateToProps = (state) => ({
   products: state.products,
   isLoggedIn: !!state.user.id,
   userId: state.user.id,
+  isAdmin: state.user.isAdmin,
 })
 
 const mapDispatchToProps = (dispatch) => ({

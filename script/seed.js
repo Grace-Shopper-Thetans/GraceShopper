@@ -25,6 +25,16 @@ async function seed() {
       city: 'Miami',
       zip: 24323,
     }),
+    User.create({
+      email: 'admin@email.com',
+      password: '123',
+      name: 'John Doe',
+      streetAddress: '42 Brown St',
+      state: 'FL',
+      city: 'Miami',
+      zip: 24323,
+      isAdmin: true,
+    }),
   ])
 
   const products = await Promise.all([
