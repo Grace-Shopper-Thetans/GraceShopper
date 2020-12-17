@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {fetchSingleProduct} from '../store/singleProduct.js'
 import {addItemGuest} from '../store/guestCart.js'
 import Cart from './Cart.js'
+import EditItemAdmin from './EditItemAdmin.js'
 
 class SingleProduct extends React.Component {
   constructor() {
@@ -12,6 +13,7 @@ class SingleProduct extends React.Component {
     }
     this.numberWithCommas = this.numberWithCommas.bind(this)
     this.addToGCart = this.addToGCart.bind(this)
+    this.refresh = this.refresh.bind(this)
   }
 
   async componentDidMount() {
@@ -23,6 +25,10 @@ class SingleProduct extends React.Component {
 
   numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
+  refresh() {
+    this.props.getSingleProduct(this.props.product.id)
   }
 
   addToGCart(e) {
@@ -62,6 +68,11 @@ class SingleProduct extends React.Component {
             </button>
           </div>
         </div>
+        {this.props.isAdmin ? (
+          <EditItemAdmin state={product.id} refresh={this.refresh} />
+        ) : (
+          ''
+        )}
       </div>
     ) : (
       <div>Loading...</div>
@@ -71,6 +82,7 @@ class SingleProduct extends React.Component {
 
 const mapStateToProps = (state) => ({
   product: state.product,
+  isAdmin: state.user.isAdmin,
 })
 
 const mapDispatchToProps = (dispatch) => ({

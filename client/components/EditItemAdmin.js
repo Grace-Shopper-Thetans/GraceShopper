@@ -3,9 +3,9 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchProducts} from '../store/products'
 
-class NewItemForm extends React.Component {
-  constructor() {
-    super()
+class EditItemForm extends React.Component {
+  constructor(props) {
+    super(props)
     this.state = {
       name: '',
       price: 0,
@@ -26,7 +26,7 @@ class NewItemForm extends React.Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-    await axios.put('api/products', this.state)
+    await axios.put(`/api/products/${this.props.state}`, this.state)
     this.setState({
       name: '',
       price: 0,
@@ -35,11 +35,10 @@ class NewItemForm extends React.Component {
       designType: '',
       color: '',
     })
-    this.props.getAllProducts()
+    this.props.refresh()
   }
 
   render() {
-    console.log('props ->', this.props)
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -106,4 +105,4 @@ const mapDispatch = (dispatch) => ({
   getAllProducts: () => dispatch(fetchProducts()),
 })
 
-export default connect(null, mapDispatch)(NewItemForm)
+export default connect(null, mapDispatch)(EditItemForm)
