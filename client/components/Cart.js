@@ -17,7 +17,7 @@ export class Cart extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getCart()
+    //this.props.getCart()
     this.props.getGCart()
   }
 
@@ -35,11 +35,10 @@ export class Cart extends React.Component {
 
   render() {
     const userId = this.props.userId
-    if (userId) getCart(userId)
     return (
       <div id="cart">
         {this.props.isLoggedIn ? (
-          <div>
+          <div id="cart">
             <h1 id="cartTitle">Cart</h1>
             {this.props.cart.id ? (
               this.props.cart.map(item => (
@@ -64,7 +63,7 @@ export class Cart extends React.Component {
         ) : (
           <div id="cart">
             <h1 id="cartTitle">Cart</h1>
-            {this.props.gCart[0] ? (
+            {this.props.gCart.length ? (
               this.props.gCart.map(item => (
                 <div key={item.data.id} id="cartItem">
                   <h3 id="ciName">{item.data.name}</h3>
