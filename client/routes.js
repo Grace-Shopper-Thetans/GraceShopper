@@ -19,9 +19,13 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
+     
+        
+        
+
+      <Navbar />
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        {/* <Navbar /> */}
         <Route exact path="/products" component={AllProducts} />
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route path="/login" component={Login} />

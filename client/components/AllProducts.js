@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchProducts} from '../store/products.js'
+import {fetchProducts, filterProducts} from '../store/products.js'
+import SideNavbar from './Filters'
 
 class AllProducts extends React.Component {
   constructor() {
@@ -8,6 +9,7 @@ class AllProducts extends React.Component {
     this.state = {
       ranOnce: false
     }
+    this.onClick = this.onClick.bind(this)
   }
 
   componentDidMount() {
@@ -17,11 +19,17 @@ class AllProducts extends React.Component {
     })
   }
 
+  onClick(event) {
+    const filterBy = event.target.innerText
+    this.props.filterProducts(filterBy)
+  }
+
   render() {
     const products = this.props.products
 
     return this.state.ranOnce ? (
       <div className="allProducts">
+        <SideNavbar click={this.onClick} />
         {products.map(product => {
           return (
             <div className="productContainer" key={product.id}>
@@ -52,7 +60,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getAllProducts: () => dispatch(fetchProducts())
+  getAllProducts: () => dispatch(fetchProducts()),
+  filterProducts: filterBy => dispatch(filterProducts(filterBy))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)
