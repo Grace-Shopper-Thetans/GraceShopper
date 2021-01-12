@@ -1,3 +1,9 @@
+# Git Pull Requests/Creating New Branch
+
+1.  Create new branch on github page directly or git checkout -b 'nameOfNewBranch'
+2.  git checkout 'nameOfNewBranch' to switch to new branch
+3.  git push --set-upstream origin 'nameOfNewBranch' to track changes for new branch
+
 # Boilermaker
 
 _Good things come in pairs_
@@ -146,9 +152,9 @@ continuous deployment; follow these steps to the job.
 1.  Run the following commands to create a new branch:
 
 ```
-git checkout master
-git pull
-git checkout -b f/travis-deploy
+git checkout master --> //switch to the master branch
+git pull --> //pull from master branch
+git checkout -b f/travis-deploy --> //create new bramch
 ```
 
 2.  Run the following script to finish configuring `travis.yml` :
