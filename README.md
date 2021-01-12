@@ -4,6 +4,13 @@
 2.  git checkout 'nameOfNewBranch' to switch to new branch
 3.  git push --set-upstream origin 'nameOfNewBranch' to track changes for new branch
 
+# Merging with master branch
+
+1.  Switch to master branch: 'git checkout master'
+2.  git pull origin master
+3.  git merge test
+4.  git push origin master
+
 # Boilermaker
 
 _Good things come in pairs_
