@@ -19,3 +19,9 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+#image {
+  max-width: 300px;
+  height: auto;
+  object-fit: contain;
+}
