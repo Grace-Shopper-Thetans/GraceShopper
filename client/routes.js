@@ -18,13 +18,14 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-      <Switch>
-        {/* Routes placed here are available to all visitors */}
+      <div>
         <Navbar />
-        <Route exact path="/" component={AllProducts} />
-        <Route exact path="/products" component={AllProducts} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        {/* Routes placed here are available to all visitors */}
+        <Switch>
+          <Route exact path="/products" component={AllProducts} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+        </Switch>
 
         {isLoggedIn && (
           <Switch>
@@ -34,7 +35,7 @@ class Routes extends Component {
         )}
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
-      </Switch>
+      </div>
     )
   }
 }
