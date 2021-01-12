@@ -26,7 +26,7 @@ class AllProducts extends React.Component {
           return (
             <div className="productContainer" key={product.id}>
               <div className="imageContainer">
-                <img src={product.imageUrl} />
+                <img id="image" src={product.imageUrl} />
               </div>
               <div className="productText">
                 <h1>{product.name}</h1>
