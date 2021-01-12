@@ -20,7 +20,6 @@ form div {
   display: inline-block;
 }
 
-
 #image {
   max-width: 300px;
   height: auto;
@@ -35,5 +34,10 @@ form div {
   align-items: center;
   justify-content: space-evenly;
   border-bottom: 3px solid black;
+}
 
+#singleProductImage {
+  max-width: 700px;
+  height: auto;
+  object-fit: contain;
 }
