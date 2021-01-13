@@ -7,7 +7,12 @@ import {logout} from '../store'
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div id="navbar">
     {isLoggedIn ? (
-      <h3>Welcome back!</h3>
+      <div>
+        <button type="button" id="logoutButton" onClick={handleClick}>
+          Logout
+        </button>
+        <h3>Welcome back!</h3>
+      </div>
     ) : (
       <div>
         <Link to="/login">Login</Link>
