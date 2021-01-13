@@ -23,7 +23,7 @@ class AllProducts extends React.Component {
 
   onClick(event) {
     const filterBy = event.target.innerText
-    this.props.filterProducts(filterBy)
+    this.props.filterProducts(this.props.products, filterBy)
   }
 
   render() {
@@ -70,7 +70,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getAllProducts: () => dispatch(fetchProducts()),
-  filterProducts: filterBy => dispatch(filterProducts(filterBy)),
+  filterProducts: (products, filterBy) =>
+    dispatch(filterProducts(products, filterBy)),
   addCart: item => dispatch(addToCart(item))
 })
 

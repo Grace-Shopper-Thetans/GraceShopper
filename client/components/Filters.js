@@ -2,7 +2,6 @@ import React from 'react'
 
 const SideNavbar = props => {
   const onClick = props.click
-  console.log(props)
   return (
     <div>
       <h3>
