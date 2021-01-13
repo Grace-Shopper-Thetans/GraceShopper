@@ -37,7 +37,6 @@ export default function productsReducer(state = initialState, action) {
     case GET_PRODUCTS:
       return action.products
     case FILTER_PRODUCTS:
-      //Not working, have to fix state.products array
       return action.products.filter(product => {
         if (
           product.designType === action.filterBy ||
