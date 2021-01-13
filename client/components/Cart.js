@@ -28,7 +28,8 @@ export class Cart extends React.Component {
 
   render() {
     return (
-      <div>
+
+      <div id="cart">
         {this.props.isLoggedIn ? (
           <div>
             <h1>Cart</h1>
@@ -36,7 +37,7 @@ export class Cart extends React.Component {
               this.props.cart.map(item => (
                 <div key={item.id}>
                   <h3>{item.name}</h3>
-                  <img src={item.imageUrl} />
+                  <img src={item.imageUrl} id="cartImage"  />
                   <h4>Price: {item.price}</h4>
                   <button
                     value={item.id}
@@ -52,13 +53,13 @@ export class Cart extends React.Component {
             )}{' '}
           </div>
         ) : (
-          <div>
+          <div id="cart">
             <h1>Cart</h1>
             {this.state.guestCart ? (
               this.state.guestCart.map(item => (
                 <div key={item.id}>
                   <h3>{item.name}</h3>
-                  <img src={item.imageUrl} />
+                  <img src={item.imageUrl} id="cartImage" />
                   <h4>Price: {item.price}</h4>
                   <button
                     value={item.id}
@@ -72,6 +73,7 @@ export class Cart extends React.Component {
             ) : (
               <h2>Empty</h2>
             )}{' '}
+
           </div>
         )}
         {/* <h3>Total: {

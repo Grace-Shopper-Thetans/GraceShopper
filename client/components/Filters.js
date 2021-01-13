@@ -6,7 +6,7 @@ const SideNavbar = props => {
   const colors = ['Silver', 'Blue']
 
   return (
-    <div>
+    <div id="sideNavBar">
       <h3>
         Bike Type:
         <ul>
