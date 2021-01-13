@@ -8,8 +8,24 @@ async function seed() {
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+    User.create({
+      email: 'cody@email.com',
+      password: '123',
+      name: 'Cody Doe',
+      streetAddress: '32 Lake Drive',
+      state: 'NY',
+      city: 'Elmhurst',
+      zip: 11375
+    }),
+    User.create({
+      email: 'murphy@email.com',
+      password: '123',
+      name: 'John Doe',
+      streetAddress: '42 Brown St',
+      state: 'FL',
+      city: 'Miami',
+      zip: 24323
+    })
   ])
 
   const products = await Promise.all([
@@ -30,6 +46,18 @@ async function seed() {
       color: 'Silver'
     })
   ])
+
+  //Association Assignments Below
+
+  const dummyId = [1, 2, 3]
+
+  const product = await Product.findOne({
+    where: {
+      id: 1
+    }
+  })
+
+  await product.addUser(dummyId[0])
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
