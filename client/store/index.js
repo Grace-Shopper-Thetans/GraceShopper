@@ -2,6 +2,7 @@ import {createStore, combineReducers, applyMiddleware} from 'redux'
 import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import productReducer from './products.js'
+import cartReducer from './cart.js'
 import singleProductReducer from './singleProduct.js'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
@@ -9,7 +10,8 @@ import user from './user'
 const reducer = combineReducers({
   user,
   products: productReducer,
-  product: singleProductReducer
+  product: singleProductReducer,
+  cart: cartReducer
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

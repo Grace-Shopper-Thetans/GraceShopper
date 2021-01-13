@@ -18,15 +18,16 @@ class Routes extends Component {
   render() {
     const {isLoggedIn} = this.props
     return (
-    <div>
-      <Route exact path="/" component={LandingPage} />
+      <div>
+        <Route exact path="/" component={LandingPage} />
         {this.props.history.location.pathname !== '/' && <Navbar />}
-      <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route exact path="/products" component={AllProducts} />
-        <Route exact path="/products/:productId" component={SingleProduct} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+
+        <Switch>
+          {/* Routes placed here are available to all visitors */}
+          <Route exact path="/products" component={AllProducts} />
+          <Route exact path="/products/:productId" component={SingleProduct} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
 
           {isLoggedIn && (
             <Switch>

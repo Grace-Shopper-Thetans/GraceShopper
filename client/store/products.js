@@ -36,18 +36,18 @@ export default function productsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_PRODUCTS:
       return action.products
-    case FILTER_PRODUCTS:
-      //Not working, have to fix state.products array
-      return {
-        ...state,
-        products: state.products.filter(product => {
-          if (
-            product.bikeType === action.filterBy ||
-            product.color === action.filterBy
-          )
-            return product
-        })
-      }
+    // case FILTER_PRODUCTS:
+    //   //Not working, have to fix state.products array
+    //   return {
+    //     ...state,
+    //     products: state.products.filter(product => {
+    //       if (
+    //         product.bikeType === action.filterBy ||
+    //         product.color === action.filterBy
+    //       )
+    //         return product
+    //     })
+    //   }
     default:
       return state
   }
