@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-export default class GuestCart {}
-
 export const addItemGuest = async item => {
   const id = item.target.value
   const addedItem = await axios.get(`/api/products/${id}`)
