@@ -64,11 +64,8 @@ form div {
   background-color: rgb(179, 118, 4);
 }
 
-
 #singleProductImage {
   max-width: 700px;
   height: auto;
   object-fit: contain;
 }
-
-
