@@ -12,6 +12,11 @@ export const getProducts = products => ({
   products
 })
 
+export const filterProducts = (products, filterBy) => ({
+  type: FILTER_PRODUCTS,
+  products,
+  filterBy
+})
 // Thunk Creators
 
 export const fetchProducts = () => {
@@ -25,29 +30,21 @@ export const fetchProducts = () => {
   }
 }
 
-export const filterProducts = filterBy => ({
-  type: FILTER_PRODUCTS,
-  filterBy
-})
-
 // Reducer
 const initialState = []
 export default function productsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_PRODUCTS:
       return action.products
-    // case FILTER_PRODUCTS:
-    //   //Not working, have to fix state.products array
-    //   return {
-    //     ...state,
-    //     products: state.products.filter(product => {
-    //       if (
-    //         product.bikeType === action.filterBy ||
-    //         product.color === action.filterBy
-    //       )
-    //         return product
-    //     })
-    //   }
+    case FILTER_PRODUCTS:
+      //Not working, have to fix state.products array
+      return action.products.filter(product => {
+        if (
+          product.designType === action.filterBy ||
+          product.color === action.filterBy
+        )
+          return product
+      })
     default:
       return state
   }
