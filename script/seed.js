@@ -49,15 +49,15 @@ async function seed() {
 
   //Association Assignments Below
 
-  const dummyId = [1, 2, 3]
+  //   const dummyId = [1, 2, 3]
 
-  const product = await Product.findOne({
-    where: {
-      id: 1
-    }
-  })
+  //   const product = await Product.findOne({
+  //     where: {
+  //       id: 1
+  //     }
+  //   })
 
-  await product.addUser(dummyId[0])
+  //   await product.addUser(dummyId[0])
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
