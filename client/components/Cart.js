@@ -1,16 +1,25 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {addToCart, fetchCart} from '../store/cart'
+import {addToCart, deleteItem, fetchCart} from '../store/cart'
+import {getGuestCart} from '../store/guestCart'
 
 export class Cart extends React.Component {
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      guestCart: []
+    }
     this.addToCart = this.addToCart.bind(this)
+    this.updateGuestCart = this.updateGuestCart.bind(this)
   }
 
   componentDidMount() {
     this.props.getCart()
+    const gCart = getGuestCart()
+
+    this.setState({
+      guestCart: gCart
+    })
   }
 
   addToCart(item) {
@@ -18,17 +27,55 @@ export class Cart extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
+
       <div id="cart">
-        <h1>Cart</h1>
-        {this.props.cart.map(item => (
-          <div key={item.id}>
-            <h3>{item.name}</h3>
-            <img src={item.imageUrl} id="cartImage" />
-            <h4>Price: {item.price}</h4>
+        {this.props.isLoggedIn ? (
+          <div>
+            <h1>Cart</h1>
+            {this.props.cart ? (
+              this.props.cart.map(item => (
+                <div key={item.id}>
+                  <h3>{item.name}</h3>
+                  <img src={item.imageUrl} id="cartImage"  />
+                  <h4>Price: {item.price}</h4>
+                  <button
+                    value={item.id}
+                    //onClick={this.props.delItem}
+                    type="button"
+                  >
+                    Remove Item
+                  </button>
+                </div>
+              ))
+            ) : (
+              <h2>Empty</h2>
+            )}{' '}
           </div>
-        ))}
+        ) : (
+          <div id="cart">
+            <h1>Cart</h1>
+            {this.state.guestCart ? (
+              this.state.guestCart.map(item => (
+                <div key={item.id}>
+                  <h3>{item.name}</h3>
+                  <img src={item.imageUrl} id="cartImage" />
+                  <h4>Price: {item.price}</h4>
+                  <button
+                    value={item.id}
+                    onClick={this.props.delItem}
+                    type="button"
+                  >
+                    Remove Item
+                  </button>
+                </div>
+              ))
+            ) : (
+              <h2>Empty</h2>
+            )}{' '}
+
+          </div>
+        )}
         {/* <h3>Total: {
             this.state.items.reduce((acc, item) => {
                 acc += (item.price*item.quantity);
@@ -41,11 +88,13 @@ export class Cart extends React.Component {
 }
 
 const mapState = state => ({
-  cart: state.cart
+  cart: state.cart,
+  isLoggedIn: !!state.user.id
 })
 
 const mapDispatch = dispatch => ({
   getCart: () => dispatch(fetchCart()),
-  addCart: item => dispatch(addToCart(item))
+  addCart: item => dispatch(addToCart(item)),
+  delItem: item => dispatch(deleteItem(item))
 })
 export default connect(mapState, mapDispatch)(Cart)

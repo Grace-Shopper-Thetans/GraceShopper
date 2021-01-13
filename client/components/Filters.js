@@ -2,17 +2,33 @@ import React from 'react'
 
 const SideNavbar = props => {
   const onClick = props.click
-  console.log(props)
+  const bikeTypes = ['Chopper', 'Sport Bike', 'Dirt Bike']
+  const colors = ['Silver', 'Blue']
+
   return (
     <div id="sideNavBar">
       <h3>
         Bike Type:
         <ul>
-          <li onClick={onClick} id="Chopper">
-            Chopper
-          </li>
-          <li onClick={onClick}>Sport Bike</li>
-          <li onClick={onClick}>Dirt Bike</li>
+          {bikeTypes.map(type => {
+            return (
+              <li onClick={onClick} id={type}>
+                {type}
+              </li>
+            )
+          })}
+        </ul>
+      </h3>
+      <h3>
+        Color:
+        <ul>
+          {colors.map(color => {
+            return (
+              <li onClick={onClick} id={color}>
+                {color}
+              </li>
+            )
+          })}
         </ul>
       </h3>
     </div>
