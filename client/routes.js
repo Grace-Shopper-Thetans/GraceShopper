@@ -4,6 +4,7 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, Navbar, LandingPage} from './components'
 import AllProducts from './components/AllProducts.js'
+import SingleProduct from './components/SingleProduct.js'
 import {me} from './store'
 
 /**
@@ -17,14 +18,15 @@ class Routes extends Component {
   render() {
     const {isLoggedIn} = this.props
     return (
-      <div>
-        {/* Routes placed here are available to all visitors */}
-        <Route exact path="/" component={LandingPage} />
+    <div>
+      <Route exact path="/" component={LandingPage} />
         {this.props.history.location.pathname !== '/' && <Navbar />}
-        <Switch>
-          <Route exact path="/products" component={AllProducts} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
+      <Switch>
+        {/* Routes placed here are available to all visitors */}
+        <Route exact path="/products" component={AllProducts} />
+        <Route exact path="/products/:productId" component={SingleProduct} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
 
           {isLoggedIn && (
             <Switch>
