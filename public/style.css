@@ -20,7 +20,6 @@ form div {
   display: inline-block;
 }
 
-
 #image {
   max-width: 300px;
   height: auto;
@@ -35,5 +34,32 @@ form div {
   align-items: center;
   justify-content: space-evenly;
   border-bottom: 3px solid black;
+}
 
+#landingPage {
+  width: 100vw;
+  height: 100vh;
+  min-width: 1200px;
+  min-height: 800px;
+  position: absolute;
+  z-index: 1;
+}
+
+#enterSiteButton {
+  background-color: orange;
+  border: none;
+  border-radius: 15px;
+  width: 300px;
+  height: 75px;
+  font-size: 25px;
+  z-index: 2;
+  position: absolute;
+  margin-top: 85vh;
+  margin-left: 7.5vw;
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+
+#enterSiteButton:hover {
+  background-color: rgb(179, 118, 4);
 }
