@@ -2,6 +2,8 @@ const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
 
+//Full Name, Street Address, State, City, Zip, Credit Card <--
+
 const User = db.define('user', {
   email: {
     type: Sequelize.STRING,
@@ -26,6 +28,25 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  streetAddress: {
+    type: Sequelize.STRING
+  },
+  state: {
+    type: Sequelize.STRING
+  },
+  city: {
+    type: Sequelize.STRING
+  },
+  zip: {
+    type: Sequelize.INTEGER
   }
 })
 
