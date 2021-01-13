@@ -4,7 +4,7 @@ const SideNavbar = props => {
   const onClick = props.click
   console.log(props)
   return (
-    <div>
+    <div id="sideNavBar">
       <h3>
         Bike Type:
         <ul>

@@ -9,14 +9,21 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     {isLoggedIn ? (
       <h3>Welcome back!</h3>
     ) : (
-      <div>
-        <Link to="/login">Login</Link>
-        <Link to="/signup">Sign Up</Link>
+      <div id="leftNB">
+        <Link to="/login" id="navItem">
+          Login
+        </Link>
+        <Link to="/signup" id="navItem">
+          Sign Up
+        </Link>
       </div>
     )}
-
-    <img src="" />
-    <Link to="/">Grace Chopper</Link>
+    <Link to="/products">
+      <img src="logo.png" id="logo" />
+    </Link>
+    <Link to="/" id="GC">
+      Grace Chopper
+    </Link>
   </div>
 )
 

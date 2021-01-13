@@ -1,5 +1,11 @@
+html {
+  margin: 0px;
+}
+
 body {
-  font-family: sans-serif;
+  font-family: 'Exo', sans-serif;
+  background-color: #f6f1d1;
+  margin: 0px;
 }
 
 a {
@@ -15,25 +21,60 @@ nav a {
   margin: 1em;
 }
 
-form div {
+/* form div {
   margin: 1em;
   display: inline-block;
+} */
+
+#cartImage {
+  max-width: 250px;
 }
 
-#image {
-  max-width: 300px;
-  height: auto;
-  object-fit: contain;
+#logo {
+  height: 90px;
 }
 
 #navbar {
   width: 100%;
-  height: 200px;
-  background-color: #626c60;
+  height: 100px;
+  margin: 0px;
+  display: flex;
+  background-color: #cfd7c7;
   color: white;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   border-bottom: 3px solid black;
+  min-width: 1000px;
+}
+
+#leftNB {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 0px 0px 50px;
+  width: 10%;
+  min-width: 150px;
+  max-width: 175px;
+  font-size: 20px;
+}
+
+#navItem {
+  color: #0b2027;
+}
+
+#navItem:hover {
+  transform: scale(1.1);
+}
+
+#GC {
+  margin: 0px 50px 0px 0px;
+  font-family: 'Hanalei Fill', cursive;
+  color: #40798c;
+  font-size: 36px;
+  transition-duration: 1s;
+}
+
+#GC:hover {
+  color: white;
 }
 
 #landingPage {
@@ -64,11 +105,76 @@ form div {
   background-color: rgb(179, 118, 4);
 }
 
-
 #singleProductImage {
   max-width: 700px;
   height: auto;
   object-fit: contain;
 }
 
+#allProducts {
+  width: 75%;
+  display: flex;
+  min-width: 800px;
+}
 
+#sideNavBar {
+  float: left;
+  height: 100vh;
+  width: 20%;
+  margin-right: 15px;
+  margin-left: 0px;
+  background-color: #70a9a1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#cart {
+  background-color: violet;
+  float: right;
+  width: 100%;
+}
+
+#productsList {
+  margin-left: 30px;
+  height: 100vh;
+  width: 75%;
+  background-color: rgb(43, 92, 199);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.productContainer {
+  margin-top: 36px;
+  width: 100%;
+  background-color: rgb(199, 169, 228);
+}
+
+#mpImage {
+  width: 300px;
+  margin-top: 20px;
+  margin-left: 75px;
+}
+
+#allProductsButton {
+  margin-left: 75%;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+#mpName {
+  margin-left: 5%;
+}
+
+#mpDesign {
+  margin-left: 10%;
+}
+
+#mpColor {
+  margin-left: 15%;
+}
+
+#mpPrice {
+  margin-left: 20%;
+}

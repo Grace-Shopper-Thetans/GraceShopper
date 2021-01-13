@@ -30,33 +30,35 @@ class AllProducts extends React.Component {
     const products = this.props.products
 
     return this.state.ranOnce ? (
-      <div className="allProducts">
+      <div id="allProducts">
         <SideNavbar click={this.onClick} />
-        {products.map(product => {
-          return (
-            <div className="productContainer" key={product.id}>
-              <div className="imageContainer">
-                <img id="image" src={product.imageUrl} />
+        <div id="productsList">
+          {products.map(product => {
+            return (
+              <div className="productContainer" key={product.id}>
+                <div className="imageContainer">
+                  <img id="mpImage" src={product.imageUrl} />
+                </div>
+                <div className="productText">
+                  <h1 id="mpName">{product.name}</h1>
+                  <h3 id="mpDesign">{product.designType}</h3>
+                  <h3 id="mpColor">{product.color}</h3>
+                  <p id="mpPrice">{product.price}</p>
+                </div>
+                <div id="allProductsButton">
+                  <button
+                    type="button"
+                    value={product.id}
+                    onClick={this.props.addCart}
+                  >
+                    Add To Cart
+                  </button>
+                </div>
               </div>
-              <div className="productText">
-                <h1>{product.name}</h1>
-                <h3>{product.designType}</h3>
-                <h3>{product.color}</h3>
-                <p>{product.price}</p>
-              </div>
-              <div id="allProductsButton">
-                <button
-                  type="button"
-                  value={product.id}
-                  onClick={this.props.addCart}
-                >
-                  Add To Cart
-                </button>
-              </div>
-            </div>
-          )
-        })}
-        <Cart />
+            )
+          })}
+        </div>
+        {/* <Cart /> */}
       </div>
     ) : (
       <h1>Loading...</h1>
