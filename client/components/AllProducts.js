@@ -1,6 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {addToCart} from '../store/cart.js'
+import GuestCart, {
+  addItemGuest,
+  getGuestCart,
+  clearGuestCart
+} from '../store/guestCart.js'
 import {fetchProducts, filterProducts} from '../store/products.js'
 import Cart from './Cart.js'
 import SideNavbar from './Filters'
@@ -51,6 +56,9 @@ class AllProducts extends React.Component {
                   onClick={this.props.addCart}
                 >
                   Add To Cart
+                </button>{' '}
+                <button type="button" value={product.id} onClick={addItemGuest}>
+                  Add To Cart Not logged in
                 </button>
               </div>
             </div>

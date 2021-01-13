@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {addToCart, fetchCart} from '../store/cart'
+import {addToCart, deleteItem, fetchCart} from '../store/cart'
 
 export class Cart extends React.Component {
   constructor() {
@@ -22,13 +22,24 @@ export class Cart extends React.Component {
     return (
       <div>
         <h1>Cart</h1>
-        {this.props.cart.map(item => (
-          <div key={item.id}>
-            <h3>{item.name}</h3>
-            <img src={item.imageUrl} />
-            <h4>Price: {item.price}</h4>
-          </div>
-        ))}
+        {this.props.cart ? (
+          this.props.cart.map(item => (
+            <div key={item.id}>
+              <h3>{item.name}</h3>
+              <img src={item.imageUrl} />
+              <h4>Price: {item.price}</h4>
+              <button
+                value={item.id}
+                onClick={this.props.delItem}
+                type="button"
+              >
+                Remove Item
+              </button>
+            </div>
+          ))
+        ) : (
+          <h2>Empty</h2>
+        )}
         {/* <h3>Total: {
             this.state.items.reduce((acc, item) => {
                 acc += (item.price*item.quantity);
@@ -46,6 +57,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   getCart: () => dispatch(fetchCart()),
-  addCart: item => dispatch(addToCart(item))
+  addCart: item => dispatch(addToCart(item)),
+  delItem: item => dispatch(deleteItem(item))
 })
 export default connect(mapState, mapDispatch)(Cart)
