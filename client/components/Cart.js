@@ -29,17 +29,18 @@ export class Cart extends React.Component {
       <div id="cart">
         {this.props.isLoggedIn ? (
           <div>
-            <h1>Cart</h1>
+            <h1 id="cartTitle">Cart</h1>
             {this.props.cart ? (
-              this.props.cart.map(item => (
-                <div key={item.id}>
-                  <h3>{item.name}</h3>
+              this.props.cart.map((item) => (
+                <div key={item.id} id="cartItem">
+                  <h3 id="ciName">{item.name}</h3>
                   <img src={item.imageUrl} id="cartImage" />
-                  <h4>Price: {item.price}</h4>
+                  <h4 id="ciPrice">Price: ${item.price}</h4>
                   <button
                     value={item.id}
                     //onClick={this.props.delItem}
                     type="button"
+                    id="removeFromCart"
                   >
                     Remove Item
                   </button>
@@ -51,17 +52,18 @@ export class Cart extends React.Component {
           </div>
         ) : (
           <div id="cart">
-            <h1>Cart</h1>
+            <h1 id="cartTitle">Cart</h1>
             {this.props.gCart ? (
-              this.props.gCart.map(item => (
-                <div key={item.data.id}>
-                  <h3>{item.data.name}</h3>
+              this.props.gCart.map((item) => (
+                <div key={item.data.id} id="cartItem">
+                  <h3 id="ciName">{item.data.name}</h3>
                   <img src={item.data.imageUrl} id="cartImage" />
-                  <h4>Price: {item.data.price}</h4>
+                  <h4 id="ciPrice">Price: ${item.data.price}</h4>
                   <button
                     value={item.data.id}
                     onClick={this.props.delItem}
                     type="button"
+                    id="removeFromCart"
                   >
                     Remove Item
                   </button>
@@ -83,16 +85,16 @@ export class Cart extends React.Component {
   }
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   cart: state.cart,
   isLoggedIn: !!state.user.id,
-  gCart: state.gCart
+  gCart: state.gCart,
 })
 
-const mapDispatch = dispatch => ({
+const mapDispatch = (dispatch) => ({
   getCart: () => dispatch(fetchCart()),
-  addCart: item => dispatch(addToCart(item)),
-  delItem: item => dispatch(deleteItem(item)),
-  getGCart: () => dispatch(getGuestCart())
+  addCart: (item) => dispatch(addToCart(item)),
+  delItem: (item) => dispatch(deleteItem(item)),
+  getGCart: () => dispatch(getGuestCart()),
 })
 export default connect(mapState, mapDispatch)(Cart)
