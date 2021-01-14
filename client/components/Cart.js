@@ -6,7 +6,10 @@ import {getGuestCart} from '../store/guestCart'
 export class Cart extends React.Component {
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      checkout: false,
+      submitted: false
+    }
     this.addToCart = this.addToCart.bind(this)
     this.updateCartGuest = this.updateCartGuest.bind(this)
   }
@@ -25,20 +28,22 @@ export class Cart extends React.Component {
   }
 
   render() {
+    const userId = this.props.userId
     return (
       <div id="cart">
         {this.props.isLoggedIn ? (
           <div>
+
             <h1 id="cartTitle">Cart</h1>
-            {this.props.cart ? (
-              this.props.cart.map((item) => (
+            {this.props.cart.id ? (
+              this.props.cart.map(item => (
                 <div key={item.id} id="cartItem">
                   <h3 id="ciName">{item.name}</h3>
                   <img src={item.imageUrl} id="cartImage" />
                   <h4 id="ciPrice">Price: ${item.price}</h4>
                   <button
-                    value={item.id}
-                    //onClick={this.props.delItem}
+                    value={[item.id, userId]}
+                    onClick={this.props.delItem}
                     type="button"
                     id="removeFromCart"
                   >
@@ -61,7 +66,7 @@ export class Cart extends React.Component {
                   <h4 id="ciPrice">Price: ${item.data.price}</h4>
                   <button
                     value={item.data.id}
-                    onClick={this.props.delItem}
+                    //onClick={this.props.delItem}
                     type="button"
                     id="removeFromCart"
                   >
@@ -89,6 +94,7 @@ const mapState = (state) => ({
   cart: state.cart,
   isLoggedIn: !!state.user.id,
   gCart: state.gCart,
+  userId: state.user.id
 })
 
 const mapDispatch = (dispatch) => ({

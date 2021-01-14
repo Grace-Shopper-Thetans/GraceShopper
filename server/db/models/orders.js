@@ -3,7 +3,8 @@ const db = require('../db.js')
 
 const Order = db.define('order', {
   status: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 

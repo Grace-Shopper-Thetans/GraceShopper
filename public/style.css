@@ -42,8 +42,12 @@ nav a {
   justify-content: space-between;
   border-bottom: 3px solid black;
   min-width: 1000px;
+
   position: fixed;
   z-index: 1;
+
+}
+
 }
 
 #leftNB {
@@ -273,6 +277,11 @@ li:hover {
 
 .filterType {
   cursor: default;
+}
+
+
+#orders {
+  color: white;
 }
 
 #loginDiv {

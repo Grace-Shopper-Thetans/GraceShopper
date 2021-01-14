@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {addToCart} from '../store/cart.js'
 import {addItemGuest} from '../store/guestCart.js'
 import {fetchProducts, filterProducts} from '../store/products.js'
+import user from '../store/user.js'
+
 import SideNavbar from './Filters'
 
 class AllProducts extends React.Component {
@@ -28,6 +30,7 @@ class AllProducts extends React.Component {
 
   render() {
     const products = this.props.products
+    const userId = this.props.userId
 
     return this.state.ranOnce ? (
       <div id="allProducts">
@@ -51,7 +54,7 @@ class AllProducts extends React.Component {
                     <button
                       type="button"
                       id="addToCart"
-                      value={product.id}
+                      value={[product.id, userId]}
                       onClick={this.props.addCart}
                     >
                       Add To Cart
@@ -81,6 +84,7 @@ class AllProducts extends React.Component {
 const mapStateToProps = (state) => ({
   products: state.products,
   isLoggedIn: !!state.user.id,
+  userId: state.user.id
 })
 
 const mapDispatchToProps = (dispatch) => ({
