@@ -21,7 +21,7 @@ class Routes extends Component {
     return (
       <div>
         <Route exact path="/" component={LandingPage} />
-        {this.props.history.location.pathname !== '/' && <Navbar />}
+        {/* {this.props.history.location.pathname !== '/' && <Navbar />} */}
 
         <Switch>
           {/* Routes placed here are available to all visitors */}

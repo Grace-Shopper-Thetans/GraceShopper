@@ -42,8 +42,11 @@ export const fetchCart = id => {
 export const addToCart = item => {
   return async dispatch => {
     try {
-      const id = item.target.value
-      const {data} = await axios.get(`/api/products/${id}`)
+      const input = item.target.value.split(',')
+      const itemId = input[0]
+      const userId = input[1]
+      const {data} = await axios.put('/api/carts/', {itemId, userId})
+
       dispatch(addCartAction(data))
     } catch (error) {
       console.error(error.message)
