@@ -12,6 +12,9 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           Logout
         </button>
         <h3>Welcome back!</h3>
+        <Link to="/me" id="navItem">
+          Profile
+        </Link>
       </div>
     ) : (
       <div id="leftNB">
