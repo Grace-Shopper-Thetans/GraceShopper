@@ -1,18 +1,20 @@
-//Need user id to query orders
+//Need user id to query orders based on that specific user --> link up reducer for updating
 //Form for updating account info
 //Using the user redux, we can get the user's associated orders
 import React from 'react'
+import {connect} from 'react-redux'
+import {fetchUpdateUser} from '../store/user'
 
-export default class Profile extends React.Component {
+class Profile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: '',
-      email: '',
-      streetAddress: '',
-      state: '',
-      city: '',
-      zip: ''
+      name: this.props.user.name,
+      email: this.props.user.email,
+      streetAddress: this.props.streetAddress,
+      state: this.props.state,
+      city: this.props.city,
+      zip: this.props.zip
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -25,20 +27,13 @@ export default class Profile extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault()
-    const updateUser = this.props.user
+    const updateUser = this.props.updateUser
     if (this.state.name.length === 0) {
       alert('Username can not be blank!')
     }
     updateUser({...this.props.user, ...this.state})
 
-    this.setState({
-      name: '',
-      email: '',
-      streetAddress: '',
-      state: '',
-      city: '',
-      zip: ''
-    })
+    event.target.reset()
   }
 
   render() {
@@ -92,3 +87,17 @@ export default class Profile extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateUser: user => dispatch(fetchUpdateUser(user))
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
