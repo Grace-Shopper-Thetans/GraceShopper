@@ -62,7 +62,7 @@ class AllProducts extends React.Component {
                       type="button"
                       id="addToCart"
                       value={product.id}
-                      onClick={addItemGuest}
+                      onClick={this.props.addGCart}
                     >
                       Add To Cart
                     </button>
@@ -71,7 +71,7 @@ class AllProducts extends React.Component {
               </div>
             )
           })}
-          {/* <Cart /> */}
+          <Cart />
         </div>
       </div>
     ) : (
@@ -89,7 +89,8 @@ const mapDispatchToProps = dispatch => ({
   getAllProducts: () => dispatch(fetchProducts()),
   filterProducts: (products, filterBy) =>
     dispatch(filterProducts(products, filterBy)),
-  addCart: item => dispatch(addToCart(item))
+  addCart: item => dispatch(addToCart(item)),
+  addGCart: item => dispatch(addItemGuest(item))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)
