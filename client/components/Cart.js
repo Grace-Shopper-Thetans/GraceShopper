@@ -6,7 +6,10 @@ import {getGuestCart} from '../store/guestCart'
 export class Cart extends React.Component {
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      checkout: false,
+      submitted: false
+    }
     this.addToCart = this.addToCart.bind(this)
     this.updateCartGuest = this.updateCartGuest.bind(this)
   }
@@ -38,7 +41,7 @@ export class Cart extends React.Component {
                   <h4>Price: {item.price}</h4>
                   <button
                     value={item.id}
-                    //onClick={this.props.delItem}
+                    onClick={this.props.delItem}
                     type="button"
                   >
                     Remove Item
