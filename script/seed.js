@@ -1,8 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Product} = require('../server/db/models')
-
+const {User, Product, Order} = require('../server/db/models')
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
@@ -71,17 +70,28 @@ async function seed() {
     })
   ])
 
-  //Association Assignments Below
+  const orders = await Promise.all([
+    Order.create({
+      status: true
+    })
+  ])
 
-  //   const dummyId = [1, 2, 3]
+  const dummyId = [1, 2, 3]
 
-  //   const product = await Product.findOne({
-  //     where: {
-  //       id: 1
-  //     }
-  //   })
+  const order = await Order.findOne({
+    where: {
+      id: 1
+    }
+  })
 
-  //   await product.addUser(dummyId[0])
+  const user = await User.findOne({
+    where: {
+      id: 1
+    }
+  })
+
+  await order.addProduct(dummyId)
+  await user.addOrder(1)
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
