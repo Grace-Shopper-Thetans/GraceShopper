@@ -45,9 +45,6 @@ nav a {
 
   position: fixed;
   z-index: 1;
-
-}
-
 }
 
 #leftNB {
@@ -278,7 +275,6 @@ li:hover {
 .filterType {
   cursor: default;
 }
-
 
 #orders {
   color: white;
