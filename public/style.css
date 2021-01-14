@@ -1,10 +1,15 @@
 html {
   margin: 0px;
+  background: url(background.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 body {
   font-family: 'Exo', sans-serif;
-  background-color: #f6f1d1;
+  background-color: transparent;
   margin: 0px;
 }
 
@@ -45,6 +50,7 @@ nav a {
   justify-content: space-between;
   border-bottom: 3px solid black;
   min-width: 1000px;
+  position: fixed;
 }
 
 #leftNB {
@@ -111,7 +117,6 @@ nav a {
   object-fit: contain;
 }
 
-
 #allProducts {
   width: 75%;
   display: flex;
@@ -121,13 +126,16 @@ nav a {
 #sideNavBar {
   float: left;
   height: 100vh;
-  width: 20%;
+  width: 300px;
   margin-right: 15px;
   margin-left: 0px;
-  background-color: #70a9a1;
+  margin-top: 100px;
+  background-color: rgba(28, 28, 28, 0.851);
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: fixed;
+  color: white;
 }
 
 #cart {
@@ -137,23 +145,26 @@ nav a {
 }
 
 #productsList {
-  margin-left: 30px;
+  margin-left: 400px;
+  margin-top: 100px;
   height: 100vh;
   width: 75%;
-  background-color: rgb(43, 92, 199);
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .productContainer {
   margin-top: 36px;
   width: 100%;
-  background-color: rgb(199, 169, 228);
+  height: 500px;
+  border-radius: 20px;
+  min-width: 550px;
+  background-color: rgba(191, 191, 191, 0.851);
 }
 
 #mpImage {
   width: 300px;
+  max-height: 170px;
   margin-top: 20px;
   margin-left: 75px;
 }
@@ -161,22 +172,54 @@ nav a {
 #allProductsButton {
   margin-left: 75%;
   margin-bottom: 20px;
+  width: 20%;
   cursor: pointer;
 }
 
+#addToCart {
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 15px;
+  border: none;
+  transition-duration: 0.15s;
+  font-size: 15px;
+  color: white;
+  background-color: rgb(25, 47, 55);
+}
+
+#addToCart:hover {
+  transform: scale(1.05);
+}
+
 #mpName {
-  margin-left: 5%;
+  margin-left: 12.5%;
+  font-family: 'Hanalei Fill', cursive;
 }
 
 #mpDesign {
-  margin-left: 10%;
+  margin-left: 25%;
+  font-family: 'Fredoka One', cursive;
 }
 
 #mpColor {
-  margin-left: 15%;
+  margin-left: 37.5%;
+  font-family: 'Fredoka One', cursive;
 }
 
 #mpPrice {
-  margin-left: 20%;
+  margin-left: 50%;
+  font-family: 'Fredoka One', cursive;
 }
 
+li {
+  cursor: pointer;
+}
+
+li:hover {
+  transform: scale(1.05);
+}
+
+.filterType {
+  cursor: default;
+}
