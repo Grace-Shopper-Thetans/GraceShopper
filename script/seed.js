@@ -35,7 +35,9 @@ async function seed() {
       isSold: false,
       description: 'meh',
       designType: 'Chopper',
-      color: 'Blue'
+      color: 'Blue',
+      imageUrl:
+        'https://i.pinimg.com/originals/fc/e4/4c/fce44cc0e71403d6dc30e718aab22736.png'
     }),
     Product.create({
       name: '$p33d D3mon',
@@ -43,7 +45,29 @@ async function seed() {
       isSold: false,
       description: 'meh',
       designType: 'Sport Bike',
-      color: 'Silver'
+      color: 'Silver',
+      imageUrl:
+        'https://purepng.com/public/uploads/large/purepng.com-motorcyclemotorcyclemotorbikebikecycleracing-bike-1701527510056xqtwf.png'
+    }),
+    Product.create({
+      name: 'Big Boi',
+      price: 2200,
+      isSold: false,
+      description: 'meh',
+      designType: 'Chopper',
+      color: 'Blue',
+      imageUrl:
+        'https://www.indianmotorcyclelakeville.com/images/indianmotorcyclelakeville-slide-elite.png'
+    }),
+    Product.create({
+      name: `Trouble's Come'n`,
+      price: 14000,
+      isSold: false,
+      description: 'meh',
+      designType: 'Dirt Bike',
+      color: 'Silver',
+      imageUrl:
+        'https://www.pngkey.com/png/full/256-2568579_dirt-bike-png-clipart-library-library-2011-ktm.png'
     })
   ])
 

@@ -7,7 +7,7 @@ const SideNavbar = props => {
 
   return (
     <div id="sideNavBar">
-      <h3>
+      <h3 className="filterType">
         Bike Type:
         <ul>
           {bikeTypes.map(type => {
@@ -19,7 +19,7 @@ const SideNavbar = props => {
           })}
         </ul>
       </h3>
-      <h3>
+      <h3 className="filterType">
         Color:
         <ul>
           {colors.map(color => {
