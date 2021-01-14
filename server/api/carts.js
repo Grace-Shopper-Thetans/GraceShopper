@@ -28,10 +28,22 @@ router.put('/', async (req, res, next) => {
   }
 })
 
-router.delete('/:cartId', async (req, res, next) => {
+router.delete('/:itemId/:userId', async (req, res, next) => {
   try {
-    const id = req.params.id
-    const deleteId = await OrdersProducts.findByPk(id)
+    const itemId = req.params.itemId
+    const userId = req.params.userId
+
+    const orderId = await Order.findAll({
+      where: {
+        userId: userId
+      }
+    }).id
+
+    const deleteId = await OrdersProducts.findByPk(orderId, {
+      where: {
+        productId: itemId
+      }
+    })
     !deleteId ? res.sendStatus(404) : await deleteId.destroy()
   } catch (error) {
     next(error)

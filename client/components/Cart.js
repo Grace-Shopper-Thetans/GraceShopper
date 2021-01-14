@@ -28,6 +28,7 @@ export class Cart extends React.Component {
   }
 
   render() {
+    const userId = this.props.userId
     return (
       <div id="cart">
         {this.props.isLoggedIn ? (
@@ -40,7 +41,7 @@ export class Cart extends React.Component {
                   <img src={item.imageUrl} id="cartImage" />
                   <h4>Price: {item.price}</h4>
                   <button
-                    value={item.id}
+                    value={[item.id, userId]}
                     onClick={this.props.delItem}
                     type="button"
                   >
@@ -63,7 +64,7 @@ export class Cart extends React.Component {
                   <h4>Price: {item.data.price}</h4>
                   <button
                     value={item.data.id}
-                    onClick={this.props.delItem}
+                    //onClick={this.props.delItem}
                     type="button"
                   >
                     Remove Item
@@ -89,7 +90,8 @@ export class Cart extends React.Component {
 const mapState = state => ({
   cart: state.cart,
   isLoggedIn: !!state.user.id,
-  gCart: state.gCart
+  gCart: state.gCart,
+  userId: state.user.id
 })
 
 const mapDispatch = dispatch => ({

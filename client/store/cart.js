@@ -51,11 +51,13 @@ export const addToCart = item => {
   }
 }
 
-export const deleteItem = (item, userId) => {
+export const deleteItem = item => {
   return async dispatch => {
     try {
-      const id = item.target.value
-      const {data} = await axios.delete(`/api/carts/${id}`, userId)
+      const input = item.target.value.split(',')
+      const itemId = input[0]
+      const userId = input[1]
+      const {data} = await axios.delete(`/api/carts/${itemId}/${userId}`)
       dispatch(removeCartAction(data))
     } catch (error) {
       console.error(error.message)
