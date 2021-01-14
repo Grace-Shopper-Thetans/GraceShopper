@@ -28,4 +28,14 @@ router.put('/', async (req, res, next) => {
   }
 })
 
+router.delete('/:cartId', async (req, res, next) => {
+  try {
+    const id = req.params.id
+    const deleteId = await OrdersProducts.findByPk(id)
+    !deleteId ? res.sendStatus(404) : await deleteId.destroy()
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router
