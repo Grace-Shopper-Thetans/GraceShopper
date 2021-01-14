@@ -229,3 +229,7 @@ li:hover {
 .filterType {
   cursor: default;
 }
+
+#orders {
+  color: white;
+}
