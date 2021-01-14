@@ -4,14 +4,14 @@ import {addToCart} from '../store/cart.js'
 import {addItemGuest} from '../store/guestCart.js'
 import {fetchProducts, filterProducts} from '../store/products.js'
 import user from '../store/user.js'
-import Cart from './Cart.js'
+
 import SideNavbar from './Filters'
 
 class AllProducts extends React.Component {
   constructor() {
     super()
     this.state = {
-      ranOnce: false
+      ranOnce: false,
     }
     this.onClick = this.onClick.bind(this)
   }
@@ -19,7 +19,7 @@ class AllProducts extends React.Component {
   componentDidMount() {
     this.props.getAllProducts()
     this.setState({
-      ranOnce: true
+      ranOnce: true,
     })
   }
 
@@ -36,7 +36,7 @@ class AllProducts extends React.Component {
       <div id="allProducts">
         <SideNavbar click={this.onClick} />
         <div id="productsList">
-          {products.map(product => {
+          {products.map((product) => {
             return (
               <div className="productContainer" key={product.id}>
                 <div className="imageContainer">
@@ -73,7 +73,6 @@ class AllProducts extends React.Component {
               </div>
             )
           })}
-          <Cart />
         </div>
       </div>
     ) : (
@@ -82,18 +81,18 @@ class AllProducts extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   products: state.products,
   isLoggedIn: !!state.user.id,
   userId: state.user.id
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getAllProducts: () => dispatch(fetchProducts()),
   filterProducts: (products, filterBy) =>
     dispatch(filterProducts(products, filterBy)),
-  addCart: item => dispatch(addToCart(item)),
-  addGCart: item => dispatch(addItemGuest(item))
+  addCart: (item) => dispatch(addToCart(item)),
+  addGCart: (item) => dispatch(addItemGuest(item)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)

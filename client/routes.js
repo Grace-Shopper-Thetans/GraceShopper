@@ -8,7 +8,8 @@ import {
   UserHome,
   Navbar,
   LandingPage,
-  Profile
+  Profile,
+  Cart
 } from './components'
 import AllProducts from './components/AllProducts.js'
 import SingleProduct from './components/SingleProduct.js'
@@ -29,7 +30,7 @@ class Routes extends Component {
       <div>
         <Route exact path="/" component={LandingPage} />
         {this.props.history.location.pathname !== '/' && <Navbar />}
-
+        {this.props.history.location.pathname !== '/' && <Cart />}
         <Switch>
           {/* Routes placed here are available to all visitors */}
           <Route path="/products/:productId" component={SingleProduct} />
@@ -56,19 +57,19 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     loadInitialData() {
       dispatch(me())
-    }
+    },
   }
 }
 
@@ -81,5 +82,5 @@ export default withRouter(connect(mapState, mapDispatch)(Routes))
  */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
 }
