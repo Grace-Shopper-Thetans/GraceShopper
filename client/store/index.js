@@ -6,12 +6,14 @@ import cartReducer from './cart.js'
 import singleProductReducer from './singleProduct.js'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
+import guestReducer from './guestCart.js'
 
 const reducer = combineReducers({
   user,
   products: productReducer,
   product: singleProductReducer,
-  cart: cartReducer
+  cart: cartReducer,
+  gCart: guestReducer
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

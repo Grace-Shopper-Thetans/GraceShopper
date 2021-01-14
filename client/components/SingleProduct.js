@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchSingleProduct} from '../store/singleProduct.js'
+import Cart from './Cart.js'
 
 class SingleProduct extends React.Component {
   constructor() {
@@ -33,6 +34,7 @@ class SingleProduct extends React.Component {
           </div>
         </div>
         <div id="singleProductDescription">{product.description}</div>
+        <Cart />
       </div>
     ) : (
       <div>Loading...</div>

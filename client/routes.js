@@ -12,6 +12,7 @@ import {
 } from './components'
 import AllProducts from './components/AllProducts.js'
 import SingleProduct from './components/SingleProduct.js'
+import OrderSubmitted from './components/OrderSubmitted.js'
 import {me} from './store'
 
 /**
@@ -33,6 +34,7 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route path="/products/:productId" component={SingleProduct} />
           <Route path="/products" component={AllProducts} />
+          <Route path="/orders" component={OrderSubmitted} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/me" component={Profile} />
