@@ -29,13 +29,9 @@ export class Cart extends React.Component {
     this.props.getGCart()
   }
 
-
   remove(id) {
     this.props.removeItemGuest(id)
   }
-
-
-
 
   render() {
     const userId = this.props.userId
@@ -69,7 +65,7 @@ export class Cart extends React.Component {
           <div id="cart">
             <h1 id="cartTitle">Cart</h1>
             {this.props.gCart ? (
-              this.props.gCart.map(item => (
+              this.props.gCart.map((item) => (
                 <div key={item.data.id} id="cartItem">
                   <h3 id="ciName">{item.data.name}</h3>
                   <img src={item.data.imageUrl} id="cartImage" />
@@ -100,18 +96,18 @@ export class Cart extends React.Component {
   }
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   cart: state.cart,
   isLoggedIn: !!state.user.id,
   gCart: state.gCart,
   userId: state.user.id,
 })
 
-const mapDispatch = dispatch => ({
-  getCart: userId => dispatch(fetchCart(userId)),
-  addCart: item => dispatch(addToCart(item)),
-  delItem: item => dispatch(deleteItem(item)),
-  getGCart: () => dispatch(getGuestCart())
+const mapDispatch = (dispatch) => ({
+  getCart: (userId) => dispatch(fetchCart(userId)),
+  addCart: (item) => dispatch(addToCart(item)),
+  delItem: (item) => dispatch(deleteItem(item)),
+  getGCart: () => dispatch(getGuestCart()),
   removeItemGuest: (id) => dispatch(removeItemGuest(id)),
 })
 export default connect(mapState, mapDispatch)(Cart)
