@@ -8,25 +8,25 @@ const DELETE_ITEM = 'DELETE_ITEM'
 
 // Action Creators
 
-export const getCart = cart => ({
+export const getCart = (cart) => ({
   type: GET_CART,
-  cart
+  cart,
 })
 
-export const addCartAction = item => ({
+export const addCartAction = (item) => ({
   type: ADD_TO_CART,
-  item
+  item,
 })
 
-export const removeCartAction = id => ({
+export const removeCartAction = (id) => ({
   type: DELETE_ITEM,
-  id
+  id,
 })
 
 // Thunk Creators
 
-export const fetchCart = id => {
-  return async dispatch => {
+export const fetchCart = (id) => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.get(`/api/carts/${id}`)
       dispatch(getCart(data))
@@ -36,8 +36,8 @@ export const fetchCart = id => {
   }
 }
 
-export const addToCart = item => {
-  return async dispatch => {
+export const addToCart = (item) => {
+  return async (dispatch) => {
     try {
       const input = item.target.value.split(',')
       const itemId = input[0]
@@ -51,8 +51,8 @@ export const addToCart = item => {
   }
 }
 
-export const deleteItem = item => {
-  return async dispatch => {
+export const deleteItem = (item) => {
+  return async (dispatch) => {
     try {
       const input = item.target.value.split(',')
       const itemId = input[0]
@@ -74,8 +74,7 @@ export default function cartReducer(state = initialState, action) {
     case ADD_TO_CART:
       return [...state, action.item]
     case DELETE_ITEM:
-      console.log(state)
-      return state.cart.filter(item => item.id !== action.id)
+      return state.cart.filter((item) => item.id !== action.id)
     default:
       return state
   }

@@ -1,17 +1,19 @@
 import React from 'react'
 import {connect} from 'react-redux'
+
 import {addToCart, deleteItem, fetchCart, getCart} from '../store/cart'
-import {getGuestCart} from '../store/guestCart'
+import {getGuestCart, removeItemGuest} from '../store/guestCart'
 
 export class Cart extends React.Component {
   constructor() {
     super()
     this.state = {
       checkout: false,
-      submitted: false
+      submitted: false,
     }
     this.addToCart = this.addToCart.bind(this)
     this.updateCartGuest = this.updateCartGuest.bind(this)
+    this.remove = this.remove.bind(this)
   }
 
   componentDidMount() {
@@ -27,9 +29,13 @@ export class Cart extends React.Component {
     this.props.getGCart()
   }
 
-  // getGuestCart () {
-  //   return
-  // }
+
+  remove(id) {
+    this.props.removeItemGuest(id)
+  }
+
+
+
 
   render() {
     const userId = this.props.userId
@@ -40,7 +46,7 @@ export class Cart extends React.Component {
           <div>
             <h1 id="cartTitle">Cart</h1>
             {this.props.cart.id ? (
-              this.props.cart.map(item => (
+              this.props.cart.map((item) => (
                 <div key={item.id} id="cartItem">
                   <h3 id="ciName">{item.name}</h3>
                   <img src={item.imageUrl} id="cartImage" />
@@ -70,7 +76,7 @@ export class Cart extends React.Component {
                   <h4 id="ciPrice">Price: ${item.data.price}</h4>
                   <button
                     value={item.data.id}
-                    //onClick={this.props.delItem}
+                    onClick={() => this.remove(item.data.id)}
                     type="button"
                     id="removeFromCart"
                   >
@@ -98,7 +104,7 @@ const mapState = state => ({
   cart: state.cart,
   isLoggedIn: !!state.user.id,
   gCart: state.gCart,
-  userId: state.user.id
+  userId: state.user.id,
 })
 
 const mapDispatch = dispatch => ({
@@ -106,5 +112,6 @@ const mapDispatch = dispatch => ({
   addCart: item => dispatch(addToCart(item)),
   delItem: item => dispatch(deleteItem(item)),
   getGCart: () => dispatch(getGuestCart())
+  removeItemGuest: (id) => dispatch(removeItemGuest(id)),
 })
 export default connect(mapState, mapDispatch)(Cart)
