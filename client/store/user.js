@@ -25,8 +25,8 @@ const updateUser = user => {
     user
   }
 }
-const getUserOrder = user => {
-  return {type: GET_USER_ORDER, user}
+const getUserOrder = (user, orders) => {
+  return {type: GET_USER_ORDER, user, orders}
 }
 
 /**
@@ -83,7 +83,7 @@ export const fetchUserOrder = id => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/users/${id}`)
-      dispatch(getUserOrder(data))
+      dispatch(getUserOrder(data, data.orders))
     } catch (err) {
       console.error(err)
     }
@@ -102,7 +102,7 @@ export default function(state = defaultUser, action) {
     case UPDATE_USER:
       return action.user
     case GET_USER_ORDER:
-      return action.user
+      return {...action.user, orders: [action.orders]}
     default:
       return state
   }

@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
 const Order = require('../db/models/orders')
+const OrdersProducts = require('../db/models/orders_products')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -25,7 +26,24 @@ router.get('/:userId', async (req, res, next) => {
       },
       include: Order
     })
-    res.send(user)
+
+    let orderIds = []
+
+    for (let i = 0; i < user.orders.length; i++) {
+      if (user.orders[i].status === true) {
+        orderIds.push(user.orders[i].id)
+      }
+    }
+
+    const ordersProducts = await OrdersProducts.findAll({
+      where: {
+        orderId: orderIds
+      }
+    })
+
+    // user.orderProducts = ordersProducts
+
+    res.send(ordersProducts)
   } catch (err) {
     next(err)
   }

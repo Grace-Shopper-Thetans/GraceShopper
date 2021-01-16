@@ -5,24 +5,31 @@ import {connect} from 'react-redux'
 class UserOrders extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {orders: []}
+  }
+
+  async componentDidMount() {
+    await this.props.userOrder(this.props.user.id)
+    this.setState({
+      orders: this.props.userOrders
+    })
   }
 
   render() {
-    let orders = this.props.userOrder(this.props.user.id).orders
-    console.log(orders)
-    if (orders !== undefined) {
-      orders = orders.filter(order => order.status === true)
+    if (this.state.orders && this.state.orders.length > 0) {
+      console.log(this.state.orders)
+      // .filter(
+      //   (order) => order.status === 'true'
+      // )
       return (
         <div id="orders">
           <h3>Past Orders:</h3>
-          {orders.map(order => {
+          {this.state.orders.map(order => {
+            console.log(order)
             return (
               <div key={order.id}>
-                <h4>
-                  {order.createdAt +
-                    order.orders_products.qty +
-                    order.orders_products.finalPrice}
-                </h4>
+                <h4>{order.qty} items</h4>
+                <h4>${order.finalPrice}</h4>
               </div>
             )
           })}
@@ -46,7 +53,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    userOrders: state.user.orders
   }
 }
 
