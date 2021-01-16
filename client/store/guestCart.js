@@ -4,15 +4,23 @@ const GET_G_CART = 'GET_G_CART'
 const ADD_G_CART = 'ADD_G_CART'
 
 export const getGuestCart = () => {
-  const gCart = JSON.parse(localStorage.getItem('cart'))
+  let gCart = null
+  if (
+    localStorage.getItem('cart') === null ||
+    localStorage.getItem('cart') === ''
+  ) {
+    gCart = []
+  } else {
+    gCart = JSON.parse(localStorage.getItem('cart'))
+  }
   return {
     type: GET_G_CART,
-    gCart
+    gCart,
   }
 }
 
-export const addItemGuest = item => {
-  return async dispatch => {
+export const addItemGuest = (item) => {
+  return async (dispatch) => {
     const id = item.target.value
     const addedItem = await axios.get(`/api/products/${id}`)
     let currentCart = []
@@ -27,8 +35,23 @@ export const addItemGuest = item => {
   }
 }
 
+export const removeItemGuest = (id) => {
+  let currentCart = JSON.parse(localStorage.getItem('cart'))
+  const gCart = currentCart.filter((a) => a.data.id !== id)
+  localStorage.setItem('cart', JSON.stringify(gCart))
+  return {
+    type: GET_G_CART,
+    gCart,
+  }
+}
+
 export const clearGuestCart = () => {
   localStorage.setItem('cart', [])
+  let gCart = []
+  return {
+    type: GET_G_CART,
+    gCart,
+  }
 }
 
 const initialState = []

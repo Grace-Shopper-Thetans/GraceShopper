@@ -1,9 +1,27 @@
 const router = require('express').Router()
-const {OrdersProducts, Order} = require('../db/models')
+const {OrdersProducts, Order, User} = require('../db/models')
 
-router.get('/:cartId', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
   try {
-    const cart = await OrdersProducts.findByPk(req.params.cartId)
+    const order = await User.findAll({
+      where: {
+        id: req.params.userId
+      },
+      include: [
+        {
+          model: Order
+        }
+      ]
+    })
+    const orderId = order[0].dataValues.id
+    console.log(orderId)
+
+    const cart = await OrdersProducts.findAll({
+      where: {
+        orderId: orderId
+      }
+    })
+
     res.json(cart)
   } catch (error) {
     next(error)
@@ -38,6 +56,8 @@ router.delete('/:itemId/:userId', async (req, res, next) => {
         userId: userId
       }
     }).id
+
+    //console.log(orderId)
 
     const deleteId = await OrdersProducts.findByPk(orderId, {
       where: {
