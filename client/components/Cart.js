@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import {addToCart, deleteItem, fetchCart, getCart} from '../store/cart'
+import {addToCart, deleteItem, fetchCart} from '../store/cart'
 import {getGuestCart, removeItemGuest, clearGuestCart} from '../store/guestCart'
 
 export class Cart extends React.Component {
@@ -18,7 +18,9 @@ export class Cart extends React.Component {
   }
 
   componentDidMount() {
-    //this.props.getCart()
+    // if (this.props.userId) {
+    // }
+    this.props.getCart(this.props.userId)
     this.props.getGCart()
   }
 
@@ -40,6 +42,7 @@ export class Cart extends React.Component {
 
   render() {
     const userId = this.props.userId
+    console.log('THIS IS USERID', this.props)
     return (
       <div id="cart">
         {this.props.isLoggedIn ? (

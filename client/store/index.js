@@ -9,11 +9,11 @@ import user from './user'
 import guestReducer from './guestCart.js'
 
 const reducer = combineReducers({
-  user,
+  user: user,
   products: productReducer,
   product: singleProductReducer,
   cart: cartReducer,
-  gCart: guestReducer
+  gCart: guestReducer,
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
