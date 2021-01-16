@@ -14,6 +14,7 @@ class AllProducts extends React.Component {
       ranOnce: false,
     }
     this.onClick = this.onClick.bind(this)
+    this.numberWithCommas = this.numberWithCommas.bind(this)
   }
 
   componentDidMount() {
@@ -26,6 +27,10 @@ class AllProducts extends React.Component {
   onClick(event) {
     const filterBy = event.target.innerText
     this.props.filterProducts(this.props.products, filterBy)
+  }
+
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
   render() {
@@ -47,7 +52,9 @@ class AllProducts extends React.Component {
                   <h1 id="mpName">{product.name}</h1>
                   <h3 id="mpDesign">{product.designType}</h3>
                   <h3 id="mpColor">{product.color}</h3>
-                  <p id="mpPrice">{'$' + product.price}</p>
+                  <p id="mpPrice">
+                    {'$' + this.numberWithCommas(product.price)}
+                  </p>
                 </div>
                 <div id="allProductsButton">
                   {this.props.isLoggedIn ? (
@@ -84,7 +91,7 @@ class AllProducts extends React.Component {
 const mapStateToProps = (state) => ({
   products: state.products,
   isLoggedIn: !!state.user.id,
-  userId: state.user.id
+  userId: state.user.id,
 })
 
 const mapDispatchToProps = (dispatch) => ({
