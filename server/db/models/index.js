@@ -27,5 +27,5 @@ module.exports = {
   User,
   Product,
   OrdersProducts,
-  Order
+  Order,
 }
