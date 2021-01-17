@@ -35,15 +35,43 @@ router.get('/:userId', async (req, res, next) => {
       }
     }
 
-    const ordersProducts = await OrdersProducts.findAll({
+    let ordersProducts = await OrdersProducts.findAll({
       where: {
         orderId: orderIds
       }
     })
 
-    // user.orderProducts = ordersProducts
+    let uniqueIdCheck = []
 
-    res.send(ordersProducts)
+    for (let i = 0; i < ordersProducts.length; i++) {
+      if (!uniqueIdCheck.includes(ordersProducts[i].orderId)) {
+        uniqueIdCheck.push(ordersProducts[i].orderId)
+      }
+    }
+
+    let orders = []
+
+    for (let i = 0; i < uniqueIdCheck; i++) {
+      orders.push({})
+    }
+
+    ordersProducts.forEach(item => {
+      for (let i = 0; i < orders.length; i++) {
+        if (orders[i].id === undefined && orders[i].id !== item.orderId) {
+          orders[i] = {
+            date: item.createdAt,
+            id: item.orderId,
+            qty: 1,
+            finalPrice: item.finalPrice
+          }
+        } else {
+          orders[i].qty += 1
+          orders[i].finalPrice += item.finalPrice
+        }
+      }
+    })
+
+    res.send([user, orders])
   } catch (err) {
     next(err)
   }

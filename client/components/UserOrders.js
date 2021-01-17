@@ -5,29 +5,23 @@ import {connect} from 'react-redux'
 class UserOrders extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {orders: []}
+    this.state = {orderProducts: []}
   }
 
   async componentDidMount() {
     await this.props.userOrder(this.props.user.id)
-    this.setState({
-      orders: this.props.userOrders
-    })
+    this.setState({orderProducts: this.props.userOrders})
   }
 
   render() {
-    if (this.state.orders && this.state.orders.length > 0) {
-      console.log(this.state.orders)
-      // .filter(
-      //   (order) => order.status === 'true'
-      // )
+    if (this.state.orderProducts && this.state.orderProducts.length > 0) {
       return (
         <div id="orders">
           <h3>Past Orders:</h3>
-          {this.state.orders.map(order => {
-            console.log(order)
+          {this.state.orderProducts.map(order => {
             return (
               <div key={order.id}>
+                <h4>Order Date: {order.date.slice(0, 9)}</h4>
                 <h4>{order.qty} items</h4>
                 <h4>${order.finalPrice}</h4>
               </div>
@@ -54,7 +48,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    userOrders: state.user.orders
+    userOrders: state.user.orderProducts
   }
 }
 
