@@ -1,34 +1,55 @@
 import React from 'react'
+import {fetchUserOrder} from '../store/user'
+import {connect} from 'react-redux'
 
-const UserOrders = props => {
-  let orders = props.userData.orders
-  if (orders) {
-    orders = orders.filter(order => order.status === true)
+class UserOrders extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {orderProducts: []}
   }
-  if (orders !== undefined) {
+
+  async componentDidMount() {
+    await this.props.userOrder(this.props.user.id)
+    this.setState({orderProducts: this.props.userOrders})
+  }
+
+  render() {
+    if (this.state.orderProducts && this.state.orderProducts.length > 0) {
+      return (
+        <div id="orders">
+          <h3>Past Orders:</h3>
+          {this.state.orderProducts.map(order => {
+            return (
+              <div key={order.id}>
+                <h4>Order Date: {order.date.slice(0, 9)}</h4>
+                <h4>{order.qty} items</h4>
+                <h4>${order.finalPrice}</h4>
+              </div>
+            )
+          })}
+        </div>
+      )
+    }
     return (
       <div id="orders">
         <h3>Past Orders:</h3>
-        {orders.map(order => {
-          return (
-            <div key={order.id}>
-              <h4>
-                {order.createdAt +
-                  order.orders_products.qty +
-                  order.orders_products.finalPrice}
-              </h4>
-            </div>
-          )
-        })}
+        <h3>No Orders have been placed.</h3>
       </div>
     )
   }
-  return (
-    <div id="orders">
-      <h3>Past Orders:</h3>
-      <h3>No Orders have been placed.</h3>
-    </div>
-  )
 }
 
-export default UserOrders
+const mapDispatchToProps = dispatch => {
+  return {
+    userOrder: id => dispatch(fetchUserOrder(id))
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    userOrders: state.user.orderProducts
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserOrders)

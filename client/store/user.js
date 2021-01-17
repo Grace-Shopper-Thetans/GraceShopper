@@ -7,6 +7,7 @@ import history from '../history'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const UPDATE_USER = 'UPDATE_USER'
+const GET_USER_ORDER = 'GET_USER_ORDER'
 
 /**
  * INITIAL STATE
@@ -23,6 +24,9 @@ const updateUser = user => {
     type: UPDATE_USER,
     user
   }
+}
+const getUserOrder = (user, orders) => {
+  return {type: GET_USER_ORDER, user, orders}
 }
 
 /**
@@ -75,6 +79,17 @@ export const fetchUpdateUser = user => {
   }
 }
 
+export const fetchUserOrder = id => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get(`/api/users/${id}`)
+      dispatch(getUserOrder(data[0], data[1]))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
 /**
  * REDUCER
  */
@@ -86,6 +101,8 @@ export default function(state = defaultUser, action) {
       return defaultUser
     case UPDATE_USER:
       return action.user
+    case GET_USER_ORDER:
+      return {...action.user, orderProducts: action.orders}
     default:
       return state
   }

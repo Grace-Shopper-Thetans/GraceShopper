@@ -15,11 +15,15 @@ class Profile extends React.Component {
       streetAddress: this.props.user.streetAddress,
       state: this.props.user.state,
       city: this.props.user.city,
-      zip: this.props.user.zip
+      zip: this.props.user.zip,
+      id: this.props.user.id,
+      submitted: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this)
   }
+
   handleChange(event) {
     event.preventDefault()
     this.setState({
@@ -32,14 +36,35 @@ class Profile extends React.Component {
     if (this.state.name.length === 0) {
       alert('Username can not be blank!')
     }
+    this.setState({submitted: true})
     updateUser({...this.props.user, ...this.state})
-
-    console.log(this.props.user)
 
     event.target.reset()
   }
 
+  handleUpdate() {
+    this.setState({
+      submitted: false
+    })
+  }
+
   render() {
+    if (this.state.submitted) {
+      return (
+        <div>
+          <h3>Your changes have been saved!</h3>
+          <button
+            type="button"
+            onClick={() => {
+              this.handleUpdate()
+            }}
+          >
+            Make more changes
+          </button>
+        </div>
+      )
+    }
+
     return (
       <div id="orders">
         <form onSubmit={this.handleSubmit} className="login">
@@ -88,7 +113,7 @@ class Profile extends React.Component {
           />
           <button type="submit">Save Changes</button>
         </form>
-        <UserOrders userData={this.props.user} />
+        <UserOrders />
       </div>
     )
   }
