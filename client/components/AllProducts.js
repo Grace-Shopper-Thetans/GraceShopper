@@ -12,9 +12,11 @@ class AllProducts extends React.Component {
     super()
     this.state = {
       ranOnce: false,
+      mpImage: 'mpImage',
     }
     this.onClick = this.onClick.bind(this)
     this.numberWithCommas = this.numberWithCommas.bind(this)
+    this.addToGCart = this.addToGCart.bind(this)
   }
 
   componentDidMount() {
@@ -33,6 +35,16 @@ class AllProducts extends React.Component {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
+  addToGCart(e) {
+    e.persist()
+    e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImageRide'
+    function setBack() {
+      e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImage'
+    }
+    setTimeout(() => this.props.addGCart(e), 1500)
+    setTimeout(() => setBack(), 1510)
+  }
+
   render() {
     const products = this.props.products
     const userId = this.props.userId
@@ -43,9 +55,13 @@ class AllProducts extends React.Component {
         <div id="productsList">
           {products.map((product) => {
             return (
-              <div className="productContainer" key={product.id}>
+              <div
+                className="productContainer"
+                key={product.id}
+                onClick={this.ride}
+              >
                 <div className="imageContainer">
-                  <img id="mpImage" src={product.imageUrl} />
+                  <img id={this.state.mpImage} src={product.imageUrl} />
                 </div>
 
                 <div className="productText">
@@ -71,7 +87,7 @@ class AllProducts extends React.Component {
                       type="button"
                       id="addToCart"
                       value={product.id}
-                      onClick={this.props.addGCart}
+                      onClick={(e) => this.addToGCart(e)}
                     >
                       Add To Cart
                     </button>
