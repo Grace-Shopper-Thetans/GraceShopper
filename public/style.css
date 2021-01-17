@@ -223,6 +223,27 @@ nav a {
   margin-left: 75px;
 }
 
+@keyframes ride {
+  0% {
+    margin-left: 75px;
+  }
+  100% {
+    margin-left: 100%;
+    transform: rotate(-20deg);
+  }
+}
+
+#mpImageRide {
+  width: 33%;
+  max-width: 300px;
+  max-height: 170px;
+  margin-top: 20px;
+  margin-left: 75px;
+  animation-name: ride;
+  animation-duration: 1.5s;
+  animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+}
+
 #allProductsButton {
   margin-left: 75%;
   margin-bottom: 20px;
