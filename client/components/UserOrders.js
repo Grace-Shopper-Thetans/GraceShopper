@@ -5,11 +5,12 @@ import {connect} from 'react-redux'
 class UserOrders extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {orderProducts: []}
+    this.state = {orderProducts: [], id: 1}
   }
 
   async componentDidMount() {
-    await this.props.userOrder(this.props.user.id)
+    this.setState({id: this.props.user.id})
+    await this.props.userOrder(this.state.id)
     this.setState({orderProducts: this.props.userOrders})
   }
 
@@ -21,9 +22,10 @@ class UserOrders extends React.Component {
           {this.state.orderProducts.map(order => {
             return (
               <div key={order.id}>
-                <h4>Order Date: {order.date.slice(0, 9)}</h4>
-                <h4>{order.qty} items</h4>
-                <h4>${order.finalPrice}</h4>
+                <h4>
+                  {order.date.slice(0, 9)}...{order.qty} items ... $
+                  {order.finalPrice}
+                </h4>
               </div>
             )
           })}
