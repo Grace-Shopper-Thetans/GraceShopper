@@ -12,23 +12,52 @@ class AllProducts extends React.Component {
     super()
     this.state = {
       ranOnce: false,
-      mpImage: 'mpImage',
+      filters: {
+        type: 'none',
+        color: 'none',
+      },
+      allProducts: [],
     }
     this.onClick = this.onClick.bind(this)
     this.numberWithCommas = this.numberWithCommas.bind(this)
     this.addToGCart = this.addToGCart.bind(this)
+    this.resetFilter = this.resetFilter.bind(this)
   }
 
-  componentDidMount() {
-    this.props.getAllProducts()
+  async componentDidMount() {
+    await this.props.getAllProducts()
     this.setState({
       ranOnce: true,
+      allProducts: this.props.products,
     })
   }
 
-  onClick(event) {
+  async resetFilter() {
+    await this.setState({
+      filters: {
+        type: 'none',
+        color: 'none',
+      },
+    })
+    this.props.getAllProducts()
+  }
+
+  async onClick(event) {
+    const cName = event.target.className
     const filterBy = event.target.innerText
-    this.props.filterProducts(this.props.products, filterBy)
+    let filtersObj = {...this.state.filters}
+    if (filtersObj[cName] === filterBy) {
+      filtersObj[cName] = 'none'
+      await this.setState({filters: filtersObj})
+    } else {
+      filtersObj[cName] = filterBy
+      await this.setState({filters: filtersObj})
+    }
+    if (filtersObj.type === 'none' && filtersObj.color === 'none') {
+      this.resetFilter()
+    } else {
+      this.props.filterProducts(this.state.allProducts, this.state.filters)
+    }
   }
 
   numberWithCommas(x) {
@@ -51,7 +80,11 @@ class AllProducts extends React.Component {
 
     return this.state.ranOnce ? (
       <div id="allProducts">
-        <SideNavbar click={this.onClick} />
+        <SideNavbar
+          click={this.onClick}
+          resetFilter={this.resetFilter}
+          state={this.state.filters}
+        />
         <div id="productsList">
           {products.map((product) => {
             return (
@@ -61,7 +94,7 @@ class AllProducts extends React.Component {
                 onClick={this.ride}
               >
                 <div className="imageContainer">
-                  <img id={this.state.mpImage} src={product.imageUrl} />
+                  <img id="mpImage" src={product.imageUrl} />
                 </div>
 
                 <div className="productText">

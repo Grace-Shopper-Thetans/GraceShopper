@@ -113,7 +113,7 @@ nav a {
 }
 
 #allProducts {
-  width: 100vw;
+  /* width: 100vw; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -132,7 +132,7 @@ nav a {
   background-color: rgba(28, 28, 28, 0.851);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   position: fixed;
   left: 0;
   color: white;
@@ -207,7 +207,8 @@ nav a {
 }
 
 .productContainer {
-  margin-top: 36px;
+  margin-top: 18px;
+  margin-bottom: 18px;
   width: 100%;
   height: 500px;
   border-radius: 20px;
@@ -343,6 +344,7 @@ li:hover {
 
 .filterType {
   cursor: default;
+  margin-left: 20%;
 }
 
 #orders {
@@ -356,4 +358,36 @@ li:hover {
 
 #checkoutTotal {
   font-size: 20px;
+}
+
+#filterTitle {
+  text-align: center;
+  font-size: 20px;
+  font-family: 'Fredoka One', cursive;
+  margin-top: 25px;
+  align-self: center;
+}
+
+#filterType {
+  color: white;
+}
+
+#filterTypeSelected {
+  color: aquamarine;
+}
+
+#resetFilter {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 15px;
+  width: 65%;
+  height: 36px;
+  background-color: rgb(116, 168, 228);
+  transition-duration: 0.5s;
+  align-self: center;
+}
+
+#resetFilter:hover {
+  background-color: rgb(67, 121, 184);
 }

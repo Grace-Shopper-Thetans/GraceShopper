@@ -9,7 +9,7 @@ import {
   Navbar,
   LandingPage,
   Profile,
-  Cart
+  Cart,
 } from './components'
 import AllProducts from './components/AllProducts.js'
 import SingleProduct from './components/SingleProduct.js'
