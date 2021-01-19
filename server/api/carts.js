@@ -6,13 +6,13 @@ router.get('/', async (req, res, next) => {
   try {
     const order = await Order.findAll({
       where: {
-        userId: user
+        userId: user,
       },
       include: [
         {
-          model: Product
-        }
-      ]
+          model: Product,
+        },
+      ],
     })
 
     res.json(order)
@@ -21,42 +21,45 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.put('/', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     console.log(req.body)
     const newAddition = await Order.findOrCreate({
       where: {
-        userId: req.body.userId
-      }
+        userId: req.body.userId,
+      },
     })
     console.log(newAddition[0].dataValues.id)
     await OrdersProducts.create({
       productId: req.body.itemId,
-      orderId: newAddition[0].dataValues.id
+      orderId: newAddition[0].dataValues.id,
     })
+    res.send()
   } catch (error) {
     next(error)
   }
 })
 
-router.delete('/:itemId', async (req, res, next) => {
+router.delete('/:productId/:orderId', async (req, res, next) => {
   try {
-    const itemId = req.params.itemId
-
-    const orderId = await OrdersProducts.findAll({
+    await OrdersProducts.destroy({
       where: {
-        id: req.user.dataValues.id
-      }
+        productId: req.params.productId,
+        where: {
+          orderId: req.params.orderId,
+        },
+      },
     })
+    res.json('Item has been deleted')
+  } catch (error) {
+    next(error)
+  }
+})
 
-    console.log(orderId)
-
-    const deleteId = await OrdersProducts.findByPk(orderId, {
-      where: {
-        productId: itemId
-      }
-    })
-    !deleteId ? res.sendStatus(404) : await deleteId.destroy()
+router.delete('/:userId', async (req, res, next) => {
+  try {
+    await Order.destroy({where: {userId: req.params.userId}})
+    res.json('User cart deleted')
   } catch (error) {
     next(error)
   }

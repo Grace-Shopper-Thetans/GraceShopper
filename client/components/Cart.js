@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchUserOrder} from '../store'
 
-import {addToCart, deleteItem, fetchCart} from '../store/cart'
+import {deleteItem, fetchCart, clearCart} from '../store/cart'
 import {getGuestCart, removeItemGuest, clearGuestCart} from '../store/guestCart'
 
 export class Cart extends React.Component {
@@ -10,13 +10,14 @@ export class Cart extends React.Component {
     super()
     this.state = {
       checkout: false,
-      submitted: false
+      submitted: false,
       //id: this.props.user.id
     }
-    this.addToCart = this.addToCart.bind(this)
     this.updateCartGuest = this.updateCartGuest.bind(this)
     this.remove = this.remove.bind(this)
     this.numberWithCommas = this.numberWithCommas.bind(this)
+    this.removeItem = this.removeItem.bind(this)
+    this.clearUserCart = this.clearUserCart.bind(this)
   }
 
   componentDidMount() {
@@ -30,10 +31,6 @@ export class Cart extends React.Component {
     // this.props.getUserOrder(this.props.userId)
   }
 
-  addToCart(item) {
-    this.props.addCart(item)
-  }
-
   updateCartGuest() {
     this.props.getGCart()
   }
@@ -42,27 +39,38 @@ export class Cart extends React.Component {
     this.props.removeItemGuest(id)
   }
 
+  removeItem(e) {
+    this.props.delItem(e.target.value, this.props.cart[0].id)
+    this.props.getCart()
+  }
+
   numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
+  clearUserCart() {
+    this.props.clearCart(this.props.userId)
+  }
+
   render() {
-    const userId = this.props.userId
-    console.log(this.props.cart)
+    console.log('this is cart', this.props.cart)
     return (
       <div id="cart">
         {this.props.isLoggedIn ? (
           <div id="cart">
             <h1 id="cartTitle">Cart</h1>
-            {this.props.cart ? (
-              this.props.cart[0].products.map(item => (
+            <button id="clearCart" type="button" onClick={this.clearUserCart}>
+              Clear Cart
+            </button>
+            {this.props.cart[0] ? (
+              this.props.cart[0].products.map((item) => (
                 <div key={item.id} id="cartItem">
                   <h3 id="ciName">{item.name}</h3>
                   <img src={item.imageUrl} id="cartImage" />
                   <h4 id="ciPrice">Price: ${item.price}</h4>
                   <button
                     value={item.id}
-                    onClick={this.props.delItem}
+                    onClick={this.removeItem}
                     type="button"
                     id="removeFromCart"
                   >
@@ -88,7 +96,7 @@ export class Cart extends React.Component {
                 >
                   Clear Cart
                 </button>
-                {this.props.gCart.map(item => (
+                {this.props.gCart.map((item) => (
                   <div key={item.data.id} id="cartItem">
                     <h3 id="ciName">{item.data.name}</h3>
                     <img src={item.data.imageUrl} id="cartImage" />
@@ -134,22 +142,22 @@ export class Cart extends React.Component {
   }
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   cart: state.cart,
   isLoggedIn: !!state.user.id,
   gCart: state.gCart,
   user: state.user,
-  //userCart: state.orderProducts,
-  userId: state.user.id
+  userCart: state.orderProducts,
+  userId: state.user.id,
 })
 
-const mapDispatch = dispatch => ({
-  getCart: userId => dispatch(fetchCart(userId)),
-  //addCart: (item) => dispatch(addToCart(item)),
-  delItem: item => dispatch(deleteItem(item)),
+const mapDispatch = (dispatch) => ({
+  getCart: (userId) => dispatch(fetchCart(userId)),
+  delItem: (itemId, orderId) => dispatch(deleteItem(itemId, orderId)),
   getGCart: () => dispatch(getGuestCart()),
-  removeItemGuest: id => dispatch(removeItemGuest(id)),
+  removeItemGuest: (id) => dispatch(removeItemGuest(id)),
   clearGuestCart: () => dispatch(clearGuestCart()),
-  getUserOrder: id => dispatch(fetchUserOrder(id))
+  getUserOrder: (id) => dispatch(fetchUserOrder(id)),
+  clearCart: (userId) => dispatch(clearCart(userId)),
 })
 export default connect(mapState, mapDispatch)(Cart)

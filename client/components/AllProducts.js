@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {addToCart} from '../store/cart.js'
+import {addToCart, fetchCart} from '../store/cart.js'
 import {addItemGuest} from '../store/guestCart.js'
 import {fetchProducts, filterProducts} from '../store/products.js'
 import user from '../store/user.js'
@@ -23,6 +23,7 @@ class AllProducts extends React.Component {
     this.addToGCart = this.addToGCart.bind(this)
     this.resetFilter = this.resetFilter.bind(this)
     this.toSingleProduct = this.toSingleProduct.bind(this)
+    this.addCart = this.addCart.bind(this)
   }
 
   async componentDidMount() {
@@ -79,6 +80,11 @@ class AllProducts extends React.Component {
     this.props.history.push(`/products/${e.target.className}`)
   }
 
+  async addCart(e) {
+    await this.props.addCart(e)
+    await this.props.getCart()
+  }
+
   render() {
     const products = this.props.products
     const userId = this.props.userId
@@ -127,7 +133,7 @@ class AllProducts extends React.Component {
                       type="button"
                       id="addToCart"
                       value={[product.id, userId]}
-                      onClick={this.props.addCart}
+                      onClick={this.addCart}
                     >
                       Add To Cart
                     </button>
@@ -163,8 +169,9 @@ const mapDispatchToProps = (dispatch) => ({
   getAllProducts: () => dispatch(fetchProducts()),
   filterProducts: (products, filterBy) =>
     dispatch(filterProducts(products, filterBy)),
-  addCart: (item) => dispatch(addToCart(item)),
+  addCart: (itemId, userId) => dispatch(addToCart(itemId, userId)),
   addGCart: (item) => dispatch(addItemGuest(item)),
+  getCart: (userId) => dispatch(fetchCart(userId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)
