@@ -14,7 +14,7 @@ async function seed() {
       streetAddress: '32 Lake Drive',
       state: 'NY',
       city: 'Elmhurst',
-      zip: 11375
+      zip: 11375,
     }),
     User.create({
       email: 'murphy@email.com',
@@ -23,8 +23,8 @@ async function seed() {
       streetAddress: '42 Brown St',
       state: 'FL',
       city: 'Miami',
-      zip: 24323
-    })
+      zip: 24323,
+    }),
   ])
 
   const products = await Promise.all([
@@ -32,62 +32,66 @@ async function seed() {
       name: 'DareD3vil',
       price: 17000,
       isSold: false,
-      description: 'meh',
+      description:
+        'Authentic Harley-Davidson style through and through, dripping with power. The rubber-mounted 883cc Evolution® engine runs hard and rides smooth for thousands of miles so you can just worry about taking in the freedom of boulevards and back streets.',
       designType: 'Chopper',
       color: 'Blue',
       imageUrl:
-        'https://i.pinimg.com/originals/fc/e4/4c/fce44cc0e71403d6dc30e718aab22736.png'
+        'https://i.pinimg.com/originals/fc/e4/4c/fce44cc0e71403d6dc30e718aab22736.png',
     }),
     Product.create({
       name: '$p33d D3mon',
       price: 9000,
       isSold: false,
-      description: 'meh',
+      description:
+        'Authentic Harley-Davidson style through and through, dripping with power. The rubber-mounted 883cc Evolution® engine runs hard and rides smooth for thousands of miles so you can just worry about taking in the freedom of boulevards and back streets.',
       designType: 'Sport Bike',
       color: 'Silver',
       imageUrl:
-        'https://purepng.com/public/uploads/large/purepng.com-motorcyclemotorcyclemotorbikebikecycleracing-bike-1701527510056xqtwf.png'
+        'https://purepng.com/public/uploads/large/purepng.com-motorcyclemotorcyclemotorbikebikecycleracing-bike-1701527510056xqtwf.png',
     }),
     Product.create({
       name: 'Big Boi',
       price: 2200,
       isSold: false,
-      description: 'meh',
+      description:
+        'Authentic Harley-Davidson style through and through, dripping with power. The rubber-mounted 883cc Evolution® engine runs hard and rides smooth for thousands of miles so you can just worry about taking in the freedom of boulevards and back streets.',
       designType: 'Chopper',
       color: 'Blue',
       imageUrl:
-        'https://www.indianmotorcyclelakeville.com/images/indianmotorcyclelakeville-slide-elite.png'
+        'https://www.indianmotorcyclelakeville.com/images/indianmotorcyclelakeville-slide-elite.png',
     }),
     Product.create({
       name: `Trouble's Come'n`,
       price: 14000,
       isSold: false,
-      description: 'meh',
+      description:
+        'Authentic Harley-Davidson style through and through, dripping with power. The rubber-mounted 883cc Evolution® engine runs hard and rides smooth for thousands of miles so you can just worry about taking in the freedom of boulevards and back streets.',
       designType: 'Dirt Bike',
       color: 'Silver',
       imageUrl:
-        'https://www.pngkey.com/png/full/256-2568579_dirt-bike-png-clipart-library-library-2011-ktm.png'
-    })
+        'https://www.pngkey.com/png/full/256-2568579_dirt-bike-png-clipart-library-library-2011-ktm.png',
+    }),
   ])
 
   const orders = await Promise.all([
     Order.create({
-      status: true
-    })
+      status: true,
+    }),
   ])
 
   const dummyId = [1, 2, 3]
 
   const order = await Order.findOne({
     where: {
-      id: 1
-    }
+      id: 1,
+    },
   })
 
   const user = await User.findOne({
     where: {
-      id: 1
-    }
+      id: 1,
+    },
   })
 
   await order.addProduct(dummyId)

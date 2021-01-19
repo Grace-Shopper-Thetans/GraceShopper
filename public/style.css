@@ -106,12 +106,6 @@ nav a {
   background-color: rgb(179, 118, 4);
 }
 
-#singleProductImage {
-  max-width: 700px;
-  height: auto;
-  object-fit: contain;
-}
-
 #allProducts {
   /* width: 100vw; */
   display: flex;
@@ -222,6 +216,7 @@ nav a {
   max-height: 170px;
   margin-top: 20px;
   margin-left: 75px;
+  cursor: pointer;
 }
 
 @keyframes ride {
@@ -317,6 +312,7 @@ nav a {
 #mpName {
   margin-left: 12.5%;
   font-family: 'Hanalei Fill', cursive;
+  cursor: pointer;
 }
 
 #mpDesign {
@@ -352,8 +348,12 @@ li:hover {
 }
 
 #loginDiv {
+  position: absolute;
   margin-top: 120px;
   margin-left: 25px;
+  background-color: rgba(208, 208, 208, 0.652);
+  padding: 20px;
+  border-radius: 15px;
 }
 
 #checkoutTotal {
@@ -390,4 +390,77 @@ li:hover {
 
 #resetFilter:hover {
   background-color: rgb(67, 121, 184);
+}
+
+#singleProduct {
+  margin-top: 125px;
+  margin-left: 50px;
+  width: 70%;
+  position: absolute;
+  border-radius: 20px;
+  background-color: rgba(191, 191, 191, 0.851);
+  min-width: 720px;
+  display: flex;
+  flex-direction: column;
+}
+
+#addToCartSingle {
+  height: 50px;
+  width: 30%;
+  margin-left: 65%;
+  margin-bottom: 15px;
+  cursor: pointer;
+  border-radius: 15px;
+  border: none;
+  transition-duration: 0.15s;
+  font-size: 15px;
+  color: white;
+  background-color: rgb(25, 47, 55);
+  outline: none;
+}
+
+#addToCartSingle:hover {
+  transform: scale(1.05);
+}
+
+#singleProductImage {
+  z-index: 3;
+  width: 45%;
+  max-width: 450px;
+  max-height: 255px;
+  margin-top: 20px;
+  margin-left: 75px;
+}
+
+#singleProductImageRide {
+  z-index: 3;
+  width: 45%;
+  max-width: 450px;
+  max-height: 255px;
+  margin-top: 20px;
+  margin-left: 75px;
+  animation-name: ride;
+  animation-duration: 1.5s;
+  animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+}
+
+#singleProductDescription {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(95, 158, 160, 0.357);
+  margin-right: 10px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 40%;
+  height: 90%;
+  border-radius: 15px;
+  line-height: 25px;
+  padding: 10px;
+  z-index: 2;
+}
+
+#imageAndDescription {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
