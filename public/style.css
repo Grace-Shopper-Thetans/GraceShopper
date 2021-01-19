@@ -464,3 +464,97 @@ li:hover {
   flex-direction: row;
   justify-content: space-between;
 }
+
+#goBack {
+  border: none;
+  cursor: pointer;
+  background-color: rgb(218, 75, 75);
+  border-radius: 15px;
+  margin-bottom: 15px;
+  width: 125px;
+  height: 36px;
+  align-self: center;
+  transition-duration: 0.5s;
+  outline: none;
+}
+
+#goBack:hover {
+  background-color: rgb(174, 30, 30);
+}
+
+#finalize {
+  border: none;
+  cursor: pointer;
+  background-color: rgb(51, 163, 45);
+  border-radius: 15px;
+  margin-bottom: 15px;
+  width: 125px;
+  height: 36px;
+  align-self: center;
+  transition-duration: 0.5s;
+  outline: none;
+}
+
+#finalize:hover {
+  background-color: rgb(30, 123, 26);
+}
+
+#finalizeDisabled {
+  border: none;
+  cursor: not-allowed;
+  background-color: rgb(39, 63, 37);
+  border-radius: 15px;
+  margin-bottom: 15px;
+  width: 125px;
+  height: 36px;
+  align-self: center;
+  transition-duration: 0.5s;
+  outline: none;
+  color: rgb(181, 181, 181);
+}
+
+#newOrder {
+  border: none;
+  cursor: pointer;
+  background-color: rgb(116, 168, 228);
+  border-radius: 15px;
+  margin-bottom: 15px;
+  width: 125px;
+  height: 36px;
+  align-self: center;
+  transition-duration: 0.5s;
+  outline: none;
+}
+
+#newOrder:hover {
+  background-color: rgb(67, 121, 184);
+}
+
+#guestMessage {
+  text-align: center;
+  width: 80%;
+  margin-bottom: 36px;
+}
+
+#checkoutInput {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+}
+
+#checkoutForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#checkoutItems {
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+
+#checkoutTotal {
+  margin-bottom: 36px;
+}

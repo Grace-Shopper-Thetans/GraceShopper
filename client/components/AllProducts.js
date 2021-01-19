@@ -3,9 +3,11 @@ import {connect} from 'react-redux'
 import {addToCart, fetchCart} from '../store/cart.js'
 import {addItemGuest} from '../store/guestCart.js'
 import {fetchProducts, filterProducts} from '../store/products.js'
+import AddItemAdmin from './AddItemAdmin'
 import user from '../store/user.js'
 
 import SideNavbar from './Filters'
+import axios from 'axios'
 
 class AllProducts extends React.Component {
   constructor() {
@@ -24,6 +26,9 @@ class AllProducts extends React.Component {
     this.resetFilter = this.resetFilter.bind(this)
     this.toSingleProduct = this.toSingleProduct.bind(this)
     this.addCart = this.addCart.bind(this)
+
+    this.removeItemAdmin = this.removeItemAdmin.bind(this)
+
   }
 
   async componentDidMount() {
@@ -85,10 +90,15 @@ class AllProducts extends React.Component {
     await this.props.getCart()
   }
 
+  async removeItemAdmin(e) {
+    await axios.delete(`/api/products/${e.target.value}`)
+
+    this.props.getAllProducts()
+  }
+
   render() {
     const products = this.props.products
     const userId = this.props.userId
-    console.log('products', products)
     return this.state.ranOnce ? (
       <div id="allProducts">
         <SideNavbar
@@ -96,7 +106,9 @@ class AllProducts extends React.Component {
           resetFilter={this.resetFilter}
           state={this.state.filters}
         />
+
         <div id="productsList">
+          {this.props.isAdmin ? <AddItemAdmin /> : ''}
           {products.map((product) => {
             return (
               <div
@@ -148,6 +160,17 @@ class AllProducts extends React.Component {
                     </button>
                   )}
                 </div>
+                {this.props.isAdmin ? (
+                  <button
+                    type="button"
+                    value={product.id}
+                    onClick={this.removeItemAdmin}
+                  >
+                    REMOVE ITEM
+                  </button>
+                ) : (
+                  ''
+                )}
               </div>
             )
           })}
@@ -163,6 +186,7 @@ const mapStateToProps = (state) => ({
   products: state.products,
   isLoggedIn: !!state.user.id,
   userId: state.user.id,
+  isAdmin: state.user.isAdmin,
 })
 
 const mapDispatchToProps = (dispatch) => ({

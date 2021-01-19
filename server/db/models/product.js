@@ -6,36 +6,37 @@ const Product = db.define('product', {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      notEmpty: true
-    }
+      notEmpty: true,
+    },
   },
 
   price: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
   },
 
   isSold: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   },
 
   description: {
-    type: Sequelize.TEXT
+    type: Sequelize.TEXT,
   },
 
   imageUrl: {
     type: Sequelize.TEXT,
     defaultValue:
-      'https://www.pngarts.com/files/4/Motorcycle-Transparent-Background-PNG.png'
+      'https://www.pngarts.com/files/4/Motorcycle-Transparent-Background-PNG.png',
   },
 
   designType: {
     type: Sequelize.ENUM,
-    values: ['Chopper', 'Sport Bike', 'Dirt Bike']
+    values: ['Chopper', 'Sport Bike', 'Dirt Bike'],
   },
 
   color: {
-    type: Sequelize.STRING
-  }
+    type: Sequelize.STRING,
+  },
 })
 
 module.exports = Product
