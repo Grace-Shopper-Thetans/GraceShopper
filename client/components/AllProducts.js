@@ -7,6 +7,7 @@ import AddItemAdmin from './AddItemAdmin'
 import user from '../store/user.js'
 
 import SideNavbar from './Filters'
+import axios from 'axios'
 
 class AllProducts extends React.Component {
   constructor() {
@@ -24,6 +25,7 @@ class AllProducts extends React.Component {
     this.addToGCart = this.addToGCart.bind(this)
     this.resetFilter = this.resetFilter.bind(this)
     this.toSingleProduct = this.toSingleProduct.bind(this)
+    this.removeItemAdmin = this.removeItemAdmin.bind(this)
   }
 
   async componentDidMount() {
@@ -80,10 +82,15 @@ class AllProducts extends React.Component {
     this.props.history.push(`/products/${e.target.className}`)
   }
 
+  async removeItemAdmin(e) {
+    await axios.delete(`/api/products/${e.target.value}`)
+
+    this.props.getAllProducts()
+  }
+
   render() {
     const products = this.props.products
     const userId = this.props.userId
-    console.log('products', products)
     return this.state.ranOnce ? (
       <div id="allProducts">
         <SideNavbar
@@ -145,6 +152,17 @@ class AllProducts extends React.Component {
                     </button>
                   )}
                 </div>
+                {this.props.isAdmin ? (
+                  <button
+                    type="button"
+                    value={product.id}
+                    onClick={this.removeItemAdmin}
+                  >
+                    REMOVE ITEM
+                  </button>
+                ) : (
+                  ''
+                )}
               </div>
             )
           })}

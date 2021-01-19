@@ -29,4 +29,17 @@ router.put('/', async (req, res, next) => {
   }
 })
 
+router.delete('/:productId', async (req, res, next) => {
+  try {
+    await Product.destroy({
+      where: {
+        id: req.params.productId,
+      },
+    })
+    res.send()
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router
