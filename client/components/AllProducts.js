@@ -22,6 +22,7 @@ class AllProducts extends React.Component {
     this.numberWithCommas = this.numberWithCommas.bind(this)
     this.addToGCart = this.addToGCart.bind(this)
     this.resetFilter = this.resetFilter.bind(this)
+    this.toSingleProduct = this.toSingleProduct.bind(this)
   }
 
   async componentDidMount() {
@@ -74,10 +75,14 @@ class AllProducts extends React.Component {
     setTimeout(() => setBack(), 1510)
   }
 
+  toSingleProduct(e) {
+    this.props.history.push(`/products/${e.target.className}`)
+  }
+
   render() {
     const products = this.props.products
     const userId = this.props.userId
-
+    console.log('products', products)
     return this.state.ranOnce ? (
       <div id="allProducts">
         <SideNavbar
@@ -94,11 +99,22 @@ class AllProducts extends React.Component {
                 onClick={this.ride}
               >
                 <div className="imageContainer">
-                  <img id="mpImage" src={product.imageUrl} />
+                  <img
+                    id="mpImage"
+                    src={product.imageUrl}
+                    className={product.id}
+                    onClick={(e) => this.toSingleProduct(e)}
+                  />
                 </div>
 
                 <div className="productText">
-                  <h1 id="mpName">{product.name}</h1>
+                  <h1
+                    id="mpName"
+                    className={product.id}
+                    onClick={(e) => this.toSingleProduct(e)}
+                  >
+                    {product.name}
+                  </h1>
                   <h3 id="mpDesign">{product.designType}</h3>
                   <h3 id="mpColor">{product.color}</h3>
                   <p id="mpPrice">
