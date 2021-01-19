@@ -1,28 +1,21 @@
 const router = require('express').Router()
-const {OrdersProducts, Order, User} = require('../db/models')
+const {OrdersProducts, Order, User, Product} = require('../db/models')
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
+  let user = req.user.dataValues.id
   try {
-    const order = await User.findAll({
+    const order = await Order.findAll({
       where: {
-        id: req.params.userId
+        userId: user
       },
       include: [
         {
-          model: Order
+          model: Product
         }
       ]
     })
-    const orderId = order[0].dataValues.id
-    console.log(orderId)
 
-    const cart = await OrdersProducts.findAll({
-      where: {
-        orderId: orderId
-      }
-    })
-
-    res.json(cart)
+    res.json(order)
   } catch (error) {
     next(error)
   }
@@ -46,18 +39,17 @@ router.put('/', async (req, res, next) => {
   }
 })
 
-router.delete('/:itemId/:userId', async (req, res, next) => {
+router.delete('/:itemId', async (req, res, next) => {
   try {
     const itemId = req.params.itemId
-    const userId = req.params.userId
 
-    const orderId = await Order.findAll({
+    const orderId = await OrdersProducts.findAll({
       where: {
-        userId: userId
+        id: req.user.dataValues.id
       }
-    }).id
+    })
 
-    //console.log(orderId)
+    console.log(orderId)
 
     const deleteId = await OrdersProducts.findByPk(orderId, {
       where: {
