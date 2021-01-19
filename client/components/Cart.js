@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchUserOrder} from '../store'
 
-import {addToCart, deleteItem, fetchCart} from '../store/cart'
+import {deleteItem, fetchCart, clearCart} from '../store/cart'
 import {getGuestCart, removeItemGuest, clearGuestCart} from '../store/guestCart'
 
 export class Cart extends React.Component {
@@ -20,10 +20,11 @@ export class Cart extends React.Component {
       vCode: '',
       exDate: '',
     }
-    this.addToCart = this.addToCart.bind(this)
     this.updateCartGuest = this.updateCartGuest.bind(this)
     this.remove = this.remove.bind(this)
     this.numberWithCommas = this.numberWithCommas.bind(this)
+    this.removeItem = this.removeItem.bind(this)
+    this.clearUserCart = this.clearUserCart.bind(this)
     this.proceed = this.proceed.bind(this)
     this.recede = this.recede.bind(this)
     this.newOrder = this.newOrder.bind(this)
@@ -42,10 +43,6 @@ export class Cart extends React.Component {
     // this.props.getUserOrder(this.props.userId)
   }
 
-  addToCart(item) {
-    this.props.addCart(item)
-  }
-
   updateCartGuest() {
     this.props.getGCart()
   }
@@ -54,8 +51,17 @@ export class Cart extends React.Component {
     this.props.removeItemGuest(id)
   }
 
+  removeItem(e) {
+    this.props.delItem(e.target.value, this.props.cart[0].id)
+    this.props.getCart()
+  }
+
   numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
+  clearUserCart() {
+    this.props.clearCart(this.props.userId)
   }
 
   proceed() {
@@ -107,6 +113,9 @@ export class Cart extends React.Component {
         {this.props.isLoggedIn ? (
           <div id="cart">
             <h1 id="cartTitle">Cart</h1>
+            <button id="clearCart" type="button" onClick={this.clearUserCart}>
+              Clear Cart
+            </button>
             {this.props.cart[0] ? (
               this.props.cart[0].products.map((item) => (
                 <div key={item.id} id="cartItem">
@@ -115,7 +124,7 @@ export class Cart extends React.Component {
                   <h4 id="ciPrice">Price: ${item.price}</h4>
                   <button
                     value={item.id}
-                    onClick={this.props.delItem}
+                    onClick={this.removeItem}
                     type="button"
                     id="removeFromCart"
                   >
@@ -318,17 +327,17 @@ const mapState = (state) => ({
   isLoggedIn: !!state.user.id,
   gCart: state.gCart,
   user: state.user,
-  //userCart: state.orderProducts,
+  userCart: state.orderProducts,
   userId: state.user.id,
 })
 
 const mapDispatch = (dispatch) => ({
   getCart: (userId) => dispatch(fetchCart(userId)),
-  //addCart: (item) => dispatch(addToCart(item)),
-  delItem: (item) => dispatch(deleteItem(item)),
+  delItem: (itemId, orderId) => dispatch(deleteItem(itemId, orderId)),
   getGCart: () => dispatch(getGuestCart()),
   removeItemGuest: (id) => dispatch(removeItemGuest(id)),
   clearGuestCart: () => dispatch(clearGuestCart()),
   getUserOrder: (id) => dispatch(fetchUserOrder(id)),
+  clearCart: (userId) => dispatch(clearCart(userId)),
 })
 export default connect(mapState, mapDispatch)(Cart)
