@@ -45,9 +45,7 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
     await OrdersProducts.destroy({
       where: {
         productId: req.params.productId,
-        where: {
-          orderId: req.params.orderId,
-        },
+        orderId: req.params.orderId,
       },
     })
     res.json('Item has been deleted')
