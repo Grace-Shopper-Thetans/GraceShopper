@@ -19,4 +19,40 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
+router.put('/', async (req, res, next) => {
+  try {
+    console.log(req.body)
+    const product = await Product.create(req.body)
+    res.json(product)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.delete('/:productId', async (req, res, next) => {
+  try {
+    await Product.destroy({
+      where: {
+        id: req.params.productId,
+      },
+    })
+    res.send()
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:productId', async (req, res, next) => {
+  try {
+    await Product.update(req.body, {
+      where: {
+        id: req.params.productId,
+      },
+    })
+    res.send()
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router

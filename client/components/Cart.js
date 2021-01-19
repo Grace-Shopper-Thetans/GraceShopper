@@ -107,7 +107,7 @@ export class Cart extends React.Component {
         {this.props.isLoggedIn ? (
           <div id="cart">
             <h1 id="cartTitle">Cart</h1>
-            {this.props.cart ? (
+            {this.props.cart[0] ? (
               this.props.cart[0].products.map((item) => (
                 <div key={item.id} id="cartItem">
                   <h3 id="ciName">{item.name}</h3>
