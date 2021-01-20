@@ -57,6 +57,11 @@ export const removeItemGuest = (id) => {
   }
 }
 
+export const completeGuestOrder = async (order) => {
+  let orderFromDb = await axios.post('/api/carts/guestorder', order)
+  return orderFromDb
+}
+
 export const clearGuestCart = () => {
   localStorage.setItem('cart', [])
   let gCart = []

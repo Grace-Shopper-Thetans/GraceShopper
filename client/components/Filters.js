@@ -3,7 +3,7 @@ import React from 'react'
 const SideNavbar = (props) => {
   const onClick = props.click
   const bikeTypes = ['Chopper', 'Sport Bike', 'Dirt Bike']
-  const colors = ['Silver', 'Blue']
+  const colors = ['Black', 'Blue', 'Green', 'Orange', 'Red', 'Silver', 'Yellow']
 
   return (
     <div id="sideNavBar">

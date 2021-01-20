@@ -28,12 +28,11 @@ class AllProducts extends React.Component {
     this.addCart = this.addCart.bind(this)
 
     this.removeItemAdmin = this.removeItemAdmin.bind(this)
-
   }
 
   async componentDidMount() {
     await this.props.getAllProducts()
-    this.setState({
+    await this.setState({
       ranOnce: true,
       allProducts: this.props.products,
     })
@@ -106,75 +105,78 @@ class AllProducts extends React.Component {
           resetFilter={this.resetFilter}
           state={this.state.filters}
         />
+        {this.props.products.length ? (
+          <div id="productsList">
+            {this.props.isAdmin ? <AddItemAdmin /> : ''}
+            {products.map((product) => {
+              return (
+                <div
+                  className="productContainer"
+                  key={product.id}
+                  onClick={this.ride}
+                >
+                  <div className="imageContainer">
+                    <img
+                      id="mpImage"
+                      src={product.imageUrl}
+                      className={product.id}
+                      onClick={(e) => this.toSingleProduct(e)}
+                    />
+                  </div>
 
-        <div id="productsList">
-          {this.props.isAdmin ? <AddItemAdmin /> : ''}
-          {products.map((product) => {
-            return (
-              <div
-                className="productContainer"
-                key={product.id}
-                onClick={this.ride}
-              >
-                <div className="imageContainer">
-                  <img
-                    id="mpImage"
-                    src={product.imageUrl}
-                    className={product.id}
-                    onClick={(e) => this.toSingleProduct(e)}
-                  />
-                </div>
-
-                <div className="productText">
-                  <h1
-                    id="mpName"
-                    className={product.id}
-                    onClick={(e) => this.toSingleProduct(e)}
-                  >
-                    {product.name}
-                  </h1>
-                  <h3 id="mpDesign">{product.designType}</h3>
-                  <h3 id="mpColor">{product.color}</h3>
-                  <p id="mpPrice">
-                    {'$' + this.numberWithCommas(product.price)}
-                  </p>
-                </div>
-                <div id="allProductsButton">
-                  {this.props.isLoggedIn ? (
+                  <div className="productText">
+                    <h1
+                      id="mpName"
+                      className={product.id}
+                      onClick={(e) => this.toSingleProduct(e)}
+                    >
+                      {product.name}
+                    </h1>
+                    <h3 id="mpDesign">{product.designType}</h3>
+                    <h3 id="mpColor">{product.color}</h3>
+                    <p id="mpPrice">
+                      {'$' + this.numberWithCommas(product.price)}
+                    </p>
+                  </div>
+                  <div id="allProductsButton">
+                    {this.props.isLoggedIn ? (
+                      <button
+                        type="button"
+                        id="addToCart"
+                        value={[product.id, userId]}
+                        onClick={this.addCart}
+                      >
+                        Add To Cart
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        id="addToCart"
+                        value={product.id}
+                        onClick={(e) => this.addToGCart(e)}
+                      >
+                        Add To Cart
+                      </button>
+                    )}
+                  </div>
+                  {this.props.isAdmin ? (
                     <button
                       type="button"
-                      id="addToCart"
-                      value={[product.id, userId]}
-                      onClick={this.addCart}
+                      value={product.id}
+                      onClick={this.removeItemAdmin}
                     >
-                      Add To Cart
+                      REMOVE ITEM
                     </button>
                   ) : (
-                    <button
-                      type="button"
-                      id="addToCart"
-                      value={product.id}
-                      onClick={(e) => this.addToGCart(e)}
-                    >
-                      Add To Cart
-                    </button>
+                    ''
                   )}
                 </div>
-                {this.props.isAdmin ? (
-                  <button
-                    type="button"
-                    value={product.id}
-                    onClick={this.removeItemAdmin}
-                  >
-                    REMOVE ITEM
-                  </button>
-                ) : (
-                  ''
-                )}
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
+        ) : (
+          <h1 id="noMatch">No products match these fields, sorry!</h1>
+        )}
       </div>
     ) : (
       <h1>Loading...</h1>
