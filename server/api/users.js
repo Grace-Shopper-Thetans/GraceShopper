@@ -41,30 +41,23 @@ router.get('/:userId', async (req, res, next) => {
       }
     })
 
-    let uniqueIdCheck = []
-
-    for (let i = 0; i < ordersProducts.length; i++) {
-      if (!uniqueIdCheck.includes(ordersProducts[i].orderId)) {
-        uniqueIdCheck.push(ordersProducts[i].orderId)
-      }
-    }
-
     let orders = []
 
-    for (let i = 0; i < uniqueIdCheck; i++) {
+    for (let i = 0; i < orderIds.length; i++) {
       orders.push({})
     }
 
+    // && orders[i].id !== item.orderId
+
     ordersProducts.forEach(item => {
       for (let i = 0; i < orders.length; i++) {
-        if (orders[i].id === undefined && orders[i].id !== item.orderId) {
-          orders[i] = {
-            date: item.createdAt,
-            id: item.orderId,
-            qty: 1,
-            finalPrice: item.finalPrice
-          }
-        } else {
+        if (orders[i].id === undefined) {
+          orders[i].date = item.createdAt
+          orders[i].id = item.orderId
+          orders[i].qty = 1
+          orders[i].finalPrice = item.finalPrice
+          //Change this else if block
+        } else if (orders[i].id === item.orderId) {
           orders[i].qty += 1
           orders[i].finalPrice += item.finalPrice
         }

@@ -38,8 +38,6 @@ class Profile extends React.Component {
     }
     this.setState({submitted: true})
     updateUser({...this.props.user, ...this.state})
-
-    event.target.reset()
   }
 
   handleUpdate() {
@@ -49,71 +47,76 @@ class Profile extends React.Component {
   }
 
   render() {
-    if (this.state.submitted) {
-      return (
-        <div>
-          <h3>Your changes have been saved!</h3>
-          <button
-            type="button"
-            onClick={() => {
-              this.handleUpdate()
-            }}
-          >
-            Make more changes
-          </button>
-        </div>
-      )
-    }
-
     return (
-      <div id="orders">
-        <form onSubmit={this.handleSubmit} className="login">
-          <h3>Update your account info:</h3>
-          <label htmlFor="username">Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={this.state.name || ''}
-            onChange={this.handleChange}
-          />
-          <label htmlFor="email">Email: </label>
-          <input
-            type="text"
-            name="email"
-            value={this.state.email || ''}
-            onChange={this.handleChange}
-          />
-          <label htmlFor="streetAddress">Street Address:</label>
-          <input
-            type="text"
-            name="address"
-            value={this.state.streetAddress || ''}
-            onChange={this.handleChange}
-          />
-          <label htmlFor="state">State: </label>
-          <input
-            type="text"
-            name="state"
-            value={this.state.state || ''}
-            onChange={this.handleChange}
-          />
-          <label htmlFor="city">City: </label>
-          <input
-            type="text"
-            name="city"
-            value={this.state.city || ''}
-            onChange={this.handleChange}
-          />
-          <label htmlFor="zip">Zip: </label>
-          <input
-            type="text"
-            name="zip"
-            value={this.state.zip || ''}
-            onChange={this.handleChange}
-          />
-          <button type="submit">Save Changes</button>
-        </form>
-        <UserOrders />
+      <div>
+        {this.state.submitted ? (
+          <div id="changesSaved">
+            <h3>Your changes have been saved!</h3>
+            <button
+              type="button"
+              onClick={() => {
+                this.handleUpdate()
+              }}
+            >
+              Make more changes
+            </button>
+          </div>
+        ) : (
+          <div id="profile">
+            <form
+              onSubmit={this.handleSubmit}
+              className="login"
+              id="updateProfile"
+            >
+              <h3>Update your account info:</h3>
+              <label htmlFor="username">Name:</label>
+              <input
+                type="text"
+                name="name"
+                value={this.state.name || ''}
+                onChange={this.handleChange}
+              />
+              <label htmlFor="email">Email: </label>
+              <input
+                type="text"
+                name="email"
+                value={this.state.email || ''}
+                onChange={this.handleChange}
+              />
+              <label htmlFor="streetAddress">Street Address:</label>
+              <input
+                type="text"
+                name="address"
+                value={this.state.streetAddress || ''}
+                onChange={this.handleChange}
+              />
+              <label htmlFor="state">State: </label>
+              <input
+                type="text"
+                name="state"
+                value={this.state.state || ''}
+                onChange={this.handleChange}
+              />
+              <label htmlFor="city">City: </label>
+              <input
+                type="text"
+                name="city"
+                value={this.state.city || ''}
+                onChange={this.handleChange}
+              />
+              <label htmlFor="zip">Zip: </label>
+              <input
+                type="text"
+                name="zip"
+                value={this.state.zip || ''}
+                onChange={this.handleChange}
+              />
+              <button type="submit">Save Changes</button>
+            </form>
+            <UserOrders />
+            {this.state.submitted ? <h1>Submitted</h1> : null}
+          </div>
+        )}
       </div>
     )
   }
