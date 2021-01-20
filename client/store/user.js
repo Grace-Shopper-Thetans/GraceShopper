@@ -17,22 +17,26 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
+const getUser = (user) => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
-const updateUser = user => {
+const updateUser = (user) => {
   return {
     type: UPDATE_USER,
-    user
+    user,
   }
 }
 const getUserOrder = (user, orders) => {
   return {type: GET_USER_ORDER, user, orders}
 }
 
+const getUsersAction = (users) => {
+  return {type: GET_ALL_USERS, users}
+}
+
 /**
  * THUNK CREATORS
  */
-export const me = () => async dispatch => {
+export const me = () => async (dispatch) => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
@@ -41,10 +45,11 @@ export const me = () => async dispatch => {
   }
 }
 
-export const auth = (email, password, method) => async dispatch => {
+export const auth = (email, password, name, method) => async (dispatch) => {
   let res
   try {
-    res = await axios.post(`/auth/${method}`, {email, password})
+    console.log('Hello')
+    res = await axios.post(`/auth/${method}`, {email, password, name})
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
@@ -57,7 +62,7 @@ export const auth = (email, password, method) => async dispatch => {
   }
 }
 
-export const logout = () => async dispatch => {
+export const logout = () => async (dispatch) => {
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
@@ -67,8 +72,8 @@ export const logout = () => async dispatch => {
   }
 }
 
-export const fetchUpdateUser = user => {
-  return async dispatch => {
+export const fetchUpdateUser = (user) => {
+  return async (dispatch) => {
     try {
       const userData = await axios.put(`/api/users/${user.id}`, user)
       const updatedUser = JSON.parse(userData.config.data)
@@ -79,8 +84,8 @@ export const fetchUpdateUser = user => {
   }
 }
 
-export const fetchUserOrder = id => {
-  return async dispatch => {
+export const fetchUserOrder = (id) => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.get(`/api/users/${id}`)
       dispatch(getUserOrder(data[0], data[1]))
@@ -90,10 +95,22 @@ export const fetchUserOrder = id => {
   }
 }
 
+export const fetchAllUsers = () => {
+  return async (dispatch) => {
+    try {
+      const users = await axios.get('/api/users')
+      console.log(users)
+      dispatch(getUsersAction(users.data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 /**
  * REDUCER
  */
-export default function(state = defaultUser, action) {
+export default function (state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
       return action.user

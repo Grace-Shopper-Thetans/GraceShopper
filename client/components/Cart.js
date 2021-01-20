@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchUserOrder} from '../store'
@@ -38,15 +39,11 @@ export class Cart extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+
   componentDidMount() {
-    // if (this.props.userId) {
-    // }
     this.props.getCart()
     this.props.getGCart()
-    // this.setState({
-    //   id: this.props.user.id
-    // })
-    // this.props.getUserOrder(this.props.userId)
+    console.log('running', this.state)
   }
 
   updateCartGuest() {
@@ -67,13 +64,25 @@ export class Cart extends React.Component {
   }
 
   clearUserCart() {
-    this.props.clearCart(this.props.userId)
+    console.log(this.props.cart)
+    this.props.clearCart(this.props.cart[0].id)
   }
 
   proceed() {
     let current = this.state.phase
     let next = current + 1
-    this.setState({phase: next})
+    this.setState({
+      phase: next,
+      fullName: this.props.user.name,
+      email: this.props.user.email,
+      streetAddress: this.props.user.streetAddress,
+      city: this.props.user.city,
+      state: this.props.user.state,
+      zip: this.props.user.zip,
+      ccNumber: '',
+      vCode: '',
+      exDate: '',
+    })
   }
 
   recede() {
@@ -96,12 +105,13 @@ export class Cart extends React.Component {
       vCode: '',
       exDate: '',
       guestOrderNumber: -1,
+
     })
   }
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     })
   }
 
@@ -131,36 +141,182 @@ export class Cart extends React.Component {
   }
 
   render() {
-    const userId = this.props.userId
     let values = Object.values(this.state)
     return (
       <div id="cart">
         {this.props.isLoggedIn ? (
-          <div id="cart">
-            <h1 id="cartTitle">Cart</h1>
-            <button id="clearCart" type="button" onClick={this.clearUserCart}>
-              Clear Cart
-            </button>
-            {this.props.cart[0] ? (
-              this.props.cart[0].products.map((item) => (
-                <div key={item.id} id="cartItem">
-                  <h3 id="ciName">{item.name}</h3>
-                  <img src={item.imageUrl} id="cartImage" />
-                  <h4 id="ciPrice">Price: ${item.price}</h4>
-                  <button
-                    value={item.id}
-                    onClick={this.removeItem}
-                    type="button"
-                    id="removeFromCart"
-                  >
-                    Remove Item
+          this.state.phase === 0 ? (
+            <div id="cart">
+              <h1 id="cartTitle">Cart</h1>
+              <button id="clearCart" type="button" onClick={this.clearUserCart}>
+                Clear Cart
+              </button>
+              {this.props.cart[0] ? (
+                <>
+                  {this.props.cart[0].products.map(item => (
+                    <div key={item.id} id="cartItem">
+                      <h3 id="ciName">{item.name}</h3>
+                      <img src={item.imageUrl} id="cartImage" />
+                      <h4 id="ciPrice">Price: ${item.price}</h4>
+                      <button
+                        value={item.id}
+                        onClick={this.removeItem}
+                        type="button"
+                        id="removeFromCart"
+                      >
+                        Remove Item
+                      </button>
+                    </div>
+                  ))}
+
+                  <h1 id="checkoutTotal">
+                    Total: $
+                    {this.numberWithCommas(
+                      this.props.cart[0].products.reduce(
+                        (a, b) => a + b.price,
+                        0
+                      )
+                    )}
+                  </h1>
+                  <button id="gCheckout" type="button" onClick={this.proceed}>
+                    Checkout
                   </button>
+                </>
+              ) : (
+                <div id="fullCartDiv">
+                  <h2>Empty</h2>
                 </div>
-              ))
-            ) : (
-              <h2>Empty</h2>
-            )}{' '}
-          </div>
+              )}
+            </div>
+          ) : this.state.phase === 1 ? (
+            <div id="cart">
+              <h1>Enter Info</h1>
+              <p id="guestMessage">
+                You are currently checking out as {this.props.user.name}.
+              </p>
+              <form id="checkoutForm" onSubmit={this.handleSubmit}>
+                <label htmlFor="fullName">Full Name</label>
+                <input
+                  autoFocus
+                  name="fullName"
+                  type="text"
+                  value={this.state.fullName}
+                  placeholder="Full Name..."
+                  onChange={this.handleChange}
+                  id="checkoutInput"
+                  required
+                />
+                <label htmlFor="email">Email</label>
+                <input
+                  name="email"
+                  type="text"
+                  value={this.state.email}
+                  placeholder="Email..."
+                  onChange={this.handleChange}
+                  id="checkoutInput"
+                  required
+                />
+                <label htmlFor="streetAddress">Street Address</label>
+                <input
+                  name="streetAddress"
+                  type="text"
+                  value={this.state.streetAddress}
+                  placeholder="Address..."
+                  onChange={this.handleChange}
+                  id="checkoutInput"
+                  required
+                />
+                <label htmlFor="city">City</label>
+                <input
+                  name="city"
+                  type="text"
+                  value={this.state.city}
+                  placeholder="City..."
+                  onChange={this.handleChange}
+                  id="checkoutInput"
+                  required
+                />
+                <label htmlFor="state">State</label>
+                <input
+                  name="state"
+                  type="text"
+                  value={this.state.state}
+                  placeholder="State..."
+                  onChange={this.handleChange}
+                  id="checkoutInput"
+                  required
+                />
+                <label htmlFor="zip">Zip Code</label>
+                <input
+                  name="zip"
+                  type="text"
+                  value={this.state.zip}
+                  placeholder="Zip..."
+                  onChange={this.handleChange}
+                  id="checkoutInput"
+                  required
+                />
+                <label htmlFor="ccNumber">Credit Card Number</label>
+                <input
+                  name="ccNumber"
+                  type="text"
+                  value={this.state.ccNumber}
+                  placeholder="Credit Card Number..."
+                  onChange={this.handleChange}
+                  id="checkoutInput"
+                  required
+                />
+                <label htmlFor="vCode">Verification Code</label>
+                <input
+                  name="vCode"
+                  type="text"
+                  value={this.state.vCode}
+                  placeholder="Verification Code..."
+                  onChange={this.handleChange}
+                  id="checkoutInput"
+                  required
+                />
+                <label htmlFor="exDate">Expiration Date</label>
+                <input
+                  name="exDate"
+                  type="text"
+                  value={this.state.exDate}
+                  placeholder="Expiration Date..."
+                  onChange={this.handleChange}
+                  id="checkoutInput"
+                  required
+                />
+                <h1 id="checkoutItems">
+                  <span>{this.props.cart[0].products.length}</span> Items
+                </h1>
+                <h1 id="checkoutTotal">
+                  Total: $
+                  {this.numberWithCommas(
+                    this.props.cart[0].products.reduce((a, b) => a + b.price, 0)
+                  )}
+                </h1>
+                <button id="goBack" type="button" onClick={this.recede}>
+                  Go Back
+                </button>
+                {values.indexOf('') === -1 ? (
+                  <button id="finalize" type="submit">
+                    Finalize Order
+                  </button>
+                ) : (
+                  <button id="finalizeDisabled" type="submit" disabled>
+                    Finalize Order
+                  </button>
+                )}
+              </form>
+            </div>
+          ) : (
+            <div id="cart">
+              <h1>Thank You {this.props.user.name}!</h1>
+              <button id="newOrder" type="button" onClick={this.newOrder}>
+                New Order
+              </button>
+            </div>
+          )
         ) : this.state.phase === 0 ? (
           <div id="cart">
             {this.props.gCart.length ? (
@@ -175,7 +331,7 @@ export class Cart extends React.Component {
                 >
                   Clear Cart
                 </button>
-                {this.props.gCart.map((item) => (
+                {this.props.gCart.map(item => (
                   <div key={item.data.id} id="cartItem">
                     <h3 id="ciName">{item.data.name}</h3>
                     <img src={item.data.imageUrl} id="cartImage" />
@@ -351,22 +507,22 @@ export class Cart extends React.Component {
   }
 }
 
-const mapState = (state) => ({
+const mapState = state => ({
   cart: state.cart,
   isLoggedIn: !!state.user.id,
   gCart: state.gCart,
   user: state.user,
   userCart: state.orderProducts,
-  userId: state.user.id,
+  userId: state.user.id
 })
 
-const mapDispatch = (dispatch) => ({
-  getCart: (userId) => dispatch(fetchCart(userId)),
+const mapDispatch = dispatch => ({
+  getCart: userId => dispatch(fetchCart(userId)),
   delItem: (itemId, orderId) => dispatch(deleteItem(itemId, orderId)),
   getGCart: () => dispatch(getGuestCart()),
-  removeItemGuest: (id) => dispatch(removeItemGuest(id)),
+  removeItemGuest: id => dispatch(removeItemGuest(id)),
   clearGuestCart: () => dispatch(clearGuestCart()),
-  getUserOrder: (id) => dispatch(fetchUserOrder(id)),
-  clearCart: (userId) => dispatch(clearCart(userId)),
+  getUserOrder: id => dispatch(fetchUserOrder(id)),
+  clearCart: userId => dispatch(clearCart(userId))
 })
 export default connect(mapState, mapDispatch)(Cart)
