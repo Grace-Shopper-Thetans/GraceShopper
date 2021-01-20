@@ -90,29 +90,44 @@ router.post('/guestorder', async (req, res, next) => {
 
 router.post('/userorder', async (req, res, next) => {
   try {
-    let products = req.body.items.map((item) => Number(item.id))
+    let products = req.body.items.map(item => Number(item.id))
     let totalPrice = req.body.items.reduce((a, b) => a + b.price, 0)
     console.log('productssss', products)
     console.log('totalPrice', totalPrice)
     let newOrder = await Order.create({
       status: true,
+      userId: req.user.dataValues.id
     })
     if (products.length > 1) {
       for (let i = 0; i < products.length; i++) {
         await OrdersProducts.create({
           orderId: newOrder.id,
           finalPrice: totalPrice,
-          productId: products[i],
+          productId: products[i]
         })
       }
     } else {
       await OrdersProducts.create({
         orderId: newOrder.id,
         finalPrice: totalPrice,
-        productId: products,
+        productId: products
       })
     }
     res.json(newOrder.id)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:orderId', async (req, res, next) => {
+  try {
+    await Order.update({
+      where: {
+        id: req.params.orderId
+      },
+      status: true
+    })
+    res.send()
   } catch (error) {
     next(error)
   }

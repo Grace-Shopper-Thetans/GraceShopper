@@ -5,17 +5,19 @@ import {connect} from 'react-redux'
 class UserOrders extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {orderProducts: [], id: 1}
+    this.state = {orderProducts: this.props.userOrders}
   }
 
-  async componentDidMount() {
-    this.setState({id: this.props.user.id})
-    await this.props.userOrder(this.state.id)
-    this.setState({orderProducts: this.props.userOrders})
+  componentDidMount() {
+    this.props.userOrder(this.props.user.id)
   }
 
   render() {
-    if (this.state.orderProducts && this.state.orderProducts.length > 0) {
+    if (
+      this.state.orderProducts &&
+      this.state.orderProducts.length > 0 &&
+      this.state.orderProducts[0].length > 0
+    ) {
       return (
         <div id="userOrders">
           <h3>Past Orders:</h3>
