@@ -39,7 +39,6 @@ export class Cart extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-
   componentDidMount() {
     this.props.getCart()
     this.props.getGCart()
@@ -105,13 +104,12 @@ export class Cart extends React.Component {
       vCode: '',
       exDate: '',
       guestOrderNumber: -1,
-
     })
   }
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
@@ -153,11 +151,12 @@ export class Cart extends React.Component {
               </button>
               {this.props.cart[0] ? (
                 <>
-                  {this.props.cart[0].products.map(item => (
+                  {this.props.cart[0].products.map((item) => (
                     <div key={item.id} id="cartItem">
                       <h3 id="ciName">{item.name}</h3>
                       <img src={item.imageUrl} id="cartImage" />
                       <h4 id="ciPrice">Price: ${item.price}</h4>
+                      <h3>Quantity: {item.orders_products.qty}</h3>
                       <button
                         value={item.id}
                         onClick={this.removeItem}
@@ -331,13 +330,14 @@ export class Cart extends React.Component {
                 >
                   Clear Cart
                 </button>
-                {this.props.gCart.map(item => (
+                {this.props.gCart.map((item) => (
                   <div key={item.data.id} id="cartItem">
                     <h3 id="ciName">{item.data.name}</h3>
                     <img src={item.data.imageUrl} id="cartImage" />
                     <h4 id="ciPrice">
                       Price: ${this.numberWithCommas(item.data.price)}
                     </h4>
+                    <h3>Quantity: {item.qty}</h3>
                     <button
                       value={item.data.id}
                       onClick={() => this.remove(item.data.id)}
@@ -507,22 +507,22 @@ export class Cart extends React.Component {
   }
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   cart: state.cart,
   isLoggedIn: !!state.user.id,
   gCart: state.gCart,
   user: state.user,
   userCart: state.orderProducts,
-  userId: state.user.id
+  userId: state.user.id,
 })
 
-const mapDispatch = dispatch => ({
-  getCart: userId => dispatch(fetchCart(userId)),
+const mapDispatch = (dispatch) => ({
+  getCart: (userId) => dispatch(fetchCart(userId)),
   delItem: (itemId, orderId) => dispatch(deleteItem(itemId, orderId)),
   getGCart: () => dispatch(getGuestCart()),
-  removeItemGuest: id => dispatch(removeItemGuest(id)),
+  removeItemGuest: (id) => dispatch(removeItemGuest(id)),
   clearGuestCart: () => dispatch(clearGuestCart()),
-  getUserOrder: id => dispatch(fetchUserOrder(id)),
-  clearCart: userId => dispatch(clearCart(userId))
+  getUserOrder: (id) => dispatch(fetchUserOrder(id)),
+  clearCart: (userId) => dispatch(clearCart(userId)),
 })
 export default connect(mapState, mapDispatch)(Cart)
