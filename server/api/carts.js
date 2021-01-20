@@ -45,8 +45,8 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
     await OrdersProducts.destroy({
       where: {
         productId: req.params.productId,
-        orderId: req.params.orderId,
-      },
+        orderId: req.params.orderId
+      }
     })
     res.json('Item has been deleted')
   } catch (error) {
@@ -54,9 +54,12 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
   }
 })
 
-router.delete('/:userId', async (req, res, next) => {
+router.delete('/:orderId', async (req, res, next) => {
   try {
-    await Order.destroy({where: {userId: req.params.userId}})
+    await OrdersProducts.destroy({
+      where: {orderId: req.params.orderId}
+    })
+
     res.json('User cart deleted')
   } catch (error) {
     next(error)
