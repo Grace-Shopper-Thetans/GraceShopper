@@ -65,6 +65,7 @@ class SingleProduct extends React.Component {
           <h3 id="mpDesign">Bike Type: {product.designType}</h3>
           <h3 id="mpColor">Color: {product.color}</h3>
           <p id="mpPrice">{'$' + this.numberWithCommas(product.price)}</p>
+          <p id="spQuantity">({product.quantity}) In Stock</p>
           <div id="singleProductButton">
             {this.props.isLoggedIn ? (
               <button
