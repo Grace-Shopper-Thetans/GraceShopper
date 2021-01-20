@@ -3,7 +3,12 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchUserOrder} from '../store'
 
-import {deleteItem, fetchCart, clearCart} from '../store/cart'
+import {
+  deleteItem,
+  fetchCart,
+  clearCart,
+  completeUserOrder,
+} from '../store/cart'
 import {
   getGuestCart,
   removeItemGuest,
@@ -26,6 +31,7 @@ export class Cart extends React.Component {
       vCode: '',
       exDate: '',
       guestOrderNumber: -1,
+      userOrderNumber: -1,
     }
     this.updateCartGuest = this.updateCartGuest.bind(this)
     this.remove = this.remove.bind(this)
@@ -37,6 +43,9 @@ export class Cart extends React.Component {
     this.newOrder = this.newOrder.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleSubmitUser = this.handleSubmitUser.bind(this)
+    this.newUserOrder = this.newUserOrder.bind(this)
+    this.userProceed = this.userProceed.bind(this)
   }
 
   componentDidMount() {
@@ -72,15 +81,20 @@ export class Cart extends React.Component {
     let next = current + 1
     this.setState({
       phase: next,
+    })
+  }
+
+  userProceed() {
+    let current = this.state.phase
+    let next = current + 1
+    this.setState({
+      phase: next,
       fullName: this.props.user.name,
       email: this.props.user.email,
       streetAddress: this.props.user.streetAddress,
       city: this.props.user.city,
       state: this.props.user.state,
       zip: this.props.user.zip,
-      ccNumber: '',
-      vCode: '',
-      exDate: '',
     })
   }
 
@@ -104,6 +118,23 @@ export class Cart extends React.Component {
       vCode: '',
       exDate: '',
       guestOrderNumber: -1,
+    })
+  }
+
+  newUserOrder() {
+    this.props.clearCart()
+    this.setState({
+      phase: 0,
+      fullName: this.props.user.name,
+      email: this.props.user.email,
+      streetAddress: this.props.user.streetAddress,
+      city: this.props.user.city,
+      state: this.props.user.state,
+      zip: this.props.user.zip,
+      ccNumber: '',
+      vCode: '',
+      exDate: '',
+      userOrderNumber: -1,
     })
   }
 
@@ -138,7 +169,33 @@ export class Cart extends React.Component {
     this.proceed()
   }
 
+  async handleSubmitUser(event) {
+    event.preventDefault()
+    console.log('vCode --->', event.target.vCode.value)
+    let orderObj = {
+      fullName: event.target.fullName.value,
+      email: event.target.email.value,
+      streetAddress: event.target.streetAddress.value,
+      city: event.target.city.value,
+      state: event.target.state.value,
+      zip: event.target.zip.value,
+      ccNumber: event.target.ccNumber.value,
+      vCode: event.target.vCode.value,
+      exDate: event.target.exDate.value,
+      items: this.props.cart[0].products,
+    }
+    console.log(777, orderObj)
+    let orderNumber = await completeUserOrder(orderObj)
+    console.log('ORDER #--->', orderNumber.data)
+    await this.setState({
+      userOrderNumber: orderNumber.data,
+    })
+    this.props.clearCart()
+    this.userProceed()
+  }
+
   render() {
+    console.log('THIS IS CART --> ', this.props.cart)
     let values = Object.values(this.state)
     return (
       <div id="cart">
@@ -177,7 +234,11 @@ export class Cart extends React.Component {
                       )
                     )}
                   </h1>
-                  <button id="gCheckout" type="button" onClick={this.proceed}>
+                  <button
+                    id="gCheckout"
+                    type="button"
+                    onClick={this.userProceed}
+                  >
                     Checkout
                   </button>
                 </>
@@ -193,7 +254,7 @@ export class Cart extends React.Component {
               <p id="guestMessage">
                 You are currently checking out as {this.props.user.name}.
               </p>
-              <form id="checkoutForm" onSubmit={this.handleSubmit}>
+              <form id="checkoutForm" onSubmit={this.handleSubmitUser}>
                 <label htmlFor="fullName">Full Name</label>
                 <input
                   autoFocus
@@ -311,7 +372,9 @@ export class Cart extends React.Component {
           ) : (
             <div id="cart">
               <h1>Thank You {this.props.user.name}!</h1>
-              <button id="newOrder" type="button" onClick={this.newOrder}>
+              <h1 id="confMessage">Your Order Number Is:</h1>
+              <h1 id="confMessageNum">{this.state.userOrderNumber}</h1>
+              <button id="newOrder" type="button" onClick={this.newUserOrder}>
                 New Order
               </button>
             </div>

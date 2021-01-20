@@ -9,30 +9,30 @@ const CLEAR_CART = 'CLEAR_CART'
 
 // Action Creators
 
-export const getCart = cart => ({
+export const getCart = (cart) => ({
   type: GET_CART,
-  cart
+  cart,
 })
 
-export const addCartAction = item => ({
+export const addCartAction = (item) => ({
   type: ADD_TO_CART,
-  item
+  item,
 })
 
-export const removeCartAction = id => ({
+export const removeCartAction = (id) => ({
   type: DELETE_ITEM,
-  id
+  id,
 })
 
-export const clearCartAction = cart => ({
+export const clearCartAction = (cart) => ({
   type: CLEAR_CART,
-  cart
+  cart,
 })
 
 // Thunk Creators
 
 export const fetchCart = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.get(`/api/carts/`)
       console.log('running cart')
@@ -43,8 +43,8 @@ export const fetchCart = () => {
   }
 }
 
-export const addToCart = item => {
-  return async dispatch => {
+export const addToCart = (item) => {
+  return async (dispatch) => {
     try {
       const input = item.target.value.split(',')
       const itemId = input[0]
@@ -59,7 +59,7 @@ export const addToCart = item => {
 }
 
 export const deleteItem = (productId, orderId) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.delete(`/api/carts/${productId}/${orderId}`)
       dispatch(removeCartAction(data))
@@ -69,8 +69,8 @@ export const deleteItem = (productId, orderId) => {
   }
 }
 
-export const clearCart = orderId => {
-  return async dispatch => {
+export const clearCart = (orderId) => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.delete(`/api/carts/${orderId}`)
       dispatch(clearCartAction(data))
@@ -78,6 +78,11 @@ export const clearCart = orderId => {
       console.error(error.message)
     }
   }
+}
+
+export const completeUserOrder = async (order) => {
+  let orderFromDb = await axios.post('/api/carts/userorder', order)
+  return orderFromDb
 }
 
 // Reducer
@@ -89,7 +94,7 @@ export default function cartReducer(state = initialState, action) {
     case ADD_TO_CART:
       return [...state, action.item]
     case DELETE_ITEM:
-      return state.cart.filter(item => item.id !== action.id)
+      return state.cart.filter((item) => item.id !== action.id)
     case CLEAR_CART:
       return initialState
     default:
