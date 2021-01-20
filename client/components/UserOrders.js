@@ -17,15 +17,16 @@ class UserOrders extends React.Component {
   render() {
     if (this.state.orderProducts && this.state.orderProducts.length > 0) {
       return (
-        <div id="orders">
+        <div id="userOrders">
           <h3>Past Orders:</h3>
           {this.state.orderProducts.map(order => {
             return (
-              <div key={order.id}>
-                <h4>
-                  {order.date.slice(0, 9)}...{order.qty} items ... $
-                  {order.finalPrice}
-                </h4>
+              <div key={order.id} id="singleOrder">
+                <h3 id="orderNumber">Order # {order.id}</h3>
+                <hr />
+                <h3>Date ......... {order.date.slice(0, 9)}</h3>
+                <h3>Total Price ......... ${order.finalPrice}</h3>
+                <h3># of Items ......... {order.qty}</h3>
               </div>
             )
           })}
@@ -33,7 +34,7 @@ class UserOrders extends React.Component {
       )
     }
     return (
-      <div id="orders">
+      <div id="userOrders">
         <h3>Past Orders:</h3>
         <h3>No Orders have been placed.</h3>
       </div>

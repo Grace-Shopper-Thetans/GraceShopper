@@ -14,7 +14,7 @@ async function seed() {
       streetAddress: '32 Lake Drive',
       state: 'NY',
       city: 'Elmhurst',
-      zip: 11375,
+      zip: 11375
     }),
     User.create({
       email: 'murphy@email.com',
@@ -23,7 +23,7 @@ async function seed() {
       streetAddress: '42 Brown St',
       state: 'FL',
       city: 'Miami',
-      zip: 24323,
+      zip: 24323
     }),
     User.create({
       email: 'admin@email.com',
@@ -33,8 +33,8 @@ async function seed() {
       state: 'FL',
       city: 'Miami',
       zip: 24323,
-      isAdmin: true,
-    }),
+      isAdmin: true
+    })
   ])
 
   const products = await Promise.all([
@@ -47,7 +47,7 @@ async function seed() {
       designType: 'Chopper',
       color: 'Blue',
       imageUrl:
-        'https://i.pinimg.com/originals/fc/e4/4c/fce44cc0e71403d6dc30e718aab22736.png',
+        'https://i.pinimg.com/originals/fc/e4/4c/fce44cc0e71403d6dc30e718aab22736.png'
     }),
     Product.create({
       name: '$p33d D3mon',
@@ -58,7 +58,7 @@ async function seed() {
       designType: 'Sport Bike',
       color: 'Silver',
       imageUrl:
-        'https://purepng.com/public/uploads/large/purepng.com-motorcyclemotorcyclemotorbikebikecycleracing-bike-1701527510056xqtwf.png',
+        'https://purepng.com/public/uploads/large/purepng.com-motorcyclemotorcyclemotorbikebikecycleracing-bike-1701527510056xqtwf.png'
     }),
     Product.create({
       name: 'Big Boi',
@@ -69,7 +69,7 @@ async function seed() {
       designType: 'Chopper',
       color: 'Blue',
       imageUrl:
-        'https://www.indianmotorcyclelakeville.com/images/indianmotorcyclelakeville-slide-elite.png',
+        'https://www.indianmotorcyclelakeville.com/images/indianmotorcyclelakeville-slide-elite.png'
     }),
     Product.create({
       name: `Trouble's Come'n`,
@@ -80,32 +80,47 @@ async function seed() {
       designType: 'Dirt Bike',
       color: 'Silver',
       imageUrl:
-        'https://www.pngkey.com/png/full/256-2568579_dirt-bike-png-clipart-library-library-2011-ktm.png',
-    }),
+        'https://www.pngkey.com/png/full/256-2568579_dirt-bike-png-clipart-library-library-2011-ktm.png'
+    })
   ])
 
   const orders = await Promise.all([
     Order.create({
-      status: true,
-    }),
+      status: true
+    })
+  ])
+
+  const orders2 = await Promise.all([
+    Order.create({
+      status: true
+    })
   ])
 
   const dummyId = [1, 2, 3]
+  const dummyId2 = [1, 2]
 
   const order = await Order.findOne({
     where: {
-      id: 1,
-    },
+      id: 1
+    }
+  })
+
+  const order2 = await Order.findOne({
+    where: {
+      id: 2
+    }
   })
 
   const user = await User.findOne({
     where: {
-      id: 1,
-    },
+      id: 1
+    }
   })
 
   await order.addProduct(dummyId)
+  await order2.addProduct(dummyId2)
   await user.addOrder(1)
+  await user.addOrder(2)
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)

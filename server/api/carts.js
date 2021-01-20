@@ -6,13 +6,13 @@ router.get('/', async (req, res, next) => {
   try {
     const order = await Order.findAll({
       where: {
-        userId: user,
+        userId: user
       },
       include: [
         {
-          model: Product,
-        },
-      ],
+          model: Product
+        }
+      ]
     })
 
     res.json(order)
@@ -26,13 +26,13 @@ router.post('/', async (req, res, next) => {
     console.log(req.body)
     const newAddition = await Order.findOrCreate({
       where: {
-        userId: req.body.userId,
-      },
+        userId: req.body.userId
+      }
     })
     console.log(newAddition[0].dataValues.id)
     await OrdersProducts.create({
       productId: req.body.itemId,
-      orderId: newAddition[0].dataValues.id,
+      orderId: newAddition[0].dataValues.id
     })
     res.send()
   } catch (error) {
@@ -44,11 +44,8 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
   try {
     await OrdersProducts.destroy({
       where: {
-        productId: req.params.productId,
-        where: {
-          orderId: req.params.orderId,
-        },
-      },
+        productId: req.params.productId
+      }
     })
     res.json('Item has been deleted')
   } catch (error) {
