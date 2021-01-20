@@ -13,7 +13,7 @@ import {
   getGuestCart,
   removeItemGuest,
   clearGuestCart,
-  completeGuestOrder,
+  completeGuestOrder
 } from '../store/guestCart'
 
 export class Cart extends React.Component {
@@ -157,13 +157,13 @@ export class Cart extends React.Component {
       ccNumber: event.target.ccNumber.value,
       vCode: event.target.vCode.value,
       exDate: event.target.exDate.value,
-      items: this.props.gCart,
+      items: this.props.gCart
     }
     console.log(777, orderObj)
     let orderNumber = await completeGuestOrder(orderObj)
     console.log('ORDER #--->', orderNumber.data)
     await this.setState({
-      guestOrderNumber: orderNumber.data,
+      guestOrderNumber: orderNumber.data
     })
     this.props.clearGuestCart()
     this.proceed()

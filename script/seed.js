@@ -8,6 +8,12 @@ async function seed() {
 
   const users = await Promise.all([
     User.create({
+      id: 0,
+      name: 'Guest',
+      email: 'guest@email.com'
+    }),
+
+    User.create({
       email: 'cody@email.com',
       password: '123',
       name: 'Cody Doe',
@@ -80,7 +86,7 @@ async function seed() {
       designType: 'Dirt Bike',
       color: 'Orange',
       imageUrl:
-        'https://www.pngkey.com/png/full/256-2568579_dirt-bike-png-clipart-library-library-2011-ktm.png',
+        'https://www.pngkey.com/png/full/256-2568579_dirt-bike-png-clipart-library-library-2011-ktm.png'
     }),
     Product.create({
       name: `Big Air`,
@@ -91,7 +97,7 @@ async function seed() {
       designType: 'Dirt Bike',
       color: 'Red',
       imageUrl:
-        'https://powersportsmuskoka.com/wp-content/uploads/2018/03/type-of-dirt-bike-trail.png',
+        'https://powersportsmuskoka.com/wp-content/uploads/2018/03/type-of-dirt-bike-trail.png'
     }),
     Product.create({
       name: `Reach 4 The Sky`,
@@ -102,7 +108,7 @@ async function seed() {
       designType: 'Chopper',
       color: 'Blue',
       imageUrl:
-        'https://www.pngkit.com/png/full/461-4614357_transparent-motorcycle-chopper-chopper-motorcycle-png.png',
+        'https://www.pngkit.com/png/full/461-4614357_transparent-motorcycle-chopper-chopper-motorcycle-png.png'
     }),
     Product.create({
       name: `Grandpa-Go`,
@@ -113,7 +119,7 @@ async function seed() {
       designType: 'Chopper',
       color: 'Yellow',
       imageUrl:
-        'https://i.pinimg.com/originals/5d/90/e4/5d90e44174c08641e78a3266e59c44d4.png',
+        'https://i.pinimg.com/originals/5d/90/e4/5d90e44174c08641e78a3266e59c44d4.png'
     }),
     Product.create({
       name: `Spidey`,
@@ -124,7 +130,7 @@ async function seed() {
       designType: 'Chopper',
       color: 'Green',
       imageUrl:
-        'https://i.pinimg.com/originals/4b/03/bf/4b03bf4c826fdd4317a2854c1022f906.png',
+        'https://i.pinimg.com/originals/4b/03/bf/4b03bf4c826fdd4317a2854c1022f906.png'
     }),
     Product.create({
       name: `2 Fast Bro`,
@@ -135,7 +141,7 @@ async function seed() {
       designType: 'Sport Bike',
       color: 'Blue',
       imageUrl:
-        'https://i.pinimg.com/originals/e2/25/a3/e225a37c375814791c1b3a3c22269efc.png',
+        'https://i.pinimg.com/originals/e2/25/a3/e225a37c375814791c1b3a3c22269efc.png'
     }),
     Product.create({
       name: `Mr. Evil`,
@@ -146,7 +152,7 @@ async function seed() {
       designType: 'Sport Bike',
       color: 'Black',
       imageUrl:
-        'https://www.pngkey.com/png/full/366-3669800_yamaha-fz6r-black-sport-motorcycle-bike-png-image.png',
+        'https://www.pngkey.com/png/full/366-3669800_yamaha-fz6r-black-sport-motorcycle-bike-png-image.png'
     }),
     Product.create({
       name: `Watch Me`,
@@ -157,7 +163,7 @@ async function seed() {
       designType: 'Sport Bike',
       color: 'Yellow',
       imageUrl:
-        'https://www.freepnglogos.com/uploads/bike-png/yamaha-sport-motorcycle-bike-png-image-pngpix-1.png',
+        'https://www.freepnglogos.com/uploads/bike-png/yamaha-sport-motorcycle-bike-png-image-pngpix-1.png'
     }),
     Product.create({
       name: `All Class`,
@@ -168,7 +174,7 @@ async function seed() {
       designType: 'Sport Bike',
       color: 'Silver',
       imageUrl:
-        'https://www.pngkey.com/png/full/829-8290558_silver-harley-davidson-motorcycle-bike-png-image-harley.png',
+        'https://www.pngkey.com/png/full/829-8290558_silver-harley-davidson-motorcycle-bike-png-image-harley.png'
     }),
     Product.create({
       name: `Throttle Master`,
@@ -179,7 +185,7 @@ async function seed() {
       designType: 'Dirt Bike',
       color: 'Silver',
       imageUrl:
-        'https://www.ssrmotorsports.com/store/dirtbike/sr250s/new/w-S.png',
+        'https://www.ssrmotorsports.com/store/dirtbike/sr250s/new/w-S.png'
     }),
     Product.create({
       name: `Boogie Man`,
@@ -190,8 +196,8 @@ async function seed() {
       designType: 'Dirt Bike',
       color: 'Green',
       imageUrl:
-        'https://content2.kawasaki.com/ContentStorage/KMC/ProductTrimGroup/55/8fe5c7a3-6215-4c47-8398-8c0925533ca3.png?w=750',
-    }),
+        'https://content2.kawasaki.com/ContentStorage/KMC/ProductTrimGroup/55/8fe5c7a3-6215-4c47-8398-8c0925533ca3.png?w=750'
+    })
   ])
 
   const orders = await Promise.all([
