@@ -213,6 +213,7 @@ export class Cart extends React.Component {
                       <h3 id="ciName">{item.name}</h3>
                       <img src={item.imageUrl} id="cartImage" />
                       <h4 id="ciPrice">Price: ${item.price}</h4>
+                      <h3>Quantity: {item.orders_products.qty}</h3>
                       <button
                         value={item.id}
                         onClick={this.removeItem}
@@ -399,6 +400,7 @@ export class Cart extends React.Component {
                     <h4 id="ciPrice">
                       Price: ${this.numberWithCommas(item.data.price)}
                     </h4>
+                    <h3>Quantity: {item.qty}</h3>
                     <button
                       value={item.data.id}
                       onClick={() => this.remove(item.data.id)}
