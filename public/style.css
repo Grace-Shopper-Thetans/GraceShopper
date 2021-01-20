@@ -330,6 +330,18 @@ nav a {
   font-family: 'Fredoka One', cursive;
 }
 
+#mpQuantity {
+  margin-left: 62.5%;
+  font-family: 'Fredoka One', cursive;
+  font-size: 12px;
+}
+
+#spQuantity {
+  margin-left: 56%;
+  font-family: 'Fredoka One', cursive;
+  font-size: 12px;
+}
+
 li {
   cursor: pointer;
 }
@@ -566,7 +578,6 @@ li:hover {
 #checkoutTotal {
   margin-bottom: 36px;
 }
-
 
 #confMessage {
   text-align: center;

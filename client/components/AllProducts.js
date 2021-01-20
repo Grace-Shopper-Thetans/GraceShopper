@@ -137,6 +137,7 @@ class AllProducts extends React.Component {
                     <p id="mpPrice">
                       {'$' + this.numberWithCommas(product.price)}
                     </p>
+                    <p id="mpQuantity">({product.quantity}) In Stock</p>
                   </div>
                   <div id="allProductsButton">
                     {this.props.isLoggedIn ? (
