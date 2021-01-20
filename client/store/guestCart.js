@@ -21,12 +21,24 @@ export const getGuestCart = () => {
 
 export const addItemGuest = (item) => {
   return async (dispatch) => {
-    const id = item.target.value
+    let counter = 0
+    const id = Number(item.target.value)
     const addedItem = await axios.get(`/api/products/${id}`)
+    addedItem.qty = 1
+    addedItem.id = id
     let currentCart = []
     if (localStorage.getItem('cart')) {
       currentCart = JSON.parse(localStorage.getItem('cart'))
-      currentCart.push(addedItem)
+      currentCart.map((cartItem) => {
+        console.log(cartItem)
+        if (cartItem.id === id) {
+          cartItem.qty++
+          counter++
+        }
+      })
+      if (counter === 0) {
+        currentCart.push(addedItem)
+      }
       localStorage.setItem('cart', JSON.stringify(currentCart))
     } else {
       localStorage.setItem('cart', JSON.stringify([addedItem]))
