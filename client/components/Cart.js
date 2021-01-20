@@ -33,27 +33,11 @@ export class Cart extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+
   componentDidMount() {
-    if (this.props.user) {
-      this.setState({
-        phase: 0,
-        fullName: this.props.user.name,
-        email: this.props.user.email,
-        streetAddress: this.props.user.streetAddress,
-        city: this.props.user.city,
-        state: this.props.user.state,
-        zip: this.props.user.zip,
-        ccNumber: '',
-        vCode: '',
-        exDate: ''
-      })
-    }
     this.props.getCart()
     this.props.getGCart()
-    // this.setState({
-    //   id: this.props.user.id
-    // })
-    // this.props.getUserOrder(this.props.userId)
+    console.log('running', this.state)
   }
 
   updateCartGuest() {
@@ -81,7 +65,18 @@ export class Cart extends React.Component {
   proceed() {
     let current = this.state.phase
     let next = current + 1
-    this.setState({phase: next})
+    this.setState({
+      phase: next,
+      fullName: this.props.user.name,
+      email: this.props.user.email,
+      streetAddress: this.props.user.streetAddress,
+      city: this.props.user.city,
+      state: this.props.user.state,
+      zip: this.props.user.zip,
+      ccNumber: '',
+      vCode: '',
+      exDate: '',
+    })
   }
 
   recede() {
@@ -179,8 +174,8 @@ export class Cart extends React.Component {
                   autoFocus
                   name="fullName"
                   type="text"
-                  value={this.state.name}
-                  placeholder={this.props.user.name}
+                  value={this.state.fullName}
+                  placeholder="Full Name..."
                   onChange={this.handleChange}
                   id="checkoutInput"
                   required
@@ -190,7 +185,7 @@ export class Cart extends React.Component {
                   name="email"
                   type="text"
                   value={this.state.email}
-                  placeholder={this.props.user.email}
+                  placeholder="Email..."
                   onChange={this.handleChange}
                   id="checkoutInput"
                   required
@@ -200,7 +195,7 @@ export class Cart extends React.Component {
                   name="streetAddress"
                   type="text"
                   value={this.state.streetAddress}
-                  placeholder={this.props.user.streetAddress}
+                  placeholder="Address..."
                   onChange={this.handleChange}
                   id="checkoutInput"
                   required
@@ -210,7 +205,7 @@ export class Cart extends React.Component {
                   name="city"
                   type="text"
                   value={this.state.city}
-                  placeholder={this.props.user.city}
+                  placeholder="City..."
                   onChange={this.handleChange}
                   id="checkoutInput"
                   required
@@ -220,7 +215,7 @@ export class Cart extends React.Component {
                   name="state"
                   type="text"
                   value={this.state.state}
-                  placeholder={this.props.user.state}
+                  placeholder="State..."
                   onChange={this.handleChange}
                   id="checkoutInput"
                   required
@@ -230,7 +225,7 @@ export class Cart extends React.Component {
                   name="zip"
                   type="text"
                   value={this.state.zip}
-                  placeholder={this.props.user.zip}
+                  placeholder="Zip..."
                   onChange={this.handleChange}
                   id="checkoutInput"
                   required

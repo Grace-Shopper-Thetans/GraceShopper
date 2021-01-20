@@ -29,14 +29,13 @@ router.post('/', async (req, res, next) => {
         userId: req.body.userId,
       },
     })
-    console.log(newAddition[0].dataValues.id)
+
 
     const isItemIn = await OrdersProducts.findOne({
       where: {
         productId: Number(req.body.itemId),
       },
     })
-    console.log('is item in', isItemIn)
     if (isItemIn) {
       isItemIn.update({qty: isItemIn.dataValues.qty + 1})
       res.send()
