@@ -8,7 +8,7 @@ import {
   getGuestCart,
   removeItemGuest,
   clearGuestCart,
-  completeGuestOrder,
+  completeGuestOrder
 } from '../store/guestCart'
 
 export class Cart extends React.Component {
@@ -25,7 +25,7 @@ export class Cart extends React.Component {
       ccNumber: '',
       vCode: '',
       exDate: '',
-      guestOrderNumber: -1,
+      guestOrderNumber: -1
     }
     this.updateCartGuest = this.updateCartGuest.bind(this)
     this.remove = this.remove.bind(this)
@@ -38,7 +38,6 @@ export class Cart extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-
 
   componentDidMount() {
     this.props.getCart()
@@ -72,16 +71,16 @@ export class Cart extends React.Component {
     let current = this.state.phase
     let next = current + 1
     this.setState({
-      phase: next,
-      fullName: this.props.user.name,
-      email: this.props.user.email,
-      streetAddress: this.props.user.streetAddress,
-      city: this.props.user.city,
-      state: this.props.user.state,
-      zip: this.props.user.zip,
-      ccNumber: '',
-      vCode: '',
-      exDate: '',
+      phase: next
+      // fullName: this.props.user.name,
+      // email: this.props.user.email,
+      // streetAddress: this.props.user.streetAddress,
+      // city: this.props.user.city,
+      // state: this.props.user.state,
+      // zip: this.props.user.zip,
+      // ccNumber: '',
+      // vCode: '',
+      // exDate: '',
     })
   }
 
@@ -104,8 +103,7 @@ export class Cart extends React.Component {
       ccNumber: '',
       vCode: '',
       exDate: '',
-      guestOrderNumber: -1,
-
+      guestOrderNumber: -1
     })
   }
 
@@ -128,13 +126,13 @@ export class Cart extends React.Component {
       ccNumber: event.target.ccNumber.value,
       vCode: event.target.vCode.value,
       exDate: event.target.exDate.value,
-      items: this.props.gCart,
+      items: this.props.gCart
     }
     console.log(777, orderObj)
     let orderNumber = await completeGuestOrder(orderObj)
     console.log('ORDER #--->', orderNumber.data)
     await this.setState({
-      guestOrderNumber: orderNumber.data,
+      guestOrderNumber: orderNumber.data
     })
     this.props.clearGuestCart()
     this.proceed()

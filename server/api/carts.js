@@ -6,13 +6,13 @@ router.get('/', async (req, res, next) => {
   try {
     const order = await Order.findAll({
       where: {
-        userId: user,
+        userId: user
       },
       include: [
         {
-          model: Product,
-        },
-      ],
+          model: Product
+        }
+      ]
     })
 
     res.json(order)
@@ -26,8 +26,8 @@ router.post('/', async (req, res, next) => {
     console.log('req body', req.body)
     const newAddition = await Order.findOrCreate({
       where: {
-        userId: req.body.userId,
-      },
+        userId: req.body.userId
+      }
     })
 
     const orderId = newAddition[0].dataValues.id
@@ -35,8 +35,8 @@ router.post('/', async (req, res, next) => {
     const isItemIn = await OrdersProducts.findOne({
       where: {
         productId: Number(req.body.itemId),
-        orderId: orderId,
-      },
+        orderId: orderId
+      }
     })
     if (isItemIn) {
       isItemIn.update({qty: isItemIn.dataValues.qty + 1})
@@ -44,7 +44,7 @@ router.post('/', async (req, res, next) => {
     } else {
       await OrdersProducts.create({
         productId: req.body.itemId,
-        orderId: newAddition[0].dataValues.id,
+        orderId: newAddition[0].dataValues.id
       })
       res.send()
     }
@@ -55,26 +55,31 @@ router.post('/', async (req, res, next) => {
 
 router.post('/guestorder', async (req, res, next) => {
   try {
-    let products = req.body.items.map((item) => Number(item.data.id))
+    let products = req.body.items.map(item => Number(item.data.id))
     let totalPrice = req.body.items.reduce((a, b) => a + b.data.price, 0)
     console.log('productssss', products)
     console.log('totalPrice', totalPrice)
     let newOrder = await Order.create({
-      status: true,
+      status: true
     })
+    console.log('new -->', newOrder)
+
+    const guestUser = await User.findByPk(1)
+    guestUser.addOrder(newOrder)
+
     if (products.length > 1) {
       for (let i = 0; i < products.length; i++) {
         await OrdersProducts.create({
           orderId: newOrder.id,
           finalPrice: totalPrice,
-          productId: products[i],
+          productId: products[i]
         })
       }
     } else {
       await OrdersProducts.create({
         orderId: newOrder.id,
         finalPrice: totalPrice,
-        productId: products,
+        productId: products
       })
     }
     res.json(newOrder.id)
@@ -88,8 +93,8 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
     await OrdersProducts.destroy({
       where: {
         productId: req.params.productId,
-        orderId: req.params.orderId,
-      },
+        orderId: req.params.orderId
+      }
     })
     res.json('Item has been deleted')
   } catch (error) {
@@ -100,7 +105,7 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
 router.delete('/:orderId', async (req, res, next) => {
   try {
     await OrdersProducts.destroy({
-      where: {orderId: req.params.orderId},
+      where: {orderId: req.params.orderId}
     })
 
     res.json('User cart deleted')
