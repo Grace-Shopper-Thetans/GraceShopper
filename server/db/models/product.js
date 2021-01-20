@@ -14,9 +14,9 @@ const Product = db.define('product', {
     type: Sequelize.INTEGER,
   },
 
-  isSold: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false,
+  quantity: {
+    type: Sequelize.INTEGER,
+    defaultValue: 10,
   },
 
   description: {

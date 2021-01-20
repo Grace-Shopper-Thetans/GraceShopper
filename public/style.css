@@ -448,9 +448,8 @@ li:hover {
   width: 100px;
   height: 100px;
   background-color: rgba(95, 158, 160, 0.357);
-  margin-right: 10px;
-  margin-top: auto;
-  margin-bottom: auto;
+  margin-right: 15px;
+  margin-top: 15px;
   width: 40%;
   height: 90%;
   border-radius: 15px;
@@ -557,4 +556,19 @@ li:hover {
 
 #checkoutTotal {
   margin-bottom: 36px;
+}
+
+#confMessage {
+  text-align: center;
+  margin: 10px;
+}
+
+#confMessageNum {
+  margin: 10px 10px 25px 10px;
+  color: rgb(13, 15, 155);
+}
+
+#noMatch {
+  margin-top: 150px;
+  color: white;
 }
