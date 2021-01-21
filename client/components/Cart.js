@@ -48,9 +48,9 @@ export class Cart extends React.Component {
     this.userProceed = this.userProceed.bind(this)
   }
 
-  componentDidMount() {
-    this.props.getCart()
-    this.props.getGCart()
+  async componentDidMount() {
+    await this.props.getCart()
+    await this.props.getGCart()
     console.log('running', this.state)
   }
 
@@ -62,9 +62,9 @@ export class Cart extends React.Component {
     this.props.removeItemGuest(id)
   }
 
-  removeItem(e) {
-    this.props.delItem(e.target.value, this.props.cart[0].id)
-    this.props.getCart()
+  async removeItem(e) {
+    await this.props.delItem(e.target.value, this.props.cart[0].id)
+    await this.props.getCart()
   }
 
   numberWithCommas(x) {
@@ -196,11 +196,11 @@ export class Cart extends React.Component {
 
   render() {
     console.log('THIS IS CART[0] --> ', this.props.cart[0])
-    console.log('guest cart --> ', this.props.gCart)
+    // console.log('guest cart --> ', this.props.gCart)
     let values = Object.values(this.state)
     return (
       <div id="cart">
-        {this.props.isLoggedIn ? (
+        {this.props.isLoggedIn && this.props.cart[0] ? (
           this.state.phase === 0 ? (
             <div id="cart">
               <h1 id="cartTitle">
@@ -223,7 +223,7 @@ export class Cart extends React.Component {
                 )}
               </h1>
               {this.props.cart[0] === undefined ||
-              !this.props.cart[0].products.length ? (
+              !this.props.cart[0].products[0] ? (
                 <div id="fullCartDiv">
                   <h2>Empty</h2>
                 </div>
