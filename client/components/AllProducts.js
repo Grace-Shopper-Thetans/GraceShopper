@@ -26,6 +26,7 @@ class AllProducts extends React.Component {
     this.resetFilter = this.resetFilter.bind(this)
     this.toSingleProduct = this.toSingleProduct.bind(this)
     this.addCart = this.addCart.bind(this)
+    this.doIt = this.doIt.bind(this)
 
     this.removeItemAdmin = this.removeItemAdmin.bind(this)
   }
@@ -84,15 +85,19 @@ class AllProducts extends React.Component {
     this.props.history.push(`/products/${e.target.className}`)
   }
 
-  async addCart(e) {
+  async doIt(e) {
+    await this.props.addCart(e)
+    await this.props.getCart()
+  }
+
+  addCart(e) {
     e.persist()
     e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImageRide'
     function setBack() {
       e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImage'
     }
-    await setTimeout(() => this.props.addCart(e), 1500)
+    setTimeout(() => this.doIt(e), 1500)
     setTimeout(() => setBack(), 1510)
-    await setTimeout(() => this.props.getCart(), 1550)
   }
 
   async removeItemAdmin(e) {
