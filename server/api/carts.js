@@ -53,6 +53,11 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.post('/:userId', async (req, res, next) => {
+  await Order.create({userId: req.params.userId})
+  res.send()
+})
+
 router.post('/guestorder', async (req, res, next) => {
   try {
     let products = req.body.items.map(item => Number(item.data.id))
