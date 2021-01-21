@@ -85,8 +85,14 @@ class AllProducts extends React.Component {
   }
 
   async addCart(e) {
-    await this.props.addCart(e)
-    await this.props.getCart()
+    e.persist()
+    e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImageRide'
+    function setBack() {
+      e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImage'
+    }
+    await setTimeout(() => this.props.addCart(e), 1500)
+    setTimeout(() => setBack(), 1510)
+    await setTimeout(() => this.props.getCart(), 1550)
   }
 
   async removeItemAdmin(e) {

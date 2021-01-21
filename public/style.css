@@ -57,6 +57,12 @@ nav a {
   font-size: 20px;
 }
 
+#leftNBUser {
+  display: flex;
+  margin: 0px 0px 0px 50px;
+  font-size: 20px;
+}
+
 #navItem {
   color: #0b2027;
 }
@@ -148,6 +154,7 @@ nav a {
 
 #cartTitle {
   font-family: 'Fredoka One', cursive;
+  font-size: 50px;
 }
 
 #cartItem {
@@ -157,6 +164,12 @@ nav a {
   border-radius: 15px;
   display: flex;
   flex-direction: column;
+}
+
+#cartQty {
+  align-self: center;
+  margin-top: 0px;
+  margin-bottom: 20px;
 }
 
 #cartImage {
@@ -270,7 +283,7 @@ nav a {
   cursor: pointer;
   background-color: rgb(218, 75, 75);
   border-radius: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   width: 125px;
   height: 36px;
   align-self: center;
@@ -490,9 +503,10 @@ li:hover {
   cursor: pointer;
   background-color: rgb(218, 75, 75);
   border-radius: 15px;
+  margin-top: 50px;
   margin-bottom: 15px;
-  width: 125px;
-  height: 36px;
+  width: 250px;
+  height: 75px;
   align-self: center;
   transition-duration: 0.5s;
   outline: none;
@@ -633,4 +647,83 @@ li:hover {
 
 #adminTools {
   color: azure;
+}
+
+#home {
+  margin-top: 150px;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#welcomeBack {
+  color: white;
+}
+
+#quote {
+  color: white;
+}
+
+#welcomeButton {
+  border: none;
+  cursor: pointer;
+  background-color: rgb(116, 168, 228);
+  border-radius: 15px;
+  margin-bottom: 15px;
+  margin-top: 50px;
+  width: 250px;
+  height: 50px;
+  align-self: center;
+  transition-duration: 0.5s;
+  outline: none;
+}
+
+#welcomeButton:hover {
+  background-color: rgb(67, 121, 184);
+}
+
+#logoutButton {
+  color: #0b2027;
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0px 25px 0px 0px;
+}
+
+#logoutButton:hover {
+  transform: scale(1.1);
+}
+
+#loginButton {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 15px;
+  width: 65%;
+  height: 30px;
+  background-color: rgb(116, 168, 228);
+  margin: 10px 25px;
+  transition-duration: 0.5s;
+  align-self: center;
+}
+
+#loginButton:hover {
+  background-color: rgb(67, 121, 184);
+}
+
+#googleButton {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 15px;
+  width: 65%;
+  height: 30px;
+  background-color: rgb(244, 180, 0);
+  margin: 10px 25px;
+  transition-duration: 0.5s;
+}
+
+#googleButton:hover {
+  background-color: rgb(15, 157, 88);
 }
