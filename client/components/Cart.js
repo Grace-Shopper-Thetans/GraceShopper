@@ -50,6 +50,7 @@ export class Cart extends React.Component {
 
   componentDidMount() {
     this.props.getCart()
+
     this.props.getGCart()
     console.log('running', this.state)
   }
@@ -222,8 +223,7 @@ export class Cart extends React.Component {
                   ''
                 )}
               </h1>
-              {this.props.cart[0] === undefined ||
-              !this.props.cart[0].products.length ? (
+              {this.props.user.id === null || !this.props.cart[0] ? (
                 <div id="fullCartDiv">
                   <h2>Empty</h2>
                 </div>
