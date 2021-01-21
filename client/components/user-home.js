@@ -1,16 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 /**
  * COMPONENT
  */
-export const UserHome = props => {
-  const {email} = props
+export const UserHome = (props) => {
+  const {email, name} = props
+
+  function handleClick() {}
 
   return (
-    <div>
-      <h3>Welcome, {email}</h3>
+    <div id="home">
+      <h1 id="welcomeBack">Welcome Back, {name || email}!</h1>
+      <p id="quote">Ready to find the bike of your dreams... again?</p>
+      <Link to="/products">
+        <button type="button" id="welcomeButton" onClick={handleClick}>
+          Enter Store
+        </button>
+      </Link>
     </div>
   )
 }
@@ -18,9 +27,10 @@ export const UserHome = props => {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
-    email: state.user.email
+    email: state.user.email,
+    name: state.user.name,
   }
 }
 
@@ -30,5 +40,5 @@ export default connect(mapState)(UserHome)
  * PROP TYPES
  */
 UserHome.propTypes = {
-  email: PropTypes.string
+  email: PropTypes.string,
 }

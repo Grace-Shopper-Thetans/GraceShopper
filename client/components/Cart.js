@@ -13,7 +13,7 @@ import {
   getGuestCart,
   removeItemGuest,
   clearGuestCart,
-  completeGuestOrder
+  completeGuestOrder,
 } from '../store/guestCart'
 
 export class Cart extends React.Component {
@@ -157,13 +157,13 @@ export class Cart extends React.Component {
       ccNumber: event.target.ccNumber.value,
       vCode: event.target.vCode.value,
       exDate: event.target.exDate.value,
-      items: this.props.gCart
+      items: this.props.gCart,
     }
     console.log(777, orderObj)
     let orderNumber = await completeGuestOrder(orderObj)
     console.log('ORDER #--->', orderNumber.data)
     await this.setState({
-      guestOrderNumber: orderNumber.data
+      guestOrderNumber: orderNumber.data,
     })
     this.props.clearGuestCart()
     this.proceed()
@@ -195,25 +195,36 @@ export class Cart extends React.Component {
   }
 
   render() {
-    console.log('THIS IS CART --> ', this.props.cart)
+    console.log('THIS IS CART[0] --> ', this.props.cart[0])
     let values = Object.values(this.state)
     return (
       <div id="cart">
         {this.props.isLoggedIn ? (
           this.state.phase === 0 ? (
             <div id="cart">
-              <h1 id="cartTitle">Cart</h1>
-              <button id="clearCart" type="button" onClick={this.clearUserCart}>
-                Clear Cart
-              </button>
-              {this.props.cart[0] ? (
+              <h1 id="cartTitle">
+                <i className="fas fa-shopping-cart"></i>
+              </h1>
+              {this.props.cart[0] === undefined ||
+              !this.props.cart[0].products.length ? (
+                <div id="fullCartDiv">
+                  <h2>Empty</h2>
+                </div>
+              ) : (
                 <>
+                  <button
+                    id="clearCart"
+                    type="button"
+                    onClick={this.clearUserCart}
+                  >
+                    Clear Cart
+                  </button>
                   {this.props.cart[0].products.map((item) => (
                     <div key={item.id} id="cartItem">
                       <h3 id="ciName">{item.name}</h3>
                       <img src={item.imageUrl} id="cartImage" />
                       <h4 id="ciPrice">Price: ${item.price}</h4>
-                      <h3>Quantity: {item.orders_products.qty}</h3>
+                      <h3 id="cartQty">Quantity: {item.orders_products.qty}</h3>
                       <button
                         value={item.id}
                         onClick={this.removeItem}
@@ -224,7 +235,6 @@ export class Cart extends React.Component {
                       </button>
                     </div>
                   ))}
-
                   <h1 id="checkoutTotal">
                     Total: $
                     {this.numberWithCommas(
@@ -242,10 +252,6 @@ export class Cart extends React.Component {
                     Checkout
                   </button>
                 </>
-              ) : (
-                <div id="fullCartDiv">
-                  <h2>Empty</h2>
-                </div>
               )}
             </div>
           ) : this.state.phase === 1 ? (
@@ -384,7 +390,8 @@ export class Cart extends React.Component {
             {this.props.gCart.length ? (
               <div id="fullCartDiv">
                 <h1 id="cartTitle">
-                  Cart<span id="small"> ({this.props.gCart.length})</span>
+                  <i className="fas fa-shopping-cart"></i>
+                  <span id="small"> ({this.props.gCart.length})</span>
                 </h1>
                 <button
                   id="clearCart"
@@ -400,7 +407,7 @@ export class Cart extends React.Component {
                     <h4 id="ciPrice">
                       Price: ${this.numberWithCommas(item.data.price)}
                     </h4>
-                    <h3>Quantity: {item.qty}</h3>
+                    <h3 id="cartQty">Quantity: {item.qty}</h3>
                     <button
                       value={item.data.id}
                       onClick={() => this.remove(item.data.id)}
@@ -423,7 +430,9 @@ export class Cart extends React.Component {
               </div>
             ) : (
               <div id="fullCartDiv">
-                <h1 id="cartTitle">Cart</h1>
+                <h1 id="cartTitle">
+                  <i className="fas fa-shopping-cart"></i>
+                </h1>
                 <h2>Empty</h2>
               </div>
             )}{' '}
