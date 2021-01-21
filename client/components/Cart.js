@@ -196,6 +196,7 @@ export class Cart extends React.Component {
 
   render() {
     console.log('THIS IS CART[0] --> ', this.props.cart[0])
+    console.log('guest cart --> ', this.props.gCart)
     let values = Object.values(this.state)
     return (
       <div id="cart">
@@ -204,6 +205,22 @@ export class Cart extends React.Component {
             <div id="cart">
               <h1 id="cartTitle">
                 <i className="fas fa-shopping-cart"></i>
+                {this.props.cart[0] ? (
+                  this.props.cart[0].products.length ? (
+                    <span id="small">
+                      (
+                      {this.props.cart[0].products.reduce(
+                        (a, b) => a + b.orders_products.qty,
+                        0
+                      )}
+                      )
+                    </span>
+                  ) : (
+                    ''
+                  )
+                ) : (
+                  ''
+                )}
               </h1>
               {this.props.cart[0] === undefined ||
               !this.props.cart[0].products.length ? (
@@ -391,7 +408,10 @@ export class Cart extends React.Component {
               <div id="fullCartDiv">
                 <h1 id="cartTitle">
                   <i className="fas fa-shopping-cart"></i>
-                  <span id="small"> ({this.props.gCart.length})</span>
+                  <span id="small">
+                    {' '}
+                    ({this.props.gCart.reduce((a, b) => a + b.qty, 0)})
+                  </span>
                 </h1>
                 <button
                   id="clearCart"
