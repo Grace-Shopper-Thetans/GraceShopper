@@ -174,13 +174,9 @@ router.delete('/:orderId', async (req, res, next) => {
         },
       })
 
-      console.log('ITEM QTY CHECK BEFORE ->', item.dataValues.quantity)
-
       item.update({
         quantity: item.dataValues.quantity + cartItems[i].dataValues.qty,
       })
-
-      console.log('ITEM QTY CHECK AFTER ->', item.dataValues.quantity)
     }
 
     await OrdersProducts.destroy({
