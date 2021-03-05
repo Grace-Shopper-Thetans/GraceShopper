@@ -5,10 +5,7 @@ const ADD_G_CART = 'ADD_G_CART'
 
 export const getGuestCart = () => {
   let gCart = null
-  if (
-    localStorage.getItem('cart') === null ||
-    localStorage.getItem('cart') === ''
-  ) {
+  if (localStorage.getItem('cart') === null) {
     gCart = []
   } else {
     gCart = JSON.parse(localStorage.getItem('cart'))

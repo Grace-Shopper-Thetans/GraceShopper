@@ -52,8 +52,9 @@ export class Cart extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.getCart()
     await this.props.getGCart()
+    await this.props.getCart()
+    console.log('running', this.state)
   }
 
   updateCartGuest() {
