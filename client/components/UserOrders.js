@@ -45,10 +45,19 @@ class UserOrders extends React.Component {
                 <h3>
                   Total Price .........
                   {this.createPrice(
-                    order.products.reduce((a, b) => a + b.price, 0)
+                    order.products.reduce((a, b) => {
+                      console.log('THIS IS CREATEPRICE B ->', b)
+                      return a + b.price * b.orders_products.qty
+                    }, 0)
                   )}
                 </h3>
-                <h3># of Items ......... {order.products.length}</h3>
+                {/* 5 items 49000 */}
+                <h3>
+                  # of Items .........{' '}
+                  {order.products.reduce((a, b) => {
+                    return a + b.orders_products.qty
+                  }, 0)}
+                </h3>
               </div>
             )
           })}

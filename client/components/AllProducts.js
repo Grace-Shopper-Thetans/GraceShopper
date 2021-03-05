@@ -86,6 +86,7 @@ class AllProducts extends React.Component {
       setTimeout(() => this.props.addGCart(e), 1500)
       setTimeout(() => setBack(), 1510)
     }
+    setTimeout(() => this.props.getAllProducts(), 1600)
   }
 
   toSingleProduct(e) {
@@ -118,6 +119,7 @@ class AllProducts extends React.Component {
       setTimeout(() => this.doIt(e), 1500)
       setTimeout(() => setBack(), 1510)
     }
+    setTimeout(() => this.props.getAllProducts(), 1600)
   }
 
   async removeItemAdmin(e) {

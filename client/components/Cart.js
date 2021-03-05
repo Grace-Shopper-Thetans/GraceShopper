@@ -120,7 +120,7 @@ export class Cart extends React.Component {
   }
 
   newUserOrder() {
-    this.props.clearCart()
+    this.props.clearCart(this.props.cart[0].id)
     this.setState({
       phase: 0,
       fullName: this.props.user.name,
@@ -180,10 +180,10 @@ export class Cart extends React.Component {
       items: this.props.cart[0].products,
     }
     let orderNumber = await completeUserOrder(orderObj)
+    // this.props.getUserOrder()
     await this.setState({
       userOrderNumber: orderNumber.data,
     })
-    this.props.clearCart()
     this.userProceed()
   }
 
