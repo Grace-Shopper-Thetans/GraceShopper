@@ -29,22 +29,37 @@ class SingleProduct extends React.Component {
     this.props.getSingleProduct(this.props.product.id)
   }
 
-  addToGCart(e) {
-    this.props.addGCart(e)
-    // e.persist()
-    // e.target.parentNode.parentNode.firstChild.firstChild.id =
-    //   'singleProductImageRide'
-    // function setBack() {
-    //   e.target.parentNode.parentNode.firstChild.firstChild.id =
-    //     'singleProductImage'
-    // }
-    // setTimeout(() => this.props.addGCart(e), 1500)
-    // setTimeout(() => setBack(), 1510)
+  addToGCart(e, qty, stock, id) {
+    const idArray = qty.map((product) => product.id)
+    if (qty.length && idArray.indexOf(id) !== -1) {
+      const item = qty.filter((product) => product.id === id)
+      const cartQty = item[0].qty
+      if (cartQty === stock) {
+        return false
+      } else {
+        this.props.addGCart(e)
+      }
+    } else {
+      this.props.addGCart(e)
+    }
   }
 
-  async addCart(e) {
-    await this.props.addCart(e)
-    await this.props.getCart()
+  async addCart(e, qty, stock, id) {
+    let cartQty = 1
+    if (qty.length) {
+      let cartItem = qty
+        .filter((cart) => cart.status === false)[0]
+        .products.filter((product) => product.id === id)
+      if (cartItem.length) {
+        cartQty = cartItem[0].orders_products.qty + 1
+      }
+    }
+    if (cartQty > stock) {
+      return false
+    } else {
+      await this.props.addCart(e)
+      await this.props.getCart()
+    }
   }
 
   createPrice(price) {
@@ -83,7 +98,9 @@ class SingleProduct extends React.Component {
                 type="button"
                 id="addToCartSingle"
                 value={[product.id, userId]}
-                onClick={this.addCart}
+                onClick={(e) =>
+                  this.addCart(e, this.props.cart, product.quantity, product.id)
+                }
               >
                 Add To Cart
               </button>
@@ -92,7 +109,14 @@ class SingleProduct extends React.Component {
                 type="button"
                 id="addToCartSingle"
                 value={product.id}
-                onClick={(e) => this.addToGCart(e)}
+                onClick={(e) =>
+                  this.addToGCart(
+                    e,
+                    this.props.gCart,
+                    product.quantity,
+                    product.id
+                  )
+                }
               >
                 Add To Cart
               </button>
@@ -116,6 +140,8 @@ const mapStateToProps = (state) => ({
   isAdmin: state.user.isAdmin,
   isLoggedIn: !!state.user.id,
   userId: state.user.id,
+  cart: state.cart,
+  gCart: state.gCart,
 })
 
 const mapDispatchToProps = (dispatch) => ({

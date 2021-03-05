@@ -202,17 +202,21 @@ export class Cart extends React.Component {
     )
   }
 
-  addToGCart(e, incDec, shallowId, qty) {
+  addToGCart(e, incDec, shallowId, qty, stock) {
     if (qty === 1 && incDec === -1) {
+      return false
+    } else if (qty === stock && incDec === 1) {
       return false
     } else {
       this.props.addGCart(e, incDec, shallowId)
     }
   }
 
-  async addCart(e, incDec, shallowId, qty) {
+  async addCart(e, incDec, shallowId, qty, stock) {
     const userId = this.props.userId
     if (qty === 1 && incDec === -1) {
+      return false
+    } else if (qty === stock && incDec === 1) {
       return false
     } else {
       await this.props.addCart(e, incDec, shallowId, userId)
@@ -269,14 +273,15 @@ export class Cart extends React.Component {
                       </h4>
                       <div id="qtyContainer">
                         <i
-                          className="fa fa-minus grow"
+                          className="fa fa-minus minusButton"
                           value={item.id}
                           onClick={(e) =>
                             this.addCart(
                               e,
                               -1,
                               item.id,
-                              item.orders_products.qty
+                              item.orders_products.qty,
+                              item.quantity
                             )
                           }
                         ></i>
@@ -284,14 +289,15 @@ export class Cart extends React.Component {
                           Quantity: {item.orders_products.qty}
                         </h3>
                         <i
-                          className="fas fa-plus grow"
+                          className="fas fa-plus plusButton"
                           value={item.id}
                           onClick={(e) =>
                             this.addCart(
                               e,
                               1,
                               item.id,
-                              item.orders_products.qty
+                              item.orders_products.qty,
+                              item.quantity
                             )
                           }
                         ></i>
@@ -492,17 +498,31 @@ export class Cart extends React.Component {
                     </h4>
                     <div id="qtyContainer">
                       <i
-                        className="fas fa-minus grow"
+                        className="fas fa-minus minusButton"
                         value={item.id}
                         onClick={(e) =>
-                          this.addToGCart(e, -1, item.id, item.qty)
+                          this.addToGCart(
+                            e,
+                            -1,
+                            item.id,
+                            item.qty,
+                            item.data.quantity
+                          )
                         }
                       ></i>
                       <h3 id="cartQty">Quantity: {item.qty}</h3>
                       <i
-                        className="fas fa-plus grow"
+                        className="fas fa-plus plusButton"
                         value={item.id}
-                        onClick={(e) => this.addToGCart(e, 1, item.id)}
+                        onClick={(e) =>
+                          this.addToGCart(
+                            e,
+                            1,
+                            item.id,
+                            item.qty,
+                            item.data.quantity
+                          )
+                        }
                       ></i>
                     </div>
                     <button
