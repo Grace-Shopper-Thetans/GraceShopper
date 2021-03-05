@@ -49,8 +49,8 @@ export class Cart extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.getCart()
     await this.props.getGCart()
+    await this.props.getCart()
     console.log('running', this.state)
   }
 
@@ -196,7 +196,7 @@ export class Cart extends React.Component {
 
   render() {
     console.log('THIS IS CART[0] --> ', this.props.cart[0])
-    // console.log('guest cart --> ', this.props.gCart)
+    console.log('guest cart --> ', this.props.gCart)
     let values = Object.values(this.state)
     return (
       <div id="cart">
