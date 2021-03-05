@@ -624,6 +624,8 @@ li:hover {
   background-color: rgba(199, 197, 197, 0.5);
   border-radius: 15px;
   padding: 25px;
+  display: flex;
+  flex-direction: column;
 }
 
 #userOrders {

@@ -112,8 +112,6 @@ class AllProducts extends React.Component {
         cartQty = cartItem[0].orders_products.qty + 1
       }
     }
-    console.log('cartQty', cartQty)
-    console.log('stock', stock)
     if (cartQty > stock) {
       return false
     } else {
