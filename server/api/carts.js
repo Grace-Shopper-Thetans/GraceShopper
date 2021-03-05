@@ -31,14 +31,6 @@ router.post('/', async (req, res, next) => {
 
     const orderId = newAddition[0].dataValues.id
 
-    const item = await Product.findOne({
-      where: {
-        id: Number(req.body.itemId),
-      },
-    })
-
-    item.update({quantity: item.dataValues.quantity - 1})
-
     const isItemIn = await OrdersProducts.findOne({
       where: {
         productId: Number(req.body.itemId),
@@ -94,7 +86,12 @@ router.post('/guestorder', async (req, res, next) => {
 
 router.post('/userorder', async (req, res, next) => {
   try {
-    let products = req.body.items.map((item) => Number(item.id))
+    let products = req.body.items.map((item) => {
+      return {
+        id: Number(item.id),
+        quantity: item.orders_products.qty,
+      }
+    })
     let totalPrice = req.body.items.reduce((a, b) => a + b.price, 0)
     let newOrder = await Order.create({
       status: true,
@@ -105,14 +102,16 @@ router.post('/userorder', async (req, res, next) => {
         await OrdersProducts.create({
           orderId: newOrder.id,
           finalPrice: totalPrice,
-          productId: products[i],
+          productId: products[i].id,
+          qty: products[i].quantity,
         })
       }
     } else {
       await OrdersProducts.create({
         orderId: newOrder.id,
         finalPrice: totalPrice,
-        productId: products,
+        productId: products[0].id,
+        qty: products[0].quantity,
       })
     }
     res.json(newOrder.id)
@@ -137,18 +136,6 @@ router.put('/:orderId', async (req, res, next) => {
 
 router.delete('/:productId/:orderId', async (req, res, next) => {
   try {
-    const cartItem = await OrdersProducts.findOne({
-      where: {productId: req.params.productId, orderId: req.params.orderId},
-    })
-
-    const item = await Product.findOne({
-      where: {
-        id: req.params.productId,
-      },
-    })
-
-    item.update({quantity: item.dataValues.quantity + cartItem.dataValues.qty})
-
     await OrdersProducts.destroy({
       where: {
         productId: req.params.productId,
@@ -163,22 +150,6 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
 
 router.delete('/:orderId', async (req, res, next) => {
   try {
-    const cartItems = await OrdersProducts.findAll({
-      where: {orderId: req.params.orderId},
-    })
-
-    for (let i = 0; i < cartItems.length; i++) {
-      const item = await Product.findOne({
-        where: {
-          id: cartItems[i].dataValues.productId,
-        },
-      })
-
-      item.update({
-        quantity: item.dataValues.quantity + cartItems[i].dataValues.qty,
-      })
-    }
-
     await OrdersProducts.destroy({
       where: {orderId: req.params.orderId},
     })

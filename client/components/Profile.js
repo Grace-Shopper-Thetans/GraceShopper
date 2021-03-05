@@ -46,6 +46,7 @@ class Profile extends React.Component {
     })
   }
 
+  // eslint-disable-next-line complexity
   render() {
     return (
       <div>

@@ -54,9 +54,6 @@ router.get('/:userId', async (req, res, next) => {
       for (let i = 0; i < orderIds.length; i++) {
         orders.push({})
       }
-
-      // && orders[i].id !== item.orderId
-
       ordersProducts.forEach((item) => {
         for (let i = 0; i < orders.length; i++) {
           if (orders[i].id === undefined) {
@@ -64,7 +61,6 @@ router.get('/:userId', async (req, res, next) => {
             orders[i].id = item.orderId
             orders[i].qty = 1
             orders[i].finalPrice = item.finalPrice
-            //Change this else if block
           } else if (orders[i].id === item.orderId) {
             orders[i].qty += 1
             orders[i].finalPrice += item.finalPrice
