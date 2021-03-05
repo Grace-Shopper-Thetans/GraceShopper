@@ -30,7 +30,6 @@ export const addItemGuest = (item) => {
     if (localStorage.getItem('cart')) {
       currentCart = JSON.parse(localStorage.getItem('cart'))
       currentCart.map((cartItem) => {
-        console.log(cartItem)
         if (cartItem.id === id) {
           cartItem.qty++
           counter++

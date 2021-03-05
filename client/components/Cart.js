@@ -35,7 +35,6 @@ export class Cart extends React.Component {
     }
     this.updateCartGuest = this.updateCartGuest.bind(this)
     this.remove = this.remove.bind(this)
-    this.numberWithCommas = this.numberWithCommas.bind(this)
     this.removeItem = this.removeItem.bind(this)
     this.clearUserCart = this.clearUserCart.bind(this)
     this.proceed = this.proceed.bind(this)
@@ -46,12 +45,12 @@ export class Cart extends React.Component {
     this.handleSubmitUser = this.handleSubmitUser.bind(this)
     this.newUserOrder = this.newUserOrder.bind(this)
     this.userProceed = this.userProceed.bind(this)
+    this.createPrice = this.createPrice.bind(this)
   }
 
   async componentDidMount() {
     await this.props.getCart()
     await this.props.getGCart()
-    console.log('running', this.state)
   }
 
   updateCartGuest() {
@@ -67,12 +66,7 @@ export class Cart extends React.Component {
     await this.props.getCart()
   }
 
-  numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
-
   clearUserCart() {
-    console.log(this.props.cart)
     this.props.clearCart(this.props.cart[0].id)
   }
 
@@ -146,7 +140,6 @@ export class Cart extends React.Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-    console.log('vCode --->', event.target.vCode.value)
     let orderObj = {
       fullName: event.target.fullName.value,
       email: event.target.email.value,
@@ -159,9 +152,7 @@ export class Cart extends React.Component {
       exDate: event.target.exDate.value,
       items: this.props.gCart,
     }
-    console.log(777, orderObj)
     let orderNumber = await completeGuestOrder(orderObj)
-    console.log('ORDER #--->', orderNumber.data)
     await this.setState({
       guestOrderNumber: orderNumber.data,
     })
@@ -171,7 +162,7 @@ export class Cart extends React.Component {
 
   async handleSubmitUser(event) {
     event.preventDefault()
-    console.log('vCode --->', event.target.vCode.value)
+
     let orderObj = {
       fullName: event.target.fullName.value,
       email: event.target.email.value,
@@ -184,9 +175,7 @@ export class Cart extends React.Component {
       exDate: event.target.exDate.value,
       items: this.props.cart[0].products,
     }
-    console.log(777, orderObj)
     let orderNumber = await completeUserOrder(orderObj)
-    console.log('ORDER #--->', orderNumber.data)
     await this.setState({
       userOrderNumber: orderNumber.data,
     })
@@ -194,9 +183,22 @@ export class Cart extends React.Component {
     this.userProceed()
   }
 
+  createPrice(price) {
+    const strPrice = price.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    })
+    const dollars = strPrice.slice(0, strPrice.length - 3)
+    const cents = strPrice.slice(-3)
+    return (
+      <>
+        Price: {dollars}
+        <span style={{fontSize: '12px'}}>{cents}</span>
+      </>
+    )
+  }
+
   render() {
-    console.log('THIS IS CART[0] --> ', this.props.cart[0])
-    // console.log('guest cart --> ', this.props.gCart)
     let values = Object.values(this.state)
     return (
       <div id="cart">
@@ -240,7 +242,7 @@ export class Cart extends React.Component {
                     <div key={item.id} id="cartItem">
                       <h3 id="ciName">{item.name}</h3>
                       <img src={item.imageUrl} id="cartImage" />
-                      <h4 id="ciPrice">Price: ${item.price}</h4>
+                      <h4 id="ciPrice">{this.createPrice(item.price)}</h4>
                       <h3 id="cartQty">Quantity: {item.orders_products.qty}</h3>
                       <button
                         value={item.id}
@@ -253,8 +255,8 @@ export class Cart extends React.Component {
                     </div>
                   ))}
                   <h1 id="checkoutTotal">
-                    Total: $
-                    {this.numberWithCommas(
+                    Total:{' '}
+                    {this.createPrice(
                       this.props.cart[0].products.reduce(
                         (a, b) => a + b.price,
                         0
@@ -373,8 +375,8 @@ export class Cart extends React.Component {
                   <span>{this.props.cart[0].products.length}</span> Items
                 </h1>
                 <h1 id="checkoutTotal">
-                  Total: $
-                  {this.numberWithCommas(
+                  Total:{' '}
+                  {this.createPrice(
                     this.props.cart[0].products.reduce((a, b) => a + b.price, 0)
                   )}
                 </h1>
@@ -425,7 +427,7 @@ export class Cart extends React.Component {
                     <h3 id="ciName">{item.data.name}</h3>
                     <img src={item.data.imageUrl} id="cartImage" />
                     <h4 id="ciPrice">
-                      Price: ${this.numberWithCommas(item.data.price)}
+                      Price: {this.createPrice(item.data.price)}
                     </h4>
                     <h3 id="cartQty">Quantity: {item.qty}</h3>
                     <button
@@ -439,8 +441,8 @@ export class Cart extends React.Component {
                   </div>
                 ))}
                 <h1 id="checkoutTotal">
-                  Total: $
-                  {this.numberWithCommas(
+                  Total:{' '}
+                  {this.createPrice(
                     this.props.gCart.reduce((a, b) => a + b.data.price, 0)
                   )}
                 </h1>
@@ -557,8 +559,8 @@ export class Cart extends React.Component {
                 <span>{this.props.gCart.length}</span> Items
               </h1>
               <h1 id="checkoutTotal">
-                Total: $
-                {this.numberWithCommas(
+                Total:{' '}
+                {this.createPrice(
                   this.props.gCart.reduce((a, b) => a + b.data.price, 0)
                 )}
               </h1>
