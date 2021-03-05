@@ -38,7 +38,7 @@ router.post('/', async (req, res, next) => {
       },
     })
     if (isItemIn) {
-      isItemIn.update({qty: isItemIn.dataValues.qty + 1})
+      isItemIn.update({qty: isItemIn.dataValues.qty + (req.body.incDec || 1)})
       res.send()
     } else {
       await OrdersProducts.create({

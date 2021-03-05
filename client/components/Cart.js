@@ -7,6 +7,7 @@ import {
   deleteItem,
   fetchCart,
   clearCart,
+  addToCart,
   completeUserOrder,
 } from '../store/cart'
 import {
@@ -14,6 +15,7 @@ import {
   removeItemGuest,
   clearGuestCart,
   completeGuestOrder,
+  addItemGuest,
 } from '../store/guestCart'
 
 export class Cart extends React.Component {
@@ -46,6 +48,7 @@ export class Cart extends React.Component {
     this.newUserOrder = this.newUserOrder.bind(this)
     this.userProceed = this.userProceed.bind(this)
     this.createPrice = this.createPrice.bind(this)
+    this.addCart = this.addCart.bind(this)
   }
 
   async componentDidMount() {
@@ -183,7 +186,7 @@ export class Cart extends React.Component {
     this.userProceed()
   }
 
-  createPrice(price) {
+  createPrice(price, qty = 1) {
     const strPrice = price.toLocaleString('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -192,10 +195,29 @@ export class Cart extends React.Component {
     const cents = strPrice.slice(-3)
     return (
       <>
-        Price: {dollars}
+        {dollars}
         <span style={{fontSize: '12px'}}>{cents}</span>
+        {qty > 1 && <span style={{fontSize: '12px'}}> (Each)</span>}
       </>
     )
+  }
+
+  addToGCart(e, incDec, shallowId, qty) {
+    if (qty === 1 && incDec === -1) {
+      return false
+    } else {
+      this.props.addGCart(e, incDec, shallowId)
+    }
+  }
+
+  async addCart(e, incDec, shallowId, qty) {
+    const userId = this.props.userId
+    if (qty === 1 && incDec === -1) {
+      return false
+    } else {
+      await this.props.addCart(e, incDec, shallowId, userId)
+    }
+    await this.props.getCart()
   }
 
   render() {
@@ -242,8 +264,38 @@ export class Cart extends React.Component {
                     <div key={item.id} id="cartItem">
                       <h3 id="ciName">{item.name}</h3>
                       <img src={item.imageUrl} id="cartImage" />
-                      <h4 id="ciPrice">{this.createPrice(item.price)}</h4>
-                      <h3 id="cartQty">Quantity: {item.orders_products.qty}</h3>
+                      <h4 id="ciPrice">
+                        {this.createPrice(item.price, item.orders_products.qty)}
+                      </h4>
+                      <div id="qtyContainer">
+                        <i
+                          className="fa fa-minus grow"
+                          value={item.id}
+                          onClick={(e) =>
+                            this.addCart(
+                              e,
+                              -1,
+                              item.id,
+                              item.orders_products.qty
+                            )
+                          }
+                        ></i>
+                        <h3 id="cartQty">
+                          Quantity: {item.orders_products.qty}
+                        </h3>
+                        <i
+                          className="fas fa-plus grow"
+                          value={item.id}
+                          onClick={(e) =>
+                            this.addCart(
+                              e,
+                              1,
+                              item.id,
+                              item.orders_products.qty
+                            )
+                          }
+                        ></i>
+                      </div>
                       <button
                         value={item.id}
                         onClick={this.removeItem}
@@ -258,7 +310,7 @@ export class Cart extends React.Component {
                     Total:{' '}
                     {this.createPrice(
                       this.props.cart[0].products.reduce(
-                        (a, b) => a + b.price,
+                        (a, b) => a + b.price * b.orders_products.qty,
                         0
                       )
                     )}
@@ -372,12 +424,21 @@ export class Cart extends React.Component {
                   required
                 />
                 <h1 id="checkoutItems">
-                  <span>{this.props.cart[0].products.length}</span> Items
+                  <span>
+                    {this.props.cart[0].products.reduce(
+                      (a, b) => a + b.orders_products.qty,
+                      0
+                    )}
+                  </span>{' '}
+                  Items
                 </h1>
                 <h1 id="checkoutTotal">
                   Total:{' '}
                   {this.createPrice(
-                    this.props.cart[0].products.reduce((a, b) => a + b.price, 0)
+                    this.props.cart[0].products.reduce(
+                      (a, b) => a + b.price * b.orders_products.qty,
+                      0
+                    )
                   )}
                 </h1>
                 <button id="goBack" type="button" onClick={this.recede}>
@@ -427,9 +488,23 @@ export class Cart extends React.Component {
                     <h3 id="ciName">{item.data.name}</h3>
                     <img src={item.data.imageUrl} id="cartImage" />
                     <h4 id="ciPrice">
-                      Price: {this.createPrice(item.data.price)}
+                      {this.createPrice(item.data.price, item.qty)}
                     </h4>
-                    <h3 id="cartQty">Quantity: {item.qty}</h3>
+                    <div id="qtyContainer">
+                      <i
+                        className="fas fa-minus grow"
+                        value={item.id}
+                        onClick={(e) =>
+                          this.addToGCart(e, -1, item.id, item.qty)
+                        }
+                      ></i>
+                      <h3 id="cartQty">Quantity: {item.qty}</h3>
+                      <i
+                        className="fas fa-plus grow"
+                        value={item.id}
+                        onClick={(e) => this.addToGCart(e, 1, item.id)}
+                      ></i>
+                    </div>
                     <button
                       value={item.data.id}
                       onClick={() => this.remove(item.data.id)}
@@ -443,7 +518,10 @@ export class Cart extends React.Component {
                 <h1 id="checkoutTotal">
                   Total:{' '}
                   {this.createPrice(
-                    this.props.gCart.reduce((a, b) => a + b.data.price, 0)
+                    this.props.gCart.reduce(
+                      (a, b) => a + b.data.price * b.qty,
+                      0
+                    )
                   )}
                 </h1>
                 <button id="gCheckout" type="button" onClick={this.proceed}>
@@ -556,12 +634,13 @@ export class Cart extends React.Component {
                 required
               />
               <h1 id="checkoutItems">
-                <span>{this.props.gCart.length}</span> Items
+                <span>{this.props.gCart.reduce((a, b) => a + b.qty, 0)}</span>{' '}
+                Items
               </h1>
               <h1 id="checkoutTotal">
                 Total:{' '}
                 {this.createPrice(
-                  this.props.gCart.reduce((a, b) => a + b.data.price, 0)
+                  this.props.gCart.reduce((a, b) => a + b.data.price * b.qty, 0)
                 )}
               </h1>
               <button id="goBack" type="button" onClick={this.recede}>
@@ -618,5 +697,9 @@ const mapDispatch = (dispatch) => ({
   clearGuestCart: () => dispatch(clearGuestCart()),
   getUserOrder: (id) => dispatch(fetchUserOrder(id)),
   clearCart: (userId) => dispatch(clearCart(userId)),
+  addGCart: (item, incDec, shallowId) =>
+    dispatch(addItemGuest(item, incDec, shallowId)),
+  addCart: (e, incDec, shallowId, userId) =>
+    dispatch(addToCart(e, incDec, shallowId, userId)),
 })
 export default connect(mapState, mapDispatch)(Cart)

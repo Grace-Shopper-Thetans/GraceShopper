@@ -42,13 +42,16 @@ export const fetchCart = () => {
   }
 }
 
-export const addToCart = (item) => {
+export const addToCart = (item, incDec, shallowId, _userId) => {
   return async (dispatch) => {
     try {
-      const input = item.target.value.split(',')
-      const itemId = input[0]
-      const userId = input[1]
-      const {data} = await axios.post('/api/carts/', {itemId, userId})
+      let input = []
+      if (item.target.value) {
+        input = item.target.value.split(',')
+      }
+      const itemId = input[0] || shallowId
+      const userId = input[1] || _userId
+      const {data} = await axios.post('/api/carts/', {itemId, userId, incDec})
       dispatch(addCartAction(data))
     } catch (error) {
       console.error(error.message)

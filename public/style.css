@@ -170,8 +170,7 @@ nav a {
 
 #cartQty {
   align-self: center;
-  margin-top: 0px;
-  margin-bottom: 20px;
+  margin: 0px;
 }
 
 #cartImage {
@@ -729,4 +728,28 @@ li:hover {
 
 #googleButton:hover {
   background-color: rgb(15, 157, 88);
+}
+
+#qtyContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: center;
+  margin-bottom: 20px;
+  width: 80%;
+}
+
+.grow {
+  transition-duration: 0.33s;
+}
+
+.grow:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.test {
+  background-color: chocolate;
+  width: 36px;
+  height: 36px;
 }
