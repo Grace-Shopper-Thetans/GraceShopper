@@ -4,7 +4,6 @@ import {addToCart, fetchCart} from '../store/cart.js'
 import {addItemGuest} from '../store/guestCart.js'
 import {fetchProducts, filterProducts} from '../store/products.js'
 import AddItemAdmin from './AddItemAdmin'
-import user from '../store/user.js'
 
 import SideNavbar from './Filters'
 import axios from 'axios'

@@ -31,6 +31,17 @@ router.post('/', async (req, res, next) => {
 
     const orderId = newAddition[0].dataValues.id
 
+    const item = await Product.findOne({
+      where: {
+        id: Number(req.body.itemId),
+      },
+    })
+
+    console.log('ITEM BEFORE ->', item)
+
+    item.update({quantity: item.dataValues.quantity - 1})
+    console.log('ITEM AFTER ->', item)
+
     const isItemIn = await OrdersProducts.findOne({
       where: {
         productId: Number(req.body.itemId),
@@ -126,15 +137,6 @@ router.put('/:orderId', async (req, res, next) => {
     next(error)
   }
 })
-
-// router.post('/add/:userId', async (req, res, next) => {
-//   try {
-//     await Order.create({userId: req.params.userId})
-//     res.send()
-//   } catch (error) {
-//     next(error)
-//   }
-// })
 
 router.delete('/:productId/:orderId', async (req, res, next) => {
   try {
