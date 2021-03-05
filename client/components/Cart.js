@@ -103,8 +103,8 @@ export class Cart extends React.Component {
     this.setState({phase: previous})
   }
 
-  newOrder() {
-    this.props.clearGuestCart()
+  async newOrder() {
+    await this.props.clearGuestCart()
     this.setState({
       phase: 0,
       fullName: '',
@@ -120,8 +120,8 @@ export class Cart extends React.Component {
     })
   }
 
-  newUserOrder() {
-    this.props.clearCart(this.props.cart[0].id)
+  async newUserOrder() {
+    await this.props.clearCart(this.props.cart[0].id)
     this.setState({
       phase: 0,
       fullName: this.props.user.name,
