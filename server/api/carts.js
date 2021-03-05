@@ -23,7 +23,6 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log('req body', req.body)
     const newAddition = await Order.findOrCreate({
       where: {
         userId: req.body.userId,
@@ -57,12 +56,9 @@ router.post('/guestorder', async (req, res, next) => {
   try {
     let products = req.body.items.map((item) => Number(item.data.id))
     let totalPrice = req.body.items.reduce((a, b) => a + b.data.price, 0)
-    console.log('productssss', products)
-    console.log('totalPrice', totalPrice)
     let newOrder = await Order.create({
       status: true,
     })
-    console.log('new -->', newOrder)
 
     const guestUser = await User.findByPk(1)
     guestUser.addOrder(newOrder)
@@ -92,8 +88,6 @@ router.post('/userorder', async (req, res, next) => {
   try {
     let products = req.body.items.map((item) => Number(item.id))
     let totalPrice = req.body.items.reduce((a, b) => a + b.price, 0)
-    console.log('productssss', products)
-    console.log('totalPrice', totalPrice)
     let newOrder = await Order.create({
       status: true,
       userId: req.user.dataValues.id,
