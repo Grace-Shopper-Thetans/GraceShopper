@@ -31,6 +31,14 @@ router.post('/', async (req, res, next) => {
 
     const orderId = newAddition[0].dataValues.id
 
+    const item = await Product.findOne({
+      where: {
+        id: Number(req.body.itemId),
+      },
+    })
+
+    item.update({quantity: item.dataValues.quantity - 1})
+
     const isItemIn = await OrdersProducts.findOne({
       where: {
         productId: Number(req.body.itemId),
@@ -127,17 +135,20 @@ router.put('/:orderId', async (req, res, next) => {
   }
 })
 
-// router.post('/add/:userId', async (req, res, next) => {
-//   try {
-//     await Order.create({userId: req.params.userId})
-//     res.send()
-//   } catch (error) {
-//     next(error)
-//   }
-// })
-
 router.delete('/:productId/:orderId', async (req, res, next) => {
   try {
+    const cartItem = await OrdersProducts.findOne({
+      where: {productId: req.params.productId, orderId: req.params.orderId},
+    })
+
+    const item = await Product.findOne({
+      where: {
+        id: req.params.productId,
+      },
+    })
+
+    item.update({quantity: item.dataValues.quantity + cartItem.dataValues.qty})
+
     await OrdersProducts.destroy({
       where: {
         productId: req.params.productId,
@@ -152,6 +163,22 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
 
 router.delete('/:orderId', async (req, res, next) => {
   try {
+    const cartItems = await OrdersProducts.findAll({
+      where: {orderId: req.params.orderId},
+    })
+
+    for (let i = 0; i < cartItems.length; i++) {
+      const item = await Product.findOne({
+        where: {
+          id: cartItems[i].dataValues.productId,
+        },
+      })
+
+      item.update({
+        quantity: item.dataValues.quantity + cartItems[i].dataValues.qty,
+      })
+    }
+
     await OrdersProducts.destroy({
       where: {orderId: req.params.orderId},
     })
