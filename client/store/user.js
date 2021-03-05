@@ -48,7 +48,6 @@ export const me = () => async (dispatch) => {
 export const auth = (email, password, name, method) => async (dispatch) => {
   let res
   try {
-    console.log('Hello')
     res = await axios.post(`/auth/${method}`, {email, password, name})
   } catch (authError) {
     return dispatch(getUser({error: authError}))
@@ -99,7 +98,6 @@ export const fetchAllUsers = () => {
   return async (dispatch) => {
     try {
       const users = await axios.get('/api/users')
-      console.log(users)
       dispatch(getUsersAction(users.data))
     } catch (error) {
       console.error(error)

@@ -21,13 +21,12 @@ class AllProducts extends React.Component {
       allProducts: [],
     }
     this.onClick = this.onClick.bind(this)
-    this.numberWithCommas = this.numberWithCommas.bind(this)
     this.addToGCart = this.addToGCart.bind(this)
     this.resetFilter = this.resetFilter.bind(this)
     this.toSingleProduct = this.toSingleProduct.bind(this)
     this.addCart = this.addCart.bind(this)
     this.doIt = this.doIt.bind(this)
-
+    this.createPrice = this.createPrice.bind(this)
     this.removeItemAdmin = this.removeItemAdmin.bind(this)
   }
 
@@ -67,10 +66,6 @@ class AllProducts extends React.Component {
     }
   }
 
-  numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
-
   addToGCart(e) {
     e.persist()
     e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImageRide'
@@ -104,6 +99,21 @@ class AllProducts extends React.Component {
     await axios.delete(`/api/products/${e.target.value}`)
 
     this.props.getAllProducts()
+  }
+
+  createPrice(price) {
+    const strPrice = price.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    })
+    const dollars = strPrice.slice(0, strPrice.length - 3)
+    const cents = strPrice.slice(-3)
+    return (
+      <>
+        Price: {dollars}
+        <span style={{fontSize: '12px'}}>{cents}</span>
+      </>
+    )
   }
 
   render() {
@@ -145,9 +155,7 @@ class AllProducts extends React.Component {
                     </h1>
                     <h3 id="mpDesign">{product.designType}</h3>
                     <h3 id="mpColor">{product.color}</h3>
-                    <p id="mpPrice">
-                      {'$' + this.numberWithCommas(product.price)}
-                    </p>
+                    <p id="mpPrice">{this.createPrice(product.price)}</p>
                     <p id="mpQuantity">({product.quantity}) In Stock</p>
                   </div>
                   <div id="allProductsButton">

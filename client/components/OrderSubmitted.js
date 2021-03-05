@@ -12,11 +12,10 @@ class OrderSubmitted extends React.Component {
   }
 
   render() {
-    console.log('This is cart', this.props.cart)
     return (
       <div id="orderproductsList">
         {this.props.isLoggedIn
-          ? this.props.cart.map(item => (
+          ? this.props.cart.map((item) => (
               <div className="productContainer" key={item.id}>
                 <Link to="/products/:productId">
                   <h2 id="mpName">{item.name}</h2>
@@ -32,7 +31,7 @@ class OrderSubmitted extends React.Component {
                 </div>
               </div>
             ))
-          : this.props.gCart.map(item => (
+          : this.props.gCart.map((item) => (
               <div className="productContainer" key={item.data.id}>
                 <Link to="/products/:productId">
                   <h2 id="mpName">{item.data.name}</h2>
@@ -54,15 +53,15 @@ class OrderSubmitted extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   cart: state.cart,
   isLoggedIn: !!state.user.id,
-  gCart: state.gCart
+  gCart: state.gCart,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getGCart: () => dispatch(getGuestCart()),
-  getCart: () => dispatch(fetchCart())
+  getCart: () => dispatch(fetchCart()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderSubmitted)

@@ -12,10 +12,10 @@ class SingleProduct extends React.Component {
     this.state = {
       ranOnce: false,
     }
-    this.numberWithCommas = this.numberWithCommas.bind(this)
     this.addToGCart = this.addToGCart.bind(this)
     this.refresh = this.refresh.bind(this)
     this.addCart = this.addCart.bind(this)
+    this.createPrice = this.createPrice.bind(this)
   }
 
   async componentDidMount() {
@@ -23,10 +23,6 @@ class SingleProduct extends React.Component {
     this.setState({
       ranOnce: true,
     })
-  }
-
-  numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
   refresh() {
@@ -51,6 +47,21 @@ class SingleProduct extends React.Component {
     await this.props.getCart()
   }
 
+  createPrice(price) {
+    const strPrice = price.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    })
+    const dollars = strPrice.slice(0, strPrice.length - 3)
+    const cents = strPrice.slice(-3)
+    return (
+      <>
+        Price: {dollars}
+        <span style={{fontSize: '12px'}}>{cents}</span>
+      </>
+    )
+  }
+
   render() {
     const userId = this.props.userId
     const {product} = this.props
@@ -64,7 +75,7 @@ class SingleProduct extends React.Component {
           <h1 id="mpName">{product.name}</h1>
           <h3 id="mpDesign">Bike Type: {product.designType}</h3>
           <h3 id="mpColor">Color: {product.color}</h3>
-          <p id="mpPrice">{'$' + this.numberWithCommas(product.price)}</p>
+          <p id="mpPrice">{this.createPrice(product.price)}</p>
           <p id="spQuantity">({product.quantity}) In Stock</p>
           <div id="singleProductButton">
             {this.props.isLoggedIn ? (
