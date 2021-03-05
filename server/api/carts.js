@@ -37,10 +37,7 @@ router.post('/', async (req, res, next) => {
       },
     })
 
-    console.log('ITEM BEFORE ->', item)
-
     item.update({quantity: item.dataValues.quantity - 1})
-    console.log('ITEM AFTER ->', item)
 
     const isItemIn = await OrdersProducts.findOne({
       where: {
@@ -140,6 +137,18 @@ router.put('/:orderId', async (req, res, next) => {
 
 router.delete('/:productId/:orderId', async (req, res, next) => {
   try {
+    const cartItem = await OrdersProducts.findOne({
+      where: {productId: req.params.productId, orderId: req.params.orderId},
+    })
+
+    const item = await Product.findOne({
+      where: {
+        id: req.params.productId,
+      },
+    })
+
+    item.update({quantity: item.dataValues.quantity + cartItem.dataValues.qty})
+
     await OrdersProducts.destroy({
       where: {
         productId: req.params.productId,
