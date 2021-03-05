@@ -163,6 +163,26 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
 
 router.delete('/:orderId', async (req, res, next) => {
   try {
+    const cartItems = await OrdersProducts.findAll({
+      where: {orderId: req.params.orderId},
+    })
+
+    for (let i = 0; i < cartItems.length; i++) {
+      const item = await Product.findOne({
+        where: {
+          id: cartItems[i].dataValues.productId,
+        },
+      })
+
+      console.log('ITEM QTY CHECK BEFORE ->', item.dataValues.quantity)
+
+      item.update({
+        quantity: item.dataValues.quantity + cartItems[i].dataValues.qty,
+      })
+
+      console.log('ITEM QTY CHECK AFTER ->', item.dataValues.quantity)
+    }
+
     await OrdersProducts.destroy({
       where: {orderId: req.params.orderId},
     })
