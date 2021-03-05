@@ -2,7 +2,12 @@ const router = require('express').Router()
 const {OrdersProducts, Order, User, Product} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
-  let user = req.user.dataValues.id
+  let user = null
+  if (req.user) {
+    user = req.user.dataValues.id
+  } else {
+    user = 0
+  }
   try {
     const order = await Order.findAll({
       where: {
