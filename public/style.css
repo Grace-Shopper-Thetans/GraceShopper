@@ -170,8 +170,7 @@ nav a {
 
 #cartQty {
   align-self: center;
-  margin-top: 0px;
-  margin-bottom: 20px;
+  margin: 0px;
 }
 
 #cartImage {
@@ -207,8 +206,8 @@ nav a {
 }
 
 #productsList {
-  margin-top: 100px;
-  height: 100vh;
+  margin-top: 120px;
+  margin-bottom: 18px;
   width: 40vw;
   display: flex;
   flex-direction: column;
@@ -625,6 +624,8 @@ li:hover {
   background-color: rgba(199, 197, 197, 0.5);
   border-radius: 15px;
   padding: 25px;
+  display: flex;
+  flex-direction: column;
 }
 
 #userOrders {
@@ -729,4 +730,30 @@ li:hover {
 
 #googleButton:hover {
   background-color: rgb(15, 157, 88);
+}
+
+#qtyContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: center;
+  margin-bottom: 20px;
+  width: 80%;
+}
+
+.minusButton,
+.plusButton {
+  transition-duration: 0.33s;
+}
+
+.minusButton:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  color: rgba(238, 107, 107, 0.5);
+}
+
+.plusButton:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  color: rgba(51, 163, 45, 0.5);
 }

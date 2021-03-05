@@ -17,7 +17,7 @@ class Profile extends React.Component {
       city: this.props.user.city,
       zip: this.props.user.zip,
       id: this.props.user.id,
-      submitted: false
+      submitted: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -27,7 +27,7 @@ class Profile extends React.Component {
   handleChange(event) {
     event.preventDefault()
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
   handleSubmit(event) {
@@ -42,7 +42,7 @@ class Profile extends React.Component {
 
   handleUpdate() {
     this.setState({
-      submitted: false
+      submitted: false,
     })
   }
 
@@ -71,6 +71,7 @@ class Profile extends React.Component {
               <h3>Update your account info:</h3>
               <label htmlFor="username">Name:</label>
               <input
+                id="checkoutInput"
                 type="text"
                 name="name"
                 value={this.state.name || ''}
@@ -78,6 +79,7 @@ class Profile extends React.Component {
               />
               <label htmlFor="email">Email: </label>
               <input
+                id="checkoutInput"
                 type="text"
                 name="email"
                 value={this.state.email || ''}
@@ -85,6 +87,7 @@ class Profile extends React.Component {
               />
               <label htmlFor="streetAddress">Street Address:</label>
               <input
+                id="checkoutInput"
                 type="text"
                 name="address"
                 value={this.state.streetAddress || ''}
@@ -92,6 +95,7 @@ class Profile extends React.Component {
               />
               <label htmlFor="state">State: </label>
               <input
+                id="checkoutInput"
                 type="text"
                 name="state"
                 value={this.state.state || ''}
@@ -99,6 +103,7 @@ class Profile extends React.Component {
               />
               <label htmlFor="city">City: </label>
               <input
+                id="checkoutInput"
                 type="text"
                 name="city"
                 value={this.state.city || ''}
@@ -106,12 +111,19 @@ class Profile extends React.Component {
               />
               <label htmlFor="zip">Zip: </label>
               <input
+                id="checkoutInput"
                 type="text"
                 name="zip"
                 value={this.state.zip || ''}
                 onChange={this.handleChange}
               />
-              <button type="submit">Save Changes</button>
+              <button
+                id="gCheckout"
+                type="submit"
+                style={{margin: '15px 0px 0px 0px'}}
+              >
+                Save Changes
+              </button>
             </form>
             <UserOrders />
             {this.state.submitted ? <h1>Submitted</h1> : null}
@@ -122,15 +134,15 @@ class Profile extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    updateUser: user => dispatch(fetchUpdateUser(user))
+    updateUser: (user) => dispatch(fetchUpdateUser(user)),
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
   }
 }
 

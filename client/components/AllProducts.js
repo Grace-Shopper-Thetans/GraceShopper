@@ -66,14 +66,27 @@ class AllProducts extends React.Component {
     }
   }
 
-  addToGCart(e) {
+  addToGCart(e, qty, stock, id) {
     e.persist()
-    e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImageRide'
     function setBack() {
       e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImage'
     }
-    setTimeout(() => this.props.addGCart(e), 1500)
-    setTimeout(() => setBack(), 1510)
+    const idArray = qty.map((product) => product.id)
+    if (qty.length && idArray.indexOf(id) !== -1) {
+      const item = qty.filter((product) => product.id === id)
+      const cartQty = item[0].qty
+      if (cartQty === stock) {
+        return false
+      } else {
+        e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImageRide'
+        setTimeout(() => this.props.addGCart(e), 1500)
+        setTimeout(() => setBack(), 1510)
+      }
+    } else {
+      e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImageRide'
+      setTimeout(() => this.props.addGCart(e), 1500)
+      setTimeout(() => setBack(), 1510)
+    }
   }
 
   toSingleProduct(e) {
@@ -85,14 +98,27 @@ class AllProducts extends React.Component {
     await this.props.getCart()
   }
 
-  addCart(e) {
+  addCart(e, qty, stock, id) {
     e.persist()
-    e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImageRide'
     function setBack() {
       e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImage'
     }
-    setTimeout(() => this.doIt(e), 1500)
-    setTimeout(() => setBack(), 1510)
+    let cartQty = 1
+    if (qty.length) {
+      let cartItem = qty
+        .filter((cart) => cart.status === false)[0]
+        .products.filter((product) => product.id === id)
+      if (cartItem.length) {
+        cartQty = cartItem[0].orders_products.qty + 1
+      }
+    }
+    if (cartQty > stock) {
+      return false
+    } else {
+      e.target.parentNode.parentNode.firstChild.firstChild.id = 'mpImageRide'
+      setTimeout(() => this.doIt(e), 1500)
+      setTimeout(() => setBack(), 1510)
+    }
   }
 
   async removeItemAdmin(e) {
@@ -164,7 +190,14 @@ class AllProducts extends React.Component {
                         type="button"
                         id="addToCart"
                         value={[product.id, userId]}
-                        onClick={this.addCart}
+                        onClick={(e) =>
+                          this.addCart(
+                            e,
+                            this.props.cart,
+                            product.quantity,
+                            product.id
+                          )
+                        }
                       >
                         Add To Cart
                       </button>
@@ -173,7 +206,14 @@ class AllProducts extends React.Component {
                         type="button"
                         id="addToCart"
                         value={product.id}
-                        onClick={(e) => this.addToGCart(e)}
+                        onClick={(e) =>
+                          this.addToGCart(
+                            e,
+                            this.props.gCart,
+                            product.quantity,
+                            product.id
+                          )
+                        }
                       >
                         Add To Cart
                       </button>
@@ -209,6 +249,8 @@ const mapStateToProps = (state) => ({
   isLoggedIn: !!state.user.id,
   userId: state.user.id,
   isAdmin: state.user.isAdmin,
+  cart: state.cart,
+  gCart: state.gCart,
 })
 
 const mapDispatchToProps = (dispatch) => ({
