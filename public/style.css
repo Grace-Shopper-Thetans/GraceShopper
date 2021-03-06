@@ -63,11 +63,11 @@ nav a {
   font-size: 20px;
 }
 
-#navItem {
+.navItem {
   color: #0b2027;
 }
 
-#navItem:hover {
+.navItem:hover {
   transform: scale(1.1);
 }
 
@@ -189,7 +189,7 @@ nav a {
   margin-left: 20px;
 }
 
-#removeFromCart {
+.removeButton {
   border: none;
   cursor: pointer;
   background-color: rgb(238, 107, 107);
@@ -201,7 +201,7 @@ nav a {
   outline: none;
 }
 
-#removeFromCart:hover {
+.removeButton:hover {
   background-color: rgb(194, 53, 53);
 }
 
@@ -218,7 +218,7 @@ nav a {
   margin-top: 18px;
   margin-bottom: 18px;
   width: 100%;
-  height: 500px;
+  min-height: 500px;
   border-radius: 20px;
   /* min-width: 550px; */
   background-color: rgba(191, 191, 191, 0.851);
@@ -260,6 +260,8 @@ nav a {
   width: 20%;
   cursor: pointer;
   outline: none;
+  display: flex;
+  justify-content: space-between;
 }
 
 #addToCart {
@@ -297,7 +299,7 @@ nav a {
   background-color: rgb(174, 30, 30);
 }
 
-#gCheckout {
+.gCheckout {
   border: none;
   cursor: pointer;
   background-color: rgb(51, 163, 45);
@@ -310,7 +312,7 @@ nav a {
   outline: none;
 }
 
-#gCheckout:hover {
+.gCheckout:hover {
   background-color: rgb(30, 123, 26);
 }
 
@@ -572,7 +574,7 @@ li:hover {
   margin-bottom: 36px;
 }
 
-#checkoutInput {
+.checkoutInput {
   margin-top: 5px;
   margin-bottom: 15px;
   border-radius: 5px;
@@ -620,7 +622,7 @@ li:hover {
   padding: 25px;
 }
 
-#updateProfile {
+.updateProfile {
   background-color: rgba(199, 197, 197, 0.5);
   border-radius: 15px;
   padding: 25px;
@@ -756,4 +758,13 @@ li:hover {
   transform: scale(1.1);
   cursor: pointer;
   color: rgba(51, 163, 45, 0.5);
+}
+
+.adminTools {
+  background-color: rgba(199, 197, 197, 0.5);
+  border-radius: 15px;
+  padding: 25px;
+  width: 400px;
+  margin: 175px 0px 0px 75px;
+  position: absolute;
 }

@@ -308,7 +308,7 @@ export class Cart extends React.Component {
                         value={item.id}
                         onClick={this.removeItem}
                         type="button"
-                        id="removeFromCart"
+                        className="removeButton"
                       >
                         Remove Item
                       </button>
@@ -324,7 +324,7 @@ export class Cart extends React.Component {
                     )}
                   </h1>
                   <button
-                    id="gCheckout"
+                    className="gCheckout"
                     type="button"
                     onClick={this.userProceed}
                   >
@@ -348,7 +348,7 @@ export class Cart extends React.Component {
                   value={this.state.fullName}
                   placeholder="Full Name..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="email">Email</label>
@@ -358,7 +358,7 @@ export class Cart extends React.Component {
                   value={this.state.email}
                   placeholder="Email..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="streetAddress">Street Address</label>
@@ -368,7 +368,7 @@ export class Cart extends React.Component {
                   value={this.state.streetAddress}
                   placeholder="Address..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="city">City</label>
@@ -378,7 +378,7 @@ export class Cart extends React.Component {
                   value={this.state.city}
                   placeholder="City..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="state">State</label>
@@ -388,7 +388,7 @@ export class Cart extends React.Component {
                   value={this.state.state}
                   placeholder="State..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="zip">Zip Code</label>
@@ -398,7 +398,7 @@ export class Cart extends React.Component {
                   value={this.state.zip}
                   placeholder="Zip..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="ccNumber">Credit Card Number</label>
@@ -408,7 +408,7 @@ export class Cart extends React.Component {
                   value={this.state.ccNumber}
                   placeholder="Credit Card Number..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="vCode">Verification Code</label>
@@ -418,7 +418,7 @@ export class Cart extends React.Component {
                   value={this.state.vCode}
                   placeholder="Verification Code..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="exDate">Expiration Date</label>
@@ -428,7 +428,7 @@ export class Cart extends React.Component {
                   value={this.state.exDate}
                   placeholder="Expiration Date..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <h1 id="checkoutItems">
@@ -531,7 +531,7 @@ export class Cart extends React.Component {
                       value={item.data.id}
                       onClick={() => this.remove(item.data.id)}
                       type="button"
-                      id="removeFromCart"
+                      className="removeButton"
                     >
                       Remove Item
                     </button>
@@ -546,7 +546,11 @@ export class Cart extends React.Component {
                     )
                   )}
                 </h1>
-                <button id="gCheckout" type="button" onClick={this.proceed}>
+                <button
+                  className="gCheckout"
+                  type="button"
+                  onClick={this.proceed}
+                >
                   Checkout
                 </button>
               </div>
@@ -572,7 +576,7 @@ export class Cart extends React.Component {
                 value={this.state.fullName}
                 placeholder="Full Name..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="email">Email</label>
@@ -582,7 +586,7 @@ export class Cart extends React.Component {
                 value={this.state.email}
                 placeholder="Email..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="streetAddress">Street Address</label>
@@ -592,7 +596,7 @@ export class Cart extends React.Component {
                 value={this.state.streetAddress}
                 placeholder="Street Address..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="city">City</label>
@@ -602,7 +606,7 @@ export class Cart extends React.Component {
                 value={this.state.city}
                 placeholder="City..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="state">State</label>
@@ -612,7 +616,7 @@ export class Cart extends React.Component {
                 value={this.state.state}
                 placeholder="State..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="zip">Zip Code</label>
@@ -622,7 +626,7 @@ export class Cart extends React.Component {
                 value={this.state.zip}
                 placeholder="Zip..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="ccNumber">Credit Card Number</label>
@@ -632,7 +636,7 @@ export class Cart extends React.Component {
                 value={this.state.ccNumber}
                 placeholder="Credit Card Number..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="vCode">Verification Code</label>
@@ -642,7 +646,7 @@ export class Cart extends React.Component {
                 value={this.state.vCode}
                 placeholder="Verification Code..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="exDate">Expiration Date</label>
@@ -652,7 +656,7 @@ export class Cart extends React.Component {
                 value={this.state.exDate}
                 placeholder="Expiration Date..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <h1 id="checkoutItems">
