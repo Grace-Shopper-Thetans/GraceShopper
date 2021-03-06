@@ -181,11 +181,12 @@ export class Cart extends React.Component {
       items: this.props.cart[0].products,
     }
     let orderNumber = await completeUserOrder(orderObj)
-    // this.props.getUserOrder()
     await this.setState({
       userOrderNumber: orderNumber.data,
     })
     this.userProceed()
+    this.props.getUserOrder(this.props.userId)
+    this.props.getCart(this.props.userId)
   }
 
   createPrice(price, qty = 1) {

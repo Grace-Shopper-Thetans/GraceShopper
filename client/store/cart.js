@@ -73,6 +73,7 @@ export const deleteItem = (productId, orderId) => {
 export const clearCart = (orderId) => {
   return async (dispatch) => {
     try {
+      console.log('clear cart order id --->', orderId)
       const {data} = await axios.delete(`/api/carts/${orderId}`)
       dispatch(clearCartAction(data))
     } catch (error) {

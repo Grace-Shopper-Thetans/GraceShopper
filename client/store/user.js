@@ -86,6 +86,7 @@ export const fetchUpdateUser = (user) => {
 export const fetchUserOrder = (id) => {
   return async (dispatch) => {
     try {
+      console.log('fetch user order thunk fired!')
       const {data} = await axios.get(`/api/users/${id}`)
       dispatch(getUserOrder(data[0], data[1]))
     } catch (err) {
