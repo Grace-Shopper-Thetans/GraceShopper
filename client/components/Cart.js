@@ -481,7 +481,7 @@ export class Cart extends React.Component {
             </div>
           ) : (
             <div id="cart">
-              <h1>Thank You {this.props.user.name}!</h1>
+              <h1 className="thankYou">Thank You {this.props.user.name}!</h1>
               <h1 id="confMessage">Your Order Number Is:</h1>
               <h1 id="confMessageNum">{this.state.userOrderNumber}</h1>
               <button id="newOrder" type="button" onClick={this.newUserOrder}>
@@ -701,7 +701,7 @@ export class Cart extends React.Component {
           </div>
         ) : (
           <div id="cart">
-            <h1 id="confMessage">
+            <h1 className="thankYou">
               Thank You {this.state.fullName.split(' ')[0]}!
             </h1>
             <h1 id="confMessage">Your Order Number Is:</h1>

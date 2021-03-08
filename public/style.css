@@ -602,6 +602,11 @@ li:hover {
   margin-bottom: 36px;
 }
 
+.thankYou {
+  text-align: center;
+  margin: 21.4px 10px;
+}
+
 #confMessage {
   text-align: center;
   margin: 10px;
