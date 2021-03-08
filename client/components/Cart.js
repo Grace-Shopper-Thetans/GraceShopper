@@ -67,12 +67,17 @@ export class Cart extends React.Component {
   }
 
   async removeItem(e) {
-    await this.props.delItem(e.target.value, this.props.cart[0].id)
+    await this.props.delItem(
+      e.target.value,
+      this.props.cart.filter((orders) => orders.status === false)[0].id
+    )
     await this.props.getCart()
   }
 
   clearUserCart() {
-    this.props.clearCart(this.props.cart[0].id)
+    this.props.clearCart(
+      this.props.cart.filter((cart) => cart.status === false)[0].id
+    )
   }
 
   proceed() {
@@ -121,7 +126,9 @@ export class Cart extends React.Component {
   }
 
   async newUserOrder() {
-    await this.props.clearCart(this.props.cart[0].id)
+    await this.props.clearCart(
+      this.props.cart.filter((orders) => orders.status === false)[0].id
+    )
     this.setState({
       phase: 0,
       fullName: this.props.user.name,
@@ -135,6 +142,7 @@ export class Cart extends React.Component {
       exDate: '',
       userOrderNumber: -1,
     })
+    this.props.getCart(this.props.userId)
   }
 
   handleChange(event) {
@@ -178,7 +186,8 @@ export class Cart extends React.Component {
       ccNumber: event.target.ccNumber.value,
       vCode: event.target.vCode.value,
       exDate: event.target.exDate.value,
-      items: this.props.cart[0].products,
+      items: this.props.cart.filter((orders) => orders.status === false)[0]
+        .products,
     }
     let orderNumber = await completeUserOrder(orderObj)
     await this.setState({
@@ -228,6 +237,10 @@ export class Cart extends React.Component {
   }
 
   render() {
+    const userFalseCart = this.props.cart.filter(
+      (order) => order.status === false
+    )[0]
+
     let values = Object.values(this.state)
     return (
       <div id="cart">
@@ -236,11 +249,11 @@ export class Cart extends React.Component {
             <div id="cart">
               <h1 id="cartTitle">
                 <i className="fas fa-shopping-cart"></i>
-                {this.props.cart[0] ? (
-                  this.props.cart[0].products.length ? (
+                {userFalseCart ? (
+                  userFalseCart.products.length ? (
                     <span id="small">
                       (
-                      {this.props.cart[0].products.reduce(
+                      {userFalseCart.products.reduce(
                         (a, b) => a + b.orders_products.qty,
                         0
                       )}
@@ -253,8 +266,7 @@ export class Cart extends React.Component {
                   ''
                 )}
               </h1>
-              {this.props.cart[0] === undefined ||
-              !this.props.cart[0].products[0] ? (
+              {userFalseCart === undefined || !userFalseCart.products[0] ? (
                 <div id="fullCartDiv">
                   <h2>Empty</h2>
                 </div>
@@ -267,7 +279,7 @@ export class Cart extends React.Component {
                   >
                     Clear Cart
                   </button>
-                  {this.props.cart[0].products.map((item) => (
+                  {userFalseCart.products.map((item) => (
                     <div key={item.id} id="cartItem">
                       <h3 id="ciName">{item.name}</h3>
                       <img src={item.imageUrl} id="cartImage" />
@@ -318,7 +330,7 @@ export class Cart extends React.Component {
                   <h1 id="checkoutTotal">
                     Total:{' '}
                     {this.createPrice(
-                      this.props.cart[0].products.reduce(
+                      userFalseCart.products.reduce(
                         (a, b) => a + b.price * b.orders_products.qty,
                         0
                       )
@@ -434,7 +446,7 @@ export class Cart extends React.Component {
                 />
                 <h1 id="checkoutItems">
                   <span>
-                    {this.props.cart[0].products.reduce(
+                    {userFalseCart.products.reduce(
                       (a, b) => a + b.orders_products.qty,
                       0
                     )}
@@ -444,7 +456,7 @@ export class Cart extends React.Component {
                 <h1 id="checkoutTotal">
                   Total:{' '}
                   {this.createPrice(
-                    this.props.cart[0].products.reduce(
+                    userFalseCart.products.reduce(
                       (a, b) => a + b.price * b.orders_products.qty,
                       0
                     )

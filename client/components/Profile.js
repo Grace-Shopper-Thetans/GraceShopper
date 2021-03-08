@@ -117,7 +117,7 @@ class Profile extends React.Component {
               <button
                 className="gCheckout"
                 type="submit"
-                style={{margin: '15px 0px 0px 0px'}}
+                style={{margin: '50px 0px 0px 0px'}}
               >
                 Save Changes
               </button>

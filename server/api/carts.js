@@ -31,6 +31,7 @@ router.post('/', async (req, res, next) => {
     const newAddition = await Order.findOrCreate({
       where: {
         userId: req.body.userId,
+        status: false,
       },
     })
 

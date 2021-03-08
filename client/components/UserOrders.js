@@ -45,7 +45,6 @@ class UserOrders extends React.Component {
   }
 
   render() {
-    console.log('this.props.pastOrders --->', this.props.pastOrders)
     if (this.props.pastOrders && this.props.pastOrders.length > 0) {
       const pastOrders = this.props.pastOrders.filter(
         (order) => order.status === true
