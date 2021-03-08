@@ -64,7 +64,11 @@ class Profile extends React.Component {
           </div>
         ) : (
           <div id="profile">
-            <form onSubmit={this.handleSubmit} className="updateProfile login">
+            <form
+              onSubmit={this.handleSubmit}
+              className="updateProfile login"
+              style={{height: '497px'}}
+            >
               <h3>Update your account info:</h3>
               <label htmlFor="username">Name:</label>
               <input
