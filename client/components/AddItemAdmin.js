@@ -41,14 +41,18 @@ class NewItemForm extends React.Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>New Product</label>
+        <form onSubmit={this.handleSubmit} className="updateProfile">
+          <label style={{alignSelf: 'center', fontSize: '20px'}}>
+            New Product
+          </label>
+          <hr style={{borderColor: 'black', width: '80%'}} />
           <p>Name:</p>
           <input
             type="text"
             name="name"
             value={this.state.name}
             onChange={this.handleChange}
+            className="checkoutInput"
           />
           <p>Price:</p>
           <input
@@ -56,6 +60,7 @@ class NewItemForm extends React.Component {
             name="price"
             value={this.state.price}
             onChange={this.handleChange}
+            className="checkoutInput"
           />
           <p>Description:</p>
           <input
@@ -63,6 +68,7 @@ class NewItemForm extends React.Component {
             name="description"
             value={this.state.description}
             onChange={this.handleChange}
+            className="checkoutInput"
           />
           <p>Image URL:</p>
           <input
@@ -70,12 +76,14 @@ class NewItemForm extends React.Component {
             name="imageUrl"
             value={this.state.imageUrl}
             onChange={this.handleChange}
+            className="checkoutInput"
           />
           <p>Type:</p>
           <select
             name="designType"
             value={this.state.designType}
             onChange={this.handleChange}
+            className="checkoutInput"
           >
             <option name="designType" value="Chopper">
               Chopper
@@ -93,8 +101,11 @@ class NewItemForm extends React.Component {
             name="color"
             value={this.state.color}
             onChange={this.handleChange}
+            className="checkoutInput"
           />
-          <button type="submit">Submit</button>
+          <button type="submit" className="gCheckout">
+            Submit
+          </button>
         </form>
       </div>
     )

@@ -155,7 +155,7 @@ class AllProducts extends React.Component {
         />
         {this.props.products.length ? (
           <div id="productsList">
-            {this.props.isAdmin ? <AddItemAdmin /> : ''}
+            {this.props.isAdmin && <AddItemAdmin />}
             {products.map((product) => {
               return (
                 <div
@@ -163,6 +163,20 @@ class AllProducts extends React.Component {
                   key={product.id}
                   onClick={this.ride}
                 >
+                  {this.props.isAdmin && (
+                    <button
+                      type="button"
+                      value={product.id}
+                      onClick={this.removeItemAdmin}
+                      className="removeButton"
+                      style={{
+                        display: 'absolute',
+                        margin: '10px 0px 0px 10px',
+                      }}
+                    >
+                      REMOVE ITEM
+                    </button>
+                  )}
                   <div className="imageContainer">
                     <img
                       id="mpImage"
@@ -191,6 +205,7 @@ class AllProducts extends React.Component {
                         type="button"
                         id="addToCart"
                         value={[product.id, userId]}
+                        disabled={product.quantity <= 0}
                         onClick={(e) =>
                           this.addCart(
                             e,
@@ -200,13 +215,14 @@ class AllProducts extends React.Component {
                           )
                         }
                       >
-                        Add To Cart
+                        {product.quantity > 0 ? 'Add To Cart' : 'Out Of Stock'}
                       </button>
                     ) : (
                       <button
                         type="button"
                         id="addToCart"
                         value={product.id}
+                        disabled={product.quantity <= 0}
                         onClick={(e) =>
                           this.addToGCart(
                             e,
@@ -216,21 +232,10 @@ class AllProducts extends React.Component {
                           )
                         }
                       >
-                        Add To Cart
+                        {product.quantity > 0 ? 'Add To Cart' : 'Out Of Stock'}
                       </button>
                     )}
                   </div>
-                  {this.props.isAdmin ? (
-                    <button
-                      type="button"
-                      value={product.id}
-                      onClick={this.removeItemAdmin}
-                    >
-                      REMOVE ITEM
-                    </button>
-                  ) : (
-                    ''
-                  )}
                 </div>
               )
             })}

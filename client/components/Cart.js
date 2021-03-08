@@ -17,6 +17,7 @@ import {
   completeGuestOrder,
   addItemGuest,
 } from '../store/guestCart'
+import {fetchProducts} from '../store/products.js'
 
 export class Cart extends React.Component {
   constructor() {
@@ -52,9 +53,10 @@ export class Cart extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.getGCart()
     await this.props.getCart()
-    console.log('running', this.state)
+    if (!this.props.isLoggedIn) {
+      await this.props.getGCart()
+    }
   }
 
   updateCartGuest() {
@@ -66,12 +68,17 @@ export class Cart extends React.Component {
   }
 
   async removeItem(e) {
-    await this.props.delItem(e.target.value, this.props.cart[0].id)
+    await this.props.delItem(
+      e.target.value,
+      this.props.cart.filter((orders) => orders.status === false)[0].id
+    )
     await this.props.getCart()
   }
 
   clearUserCart() {
-    this.props.clearCart(this.props.cart[0].id)
+    this.props.clearCart(
+      this.props.cart.filter((cart) => cart.status === false)[0].id
+    )
   }
 
   proceed() {
@@ -102,8 +109,8 @@ export class Cart extends React.Component {
     this.setState({phase: previous})
   }
 
-  newOrder() {
-    this.props.clearGuestCart()
+  async newOrder() {
+    await this.props.clearGuestCart()
     this.setState({
       phase: 0,
       fullName: '',
@@ -119,8 +126,10 @@ export class Cart extends React.Component {
     })
   }
 
-  newUserOrder() {
-    this.props.clearCart(this.props.cart[0].id)
+  async newUserOrder() {
+    await this.props.clearCart(
+      this.props.cart.filter((orders) => orders.status === false)[0].id
+    )
     this.setState({
       phase: 0,
       fullName: this.props.user.name,
@@ -134,6 +143,7 @@ export class Cart extends React.Component {
       exDate: '',
       userOrderNumber: -1,
     })
+    this.props.getCart(this.props.userId)
   }
 
   handleChange(event) {
@@ -161,6 +171,7 @@ export class Cart extends React.Component {
       guestOrderNumber: orderNumber.data,
     })
     this.props.clearGuestCart()
+    await this.props.getAllProducts()
     this.proceed()
   }
 
@@ -177,14 +188,17 @@ export class Cart extends React.Component {
       ccNumber: event.target.ccNumber.value,
       vCode: event.target.vCode.value,
       exDate: event.target.exDate.value,
-      items: this.props.cart[0].products,
+      items: this.props.cart.filter((orders) => orders.status === false)[0]
+        .products,
     }
     let orderNumber = await completeUserOrder(orderObj)
-    // this.props.getUserOrder()
     await this.setState({
       userOrderNumber: orderNumber.data,
     })
     this.userProceed()
+    this.props.getUserOrder(this.props.userId)
+    this.props.getCart(this.props.userId)
+    await this.props.getAllProducts()
   }
 
   createPrice(price, qty = 1) {
@@ -226,6 +240,10 @@ export class Cart extends React.Component {
   }
 
   render() {
+    const userFalseCart = this.props.cart.filter(
+      (order) => order.status === false
+    )[0]
+
     let values = Object.values(this.state)
     return (
       <div id="cart">
@@ -234,11 +252,11 @@ export class Cart extends React.Component {
             <div id="cart">
               <h1 id="cartTitle">
                 <i className="fas fa-shopping-cart"></i>
-                {this.props.cart[0] ? (
-                  this.props.cart[0].products.length ? (
+                {userFalseCart ? (
+                  userFalseCart.products.length ? (
                     <span id="small">
                       (
-                      {this.props.cart[0].products.reduce(
+                      {userFalseCart.products.reduce(
                         (a, b) => a + b.orders_products.qty,
                         0
                       )}
@@ -251,8 +269,7 @@ export class Cart extends React.Component {
                   ''
                 )}
               </h1>
-              {this.props.cart[0] === undefined ||
-              !this.props.cart[0].products[0] ? (
+              {userFalseCart === undefined || !userFalseCart.products[0] ? (
                 <div id="fullCartDiv">
                   <h2>Empty</h2>
                 </div>
@@ -265,7 +282,7 @@ export class Cart extends React.Component {
                   >
                     Clear Cart
                   </button>
-                  {this.props.cart[0].products.map((item) => (
+                  {userFalseCart.products.map((item) => (
                     <div key={item.id} id="cartItem">
                       <h3 id="ciName">{item.name}</h3>
                       <img src={item.imageUrl} id="cartImage" />
@@ -307,7 +324,7 @@ export class Cart extends React.Component {
                         value={item.id}
                         onClick={this.removeItem}
                         type="button"
-                        id="removeFromCart"
+                        className="removeButton"
                       >
                         Remove Item
                       </button>
@@ -316,14 +333,14 @@ export class Cart extends React.Component {
                   <h1 id="checkoutTotal">
                     Total:{' '}
                     {this.createPrice(
-                      this.props.cart[0].products.reduce(
+                      userFalseCart.products.reduce(
                         (a, b) => a + b.price * b.orders_products.qty,
                         0
                       )
                     )}
                   </h1>
                   <button
-                    id="gCheckout"
+                    className="gCheckout"
                     type="button"
                     onClick={this.userProceed}
                   >
@@ -347,7 +364,7 @@ export class Cart extends React.Component {
                   value={this.state.fullName}
                   placeholder="Full Name..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="email">Email</label>
@@ -357,7 +374,7 @@ export class Cart extends React.Component {
                   value={this.state.email}
                   placeholder="Email..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="streetAddress">Street Address</label>
@@ -367,7 +384,7 @@ export class Cart extends React.Component {
                   value={this.state.streetAddress}
                   placeholder="Address..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="city">City</label>
@@ -377,7 +394,7 @@ export class Cart extends React.Component {
                   value={this.state.city}
                   placeholder="City..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="state">State</label>
@@ -387,7 +404,7 @@ export class Cart extends React.Component {
                   value={this.state.state}
                   placeholder="State..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="zip">Zip Code</label>
@@ -397,7 +414,7 @@ export class Cart extends React.Component {
                   value={this.state.zip}
                   placeholder="Zip..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="ccNumber">Credit Card Number</label>
@@ -407,7 +424,7 @@ export class Cart extends React.Component {
                   value={this.state.ccNumber}
                   placeholder="Credit Card Number..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="vCode">Verification Code</label>
@@ -417,7 +434,7 @@ export class Cart extends React.Component {
                   value={this.state.vCode}
                   placeholder="Verification Code..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <label htmlFor="exDate">Expiration Date</label>
@@ -427,12 +444,12 @@ export class Cart extends React.Component {
                   value={this.state.exDate}
                   placeholder="Expiration Date..."
                   onChange={this.handleChange}
-                  id="checkoutInput"
+                  className="checkoutInput"
                   required
                 />
                 <h1 id="checkoutItems">
                   <span>
-                    {this.props.cart[0].products.reduce(
+                    {userFalseCart.products.reduce(
                       (a, b) => a + b.orders_products.qty,
                       0
                     )}
@@ -442,7 +459,7 @@ export class Cart extends React.Component {
                 <h1 id="checkoutTotal">
                   Total:{' '}
                   {this.createPrice(
-                    this.props.cart[0].products.reduce(
+                    userFalseCart.products.reduce(
                       (a, b) => a + b.price * b.orders_products.qty,
                       0
                     )
@@ -464,7 +481,7 @@ export class Cart extends React.Component {
             </div>
           ) : (
             <div id="cart">
-              <h1>Thank You {this.props.user.name}!</h1>
+              <h1 className="thankYou">Thank You {this.props.user.name}!</h1>
               <h1 id="confMessage">Your Order Number Is:</h1>
               <h1 id="confMessageNum">{this.state.userOrderNumber}</h1>
               <button id="newOrder" type="button" onClick={this.newUserOrder}>
@@ -530,7 +547,7 @@ export class Cart extends React.Component {
                       value={item.data.id}
                       onClick={() => this.remove(item.data.id)}
                       type="button"
-                      id="removeFromCart"
+                      className="removeButton"
                     >
                       Remove Item
                     </button>
@@ -545,7 +562,11 @@ export class Cart extends React.Component {
                     )
                   )}
                 </h1>
-                <button id="gCheckout" type="button" onClick={this.proceed}>
+                <button
+                  className="gCheckout"
+                  type="button"
+                  onClick={this.proceed}
+                >
                   Checkout
                 </button>
               </div>
@@ -571,7 +592,7 @@ export class Cart extends React.Component {
                 value={this.state.fullName}
                 placeholder="Full Name..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="email">Email</label>
@@ -581,7 +602,7 @@ export class Cart extends React.Component {
                 value={this.state.email}
                 placeholder="Email..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="streetAddress">Street Address</label>
@@ -591,7 +612,7 @@ export class Cart extends React.Component {
                 value={this.state.streetAddress}
                 placeholder="Street Address..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="city">City</label>
@@ -601,7 +622,7 @@ export class Cart extends React.Component {
                 value={this.state.city}
                 placeholder="City..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="state">State</label>
@@ -611,7 +632,7 @@ export class Cart extends React.Component {
                 value={this.state.state}
                 placeholder="State..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="zip">Zip Code</label>
@@ -621,7 +642,7 @@ export class Cart extends React.Component {
                 value={this.state.zip}
                 placeholder="Zip..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="ccNumber">Credit Card Number</label>
@@ -631,7 +652,7 @@ export class Cart extends React.Component {
                 value={this.state.ccNumber}
                 placeholder="Credit Card Number..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="vCode">Verification Code</label>
@@ -641,7 +662,7 @@ export class Cart extends React.Component {
                 value={this.state.vCode}
                 placeholder="Verification Code..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <label htmlFor="exDate">Expiration Date</label>
@@ -651,7 +672,7 @@ export class Cart extends React.Component {
                 value={this.state.exDate}
                 placeholder="Expiration Date..."
                 onChange={this.handleChange}
-                id="checkoutInput"
+                className="checkoutInput"
                 required
               />
               <h1 id="checkoutItems">
@@ -680,7 +701,7 @@ export class Cart extends React.Component {
           </div>
         ) : (
           <div id="cart">
-            <h1 id="confMessage">
+            <h1 className="thankYou">
               Thank You {this.state.fullName.split(' ')[0]}!
             </h1>
             <h1 id="confMessage">Your Order Number Is:</h1>
@@ -722,5 +743,6 @@ const mapDispatch = (dispatch) => ({
     dispatch(addItemGuest(item, incDec, shallowId)),
   addCart: (e, incDec, shallowId, userId) =>
     dispatch(addToCart(e, incDec, shallowId, userId)),
+  getAllProducts: () => dispatch(fetchProducts()),
 })
 export default connect(mapState, mapDispatch)(Cart)

@@ -11,16 +11,25 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, name, email}) => (
         <h1 type="button" id="logoutButton" onClick={handleClick}>
           Logout
         </h1>
-        <Link to="/me" id="navItem">
+        <Link to="/me" className="navItem">
           {name || email}
         </Link>
+        {isAdmin && (
+          <Link
+            to="/admintools"
+            className="navItem"
+            style={{color: 'rgb(188, 99, 5)', margin: '0px 0px 0px 25px'}}
+          >
+            Admin Tools
+          </Link>
+        )}
       </div>
     ) : (
       <div id="leftNB">
-        <Link to="/login" id="navItem">
+        <Link to="/login" className="navItem">
           Login
         </Link>
-        <Link to="/signup" id="navItem">
+        <Link to="/signup" className="navItem">
           Sign Up
         </Link>
       </div>
@@ -31,7 +40,6 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, name, email}) => (
     <Link to="/" id="GC">
       Grace Chopper
     </Link>
-    {isAdmin ? <Link to="/admintools">Admin Tools</Link> : ''}
   </div>
 )
 

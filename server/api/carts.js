@@ -2,7 +2,12 @@ const router = require('express').Router()
 const {OrdersProducts, Order, User, Product} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
-  let user = req.user.dataValues.id
+  let user = null
+  if (req.user) {
+    user = req.user.dataValues.id
+  } else {
+    user = 0
+  }
   try {
     const order = await Order.findAll({
       where: {
@@ -26,6 +31,7 @@ router.post('/', async (req, res, next) => {
     const newAddition = await Order.findOrCreate({
       where: {
         userId: req.body.userId,
+        status: false,
       },
     })
 
@@ -54,6 +60,16 @@ router.post('/', async (req, res, next) => {
 
 router.post('/guestorder', async (req, res, next) => {
   try {
+    console.log(22, req.body.items)
+    for (let i = 0; i < req.body.items.length; i++) {
+      const id = req.body.items[i].id
+      const qtyPurchased = req.body.items[i].qty
+      const product = await Product.findByPk(id)
+      const newQty = product.quantity - qtyPurchased
+      product.update({
+        quantity: newQty,
+      })
+    }
     let products = req.body.items.map((item) => Number(item.data.id))
     let totalPrice = req.body.items.reduce((a, b) => a + b.data.price, 0)
     let newOrder = await Order.create({
@@ -86,6 +102,15 @@ router.post('/guestorder', async (req, res, next) => {
 
 router.post('/userorder', async (req, res, next) => {
   try {
+    for (let i = 0; i < req.body.items.length; i++) {
+      const id = req.body.items[i].id
+      const qtyPurchased = req.body.items[i].orders_products.qty
+      const product = await Product.findByPk(id)
+      const newQty = product.quantity - qtyPurchased
+      product.update({
+        quantity: newQty,
+      })
+    }
     let products = req.body.items.map((item) => {
       return {
         id: Number(item.id),

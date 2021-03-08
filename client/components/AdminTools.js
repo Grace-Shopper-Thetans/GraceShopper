@@ -22,23 +22,28 @@ class AdminTools extends React.Component {
     return (
       <div id="adminTools">
         {this.state.ranOnce ? (
-          <div>
+          <div className="adminTools">
             {' '}
             {this.props.isAdmin ? (
               <div>
                 {this.props.users.map((user) => (
-                  <div key={user.id}>
-                    <span>
-                      <h3>Email:</h3> <h3>{user.email}</h3>
-                    </span>
-                    <span>
-                      <h3>Id:</h3> <h3>{user.id}</h3>
-                    </span>
-                  </div>
+                  <>
+                    <div key={user.id}>
+                      <span>
+                        <h3>Email: ... {user.email}</h3>
+                      </span>
+                      <span>
+                        <h3>Id: ... {user.id}</h3>
+                      </span>
+                    </div>
+                    <hr style={{width: '100%', borderColor: 'white'}} />
+                  </>
                 ))}
               </div>
             ) : (
-              <h1>Admin Permissions Required!</h1>
+              <h1 style={{color: 'red', margin: '125px 0px 0px 50px'}}>
+                Admin Permissions Required!
+              </h1>
             )}{' '}
           </div>
         ) : (

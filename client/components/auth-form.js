@@ -17,19 +17,19 @@ const AuthForm = (props) => {
             <label htmlFor="email">
               <small>Email</small>
             </label>
-            <input name="email" type="text" id="checkoutInput" />
+            <input name="email" type="text" className="checkoutInput" />
           </div>
           <div>
             <label htmlFor="password">
               <small>Password</small>
             </label>
-            <input name="password" type="password" id="checkoutInput" />
+            <input name="password" type="password" className="checkoutInput" />
           </div>
           <div>
             <label htmlFor="username">
               <small>Name</small>
             </label>
-            <input name="username" type="text" id="checkoutInput" />
+            <input name="username" type="text" className="checkoutInput" />
           </div>
           <div>
             <button type="submit" id="loginButton">
@@ -53,13 +53,13 @@ const AuthForm = (props) => {
           <label htmlFor="email">
             <small>Email</small>
           </label>
-          <input name="email" type="text" id="checkoutInput" />
+          <input name="email" type="text" className="checkoutInput" />
         </div>
         <div>
           <label htmlFor="password">
             <small>Password</small>
           </label>
-          <input name="password" type="password" id="checkoutInput" />
+          <input name="password" type="password" className="checkoutInput" />
         </div>
         <div>
           <button type="submit" id="loginButton">

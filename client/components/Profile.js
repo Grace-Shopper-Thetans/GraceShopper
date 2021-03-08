@@ -66,13 +66,13 @@ class Profile extends React.Component {
           <div id="profile">
             <form
               onSubmit={this.handleSubmit}
-              className="login"
-              id="updateProfile"
+              className="updateProfile login"
+              style={{height: '497px'}}
             >
               <h3>Update your account info:</h3>
               <label htmlFor="username">Name:</label>
               <input
-                id="checkoutInput"
+                className="checkoutInput"
                 type="text"
                 name="name"
                 value={this.state.name || ''}
@@ -80,7 +80,7 @@ class Profile extends React.Component {
               />
               <label htmlFor="email">Email: </label>
               <input
-                id="checkoutInput"
+                className="checkoutInput"
                 type="text"
                 name="email"
                 value={this.state.email || ''}
@@ -88,7 +88,7 @@ class Profile extends React.Component {
               />
               <label htmlFor="streetAddress">Street Address:</label>
               <input
-                id="checkoutInput"
+                className="checkoutInput"
                 type="text"
                 name="address"
                 value={this.state.streetAddress || ''}
@@ -96,7 +96,7 @@ class Profile extends React.Component {
               />
               <label htmlFor="state">State: </label>
               <input
-                id="checkoutInput"
+                className="checkoutInput"
                 type="text"
                 name="state"
                 value={this.state.state || ''}
@@ -104,7 +104,7 @@ class Profile extends React.Component {
               />
               <label htmlFor="city">City: </label>
               <input
-                id="checkoutInput"
+                className="checkoutInput"
                 type="text"
                 name="city"
                 value={this.state.city || ''}
@@ -112,16 +112,16 @@ class Profile extends React.Component {
               />
               <label htmlFor="zip">Zip: </label>
               <input
-                id="checkoutInput"
+                className="checkoutInput"
                 type="text"
                 name="zip"
                 value={this.state.zip || ''}
                 onChange={this.handleChange}
               />
               <button
-                id="gCheckout"
+                className="gCheckout"
                 type="submit"
-                style={{margin: '15px 0px 0px 0px'}}
+                style={{margin: '50px 0px 0px 0px'}}
               >
                 Save Changes
               </button>
