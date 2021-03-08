@@ -205,6 +205,7 @@ class AllProducts extends React.Component {
                         type="button"
                         id="addToCart"
                         value={[product.id, userId]}
+                        disabled={product.quantity <= 0}
                         onClick={(e) =>
                           this.addCart(
                             e,
@@ -214,13 +215,14 @@ class AllProducts extends React.Component {
                           )
                         }
                       >
-                        Add To Cart
+                        {product.quantity > 0 ? 'Add To Cart' : 'Out Of Stock'}
                       </button>
                     ) : (
                       <button
                         type="button"
                         id="addToCart"
                         value={product.id}
+                        disabled={product.quantity <= 0}
                         onClick={(e) =>
                           this.addToGCart(
                             e,
@@ -230,7 +232,7 @@ class AllProducts extends React.Component {
                           )
                         }
                       >
-                        Add To Cart
+                        {product.quantity > 0 ? 'Add To Cart' : 'Out Of Stock'}
                       </button>
                     )}
                   </div>

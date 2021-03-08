@@ -281,6 +281,11 @@ nav a {
   transform: scale(1.05);
 }
 
+#addToCart:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 #clearCart {
   border: none;
   cursor: pointer;

@@ -17,6 +17,7 @@ import {
   completeGuestOrder,
   addItemGuest,
 } from '../store/guestCart'
+import {fetchProducts} from '../store/products.js'
 
 export class Cart extends React.Component {
   constructor() {
@@ -170,6 +171,7 @@ export class Cart extends React.Component {
       guestOrderNumber: orderNumber.data,
     })
     this.props.clearGuestCart()
+    await this.props.getAllProducts()
     this.proceed()
   }
 
@@ -196,6 +198,7 @@ export class Cart extends React.Component {
     this.userProceed()
     this.props.getUserOrder(this.props.userId)
     this.props.getCart(this.props.userId)
+    await this.props.getAllProducts()
   }
 
   createPrice(price, qty = 1) {
@@ -740,5 +743,6 @@ const mapDispatch = (dispatch) => ({
     dispatch(addItemGuest(item, incDec, shallowId)),
   addCart: (e, incDec, shallowId, userId) =>
     dispatch(addToCart(e, incDec, shallowId, userId)),
+  getAllProducts: () => dispatch(fetchProducts()),
 })
 export default connect(mapState, mapDispatch)(Cart)
