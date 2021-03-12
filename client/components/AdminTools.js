@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchAllUsers} from '../store/admin.js'
-
+import AdminUser from './AdminUser.js'
 /**
  * COMPONENT
  */
@@ -19,14 +19,16 @@ class AdminTools extends React.Component {
   }
 
   render() {
+    const {users} = this.props
     return (
       <div id="adminTools">
         {this.state.ranOnce ? (
-          <div className="adminTools">
+          <div>
             {' '}
-            {this.props.isAdmin ? (
-              <div>
-                {this.props.users.map((user) => (
+            {this.props.isAdmin && users ? (
+              <div className="adminTools">
+                <AdminUser users={users} />
+                {/* {this.props.users.map((user) => (
                   <>
                     <div key={user.id}>
                       <span>
@@ -38,7 +40,7 @@ class AdminTools extends React.Component {
                     </div>
                     <hr style={{width: '100%', borderColor: 'white'}} />
                   </>
-                ))}
+                ))} */}
               </div>
             ) : (
               <h1 style={{color: 'red', margin: '125px 0px 0px 50px'}}>
